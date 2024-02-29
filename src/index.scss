@@ -1,0 +1,97 @@
+
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+
+// 重置svg垂直对齐方式，ant图标下移bug
+svg {
+  // @apply align-baseline;
+  @apply block #{!important};
+}
+
+// 重置img的位内联块级元素，ant图片组件预览位置偏移错误
+img {
+  @apply inline-block #{!important};
+}
+
+// 两行文字省略号
+.line-clamp-2 {
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+}
+
+*, :after, :before {
+  box-sizing: border-box;
+  border: 0 solid;
+}
+
+// 全局滚动条样式
+::-webkit-scrollbar {
+  width: 4px;
+  height: 5px;
+  background-color: rgba(0,0,0,0)
+}
+
+::-webkit-scrollbar-track {
+  background-color: rgba(0,0,0,.1)
+}
+
+::-webkit-scrollbar-thumb {
+  border-radius: 3px;
+  background-color: rgba(0,0,0,.2);
+  transition: all .4s ease;
+  -moz-transition: all .4s ease;
+  -webkit-transition: all .4s ease;
+  -o-transition: all .4s ease
+}
+
+::-webkit-scrollbar-thumb:hover {
+  border-radius: 3px;
+  background-color: rgba(0,0,0,.4);
+  transition: all .4s ease;
+  -moz-transition: all .4s ease;
+  -webkit-transition: all .4s ease;
+  -o-transition: all .4s ease
+}
+
+// ant-table表头不需要分割线样式，目前是全局craco编译统一设置了，这个是备用方案
+.no-table-header-cell-split {
+  .ant-table-cell::before {
+    background-color: transparent #{!important};
+  }
+}
+
+/* 表单必填项 */
+@layer utilities {
+  .required {
+    &::before {
+      display: inline-block;
+      margin-inline-end: 4px;
+      color: #ff4d4f;
+      font-size: 14px;
+      font-family: SimSun,sans-serif;
+      line-height: 1;
+      content: "*";
+    }
+  }
+}
+

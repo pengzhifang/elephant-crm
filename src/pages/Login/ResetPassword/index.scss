@@ -1,0 +1,10 @@
+.reset-container {
+  @apply fixed inset-0 bg-f0f2f5;
+  .ant-steps-item-title {
+    @apply font-PF-ME font-medium;
+  }
+  input:-webkit-autofill {
+    -webkit-box-shadow: 0 0 0 1000px #fff inset;
+    -webkit-text-fill-color: #333;
+  }
+}

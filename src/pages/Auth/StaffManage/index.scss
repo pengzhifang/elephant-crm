@@ -1,0 +1,14 @@
+.role-modal {
+    .ant-checkbox-wrapper .ant-checkbox {
+        @apply top-0;
+    }
+}
+.edit-staff-modal {
+    .avatar-uploader {
+        .ant-upload {
+            img {
+                @apply w-full h-full object-contain p-2;
+            }
+        }
+    }
+}

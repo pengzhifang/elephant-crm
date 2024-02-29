@@ -1,0 +1,22 @@
+.login-container {
+  @apply fixed inset-0;
+  background: url(../../assets/image/bg.png) no-repeat;
+  background-size: 100% 100%;
+  background-color: #FFF;
+  .ant-tabs-nav {
+    @apply mb-6 before:border-none;
+    .ant-tabs-tab {
+      @apply font-PF-ME text-00025 text-xl font-medium pb-2 pt-0;
+    }
+    .ant-tabs-tab-active .ant-tabs-tab-btn {
+      @apply text-00085;
+    }
+    .ant-tabs-ink-bar {
+      @apply h-1;
+    }
+  }
+  input:-webkit-autofill {
+    -webkit-box-shadow: 0 0 0 1000px #fff inset;
+    -webkit-text-fill-color: #333;
+  }
+}
