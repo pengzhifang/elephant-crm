@@ -9,6 +9,7 @@ import classNames from 'classnames';
 import { observer } from 'mobx-react-lite';
 import React, { Fragment, useRef, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import mainImg from '../../assets/image/logo.png';
 
 import './index.scss';
 import Captcha, { CaptchaHandles } from '@components/Captcha';
@@ -247,6 +248,19 @@ const Login: React.FC = observer(() => {
         <Tabs activeKey={state.tabIdx} onChange={tabHandler} items={items}>
         </Tabs>
       </div> */}
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
+        <div>
+
+        </div>
+        <div className='shadow-grey4 flex'>
+          <div className='w-[341px] h-[325px] bg-[#175FE9] flex justify-center items-center'>
+            <img src={mainImg} className="w-[173px] h-[174px]" alt="mainImg" />
+          </div>
+          <div className='w-[340px] h-[325px] bg-white'>
+            
+          </div>
+        </div>
+      </div>
     </div>
   )
 

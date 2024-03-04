@@ -50,6 +50,7 @@ module.exports = {
         'grey1': '0px 2px 6px 0px rgba(0,21,41,0.12)',
         'grey2': '2px 0px 6px 0px rgba(0,21,41,0.12)',
         'grey3': '0px 9px 28px 8px rgba(0,0,0,0.05), 0px 6px 16px 0px rgba(0,0,0,0.08), 0px 3px 6px -4px rgba(0,0,0,0.12)',
+        'grey4': '0px 24px 64px 0px #80B0EF'
       }
     },
   },
