@@ -1,26 +1,12 @@
-
-import ClassManagement from '@pages/Academic/ClassManagement';
-import AddClass from '@pages/Academic/ClassManagement/AddClass';
-import CourseManagement from '@pages/Academic/CourseManagement';
-import AddCourse from '@pages/Academic/CourseManagement/AddCourse';
-import QuestionBank from '@pages/Academic/QuestionBank';
-import MenuManage from '@pages/Auth/MenuManage';
-import RoleManage from '@pages/Auth/RoleManage';
-import StaffManage from '@pages/Auth/StaffManage';
-import ResetPassword from '@pages/Login/ResetPassword';
-
 import { lazy } from 'react';
 const NoAuthPage = lazy(() => import('@pages/NoAuthPage'));
 const Home = lazy(() => import('@pages/Home'));
 const Login = lazy(()=> import('@pages/Login'));
 const NotFoundPage = lazy(() => import('@pages/NotFoundPage'));
-const Translate = lazy(()=> import('@pages/Settings/Translate'));
-const WordManagement = lazy(() => import('@pages/Academic/WordManagement'));
-const VideoManage = lazy(()=>  import('@pages/Academic/VideoManage'));
-const DialogManage = lazy(()=> import('@pages/Academic/DialogManage'));
-const SentenceManage = lazy(()=> import('@pages/Academic/SentenceManage'));
-const MemberManage = lazy(() => import('@pages/Operation/MemberManage'));
-const OrderManage = lazy(() => import('@pages/Operation/OrderManage'));
+const MenuManage = lazy(() => import('@pages/Auth/MenuManage'));
+const RoleManage = lazy(() => import('@pages/Auth/RoleManage'));
+const StaffManage = lazy(()=> import('@pages/Auth/StaffManage'));
+const ResetPassword = lazy(() => import('@pages/Login/ResetPassword'));
 
 export interface IRouteBase {
   // 路由路径
@@ -82,99 +68,6 @@ const routers: IRoute[] = [
     name: '重置密码',
     exact: true,
     component: ResetPassword
-  },
-  {
-    path: '/academic',
-    name: '学术管理',
-    exact: false,
-    children: [
-      {
-        path: '/academic/word-management',
-        name: '字词管理',
-        exact: true,
-        component: WordManagement
-      },
-      {
-        path: '/academic/question-bank',
-        name: '题库管理',
-        exact: true,
-        component: QuestionBank
-      },
-      {
-        path: '/academic/class-manage',
-        name: '课时管理',
-        exact: false,
-        component: ClassManagement,
-      },
-      {
-        path: '/academic/class-manage/add-class',
-        name: '课时管理详情',
-        exact: false,
-        component: AddClass,
-      },
-      {
-        path: '/academic/sentence-manage',
-        name: '句子管理',
-        exact: true,
-        component: SentenceManage
-      },
-      {
-        path: '/academic/video-manage',
-        name: '视频管理',
-        exact: true,
-        component: VideoManage
-      },
-      {
-        path: '/academic/dialog-manage',
-        name: '对话管理',
-        exact: true,
-        component: DialogManage
-      },
-      {
-        path: '/academic/course-manage',
-        name: '课程管理',
-        exact: false,
-        component: CourseManagement,
-      },
-      {
-        path: '/academic/course-manage/add-course',
-        name: '课程管理详情',
-        exact: false,
-        component: AddCourse,
-      },
-    ]
-  },
-  {
-    path: '/operation',
-    name: '运营管理',
-    exact: false,
-    children: [
-      {
-        path: '/operation/member-manage',
-        name: '会员管理',
-        exact: true,
-        component: MemberManage
-      },
-      {
-        path: '/operation/order-manage',
-        name: '订单管理',
-        exact: true,
-        component: OrderManage
-      },
-    ]
-  },
-  {
-    path: '/settings',
-    name: '系统设置',
-    exact: false,
-    children: [
-      {
-        path: '/settings/translate',
-        name: '翻译管理',
-        exact: true,
-        component: Translate
-      },
-    ]
   },
   {
     path: '/auth',
