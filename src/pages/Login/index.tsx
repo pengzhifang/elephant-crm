@@ -1,12 +1,10 @@
-import ImgLogo from '@assets/image/logo.png';
 import CaptchaGt from '@components/CaptchaGt';
 import useCountDown from '@hooks/useCountDown';
 import { sendSmsCodeApi } from '@service/gt';
-import { getBaseInfo, loginByPasswordApi, loginBySmsCodeApi, loginByTempApi } from '@service/login';
+import { loginByPasswordApi, loginBySmsCodeApi } from '@service/login';
 import { Local } from '@service/storage';
 import { decryptAESToObj } from '@utils/crypto';
 import { Button, Form, Input, message, Tabs, TabsProps } from 'antd';
-import TabPane from 'antd/es/tabs/TabPane';
 import classNames from 'classnames';
 import { observer } from 'mobx-react-lite';
 import React, { Fragment, useRef, useState } from 'react';
@@ -240,33 +238,15 @@ const Login: React.FC = observer(() => {
     )
   }
 
-  const items: TabsProps['items'] = [
-    {
-      key: '1',
-      label: `密码登录`,
-      children: renderLoginComps(),
-    },
-    {
-      key: '2',
-      label: `验证码登录`,
-      children: renderLoginComps(),
-    }
-  ];
-
   return (
     <div className="login-container">
-      <div className="absolute left-10 top-10 rounded-[6px]">
-        <img className='w-[192px] h-8' src={ImgLogo} alt="logo" />
-      </div>
-      <div
+      {/* <div
         className="w-[25.25rem] h-[22.625rem] rounded absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 pt-10 pb-12 px-8 bg-white"
         style={{ boxShadow: '0px 2px 8px 0px rgba(0, 0, 0, 0.15)' }}
       >
         <Tabs activeKey={state.tabIdx} onChange={tabHandler} items={items}>
         </Tabs>
-        <p className="absolute left-0 top-[24.625rem] w-full text-center font-PF-RE text-00045">—— HappyChinese · 让全世界都爱说中国话 ——</p>
-        <p className="absolute left-0 top-[26.5rem] w-full text-center font-PF-RE text-00025">&copy; 版权所有：北京比邻东方教育科技有限公司</p>
-      </div>
+      </div> */}
     </div>
   )
 
