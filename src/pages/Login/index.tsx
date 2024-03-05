@@ -10,7 +10,6 @@ import { observer } from 'mobx-react-lite';
 import React, { Fragment, useRef, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import mainImg from '../../assets/image/logo.png';
-
 import './index.scss';
 import Captcha, { CaptchaHandles } from '@components/Captcha';
 
@@ -25,6 +24,30 @@ const Login: React.FC = observer(() => {
     tabIdx: '1', // 登录方式
     errorTips: '', // 错误信息
   });
+
+  const QRLoginObj = (window as any).QRLogin({
+    id:"login_container",
+    goto: "https://passport.feishu.cn/suite/passport/oauth/authorize?client_id=CLIENT_ID&redirect_uri=REDIRECT_URI&response_type=code&state=STATE",
+    width: "500",
+    height: "500",
+    style: "width:500px;height:600px"//可选的，二维码html标签的style属性
+  });
+
+  const handleMessage = (event) => {         
+    // 使用 matchOrigin 和 matchData 方法来判断 message 和来自的页面 url 是否合法
+    if(QRLoginObj.matchOrigin(event.origin) && QRLoginObj.matchData(event.data)) { 
+        var loginTmpCode = event.data.tmp_code; 
+      	// 在授权页面地址上拼接上参数 tmp_code，并跳转
+        // window.location.href = `${goto}&tmp_code=${loginTmpCode}`;
+    }
+  };
+
+  if (typeof window.addEventListener != 'undefined') {   
+    window.addEventListener('message', handleMessage, false);} 
+  else if (typeof (window as any).attachEvent != 'undefined') { 
+    (window as any).attachEvent('onmessage', handleMessage);
+  }
+  
 
   /**
    * 登录
