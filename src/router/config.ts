@@ -6,7 +6,6 @@ const NotFoundPage = lazy(() => import('@pages/NotFoundPage'));
 const MenuManage = lazy(() => import('@pages/Auth/MenuManage'));
 const RoleManage = lazy(() => import('@pages/Auth/RoleManage'));
 const StaffManage = lazy(()=> import('@pages/Auth/StaffManage'));
-const ResetPassword = lazy(() => import('@pages/Login/ResetPassword'));
 
 export interface IRouteBase {
   // 路由路径
@@ -62,12 +61,6 @@ const routers: IRoute[] = [
     name: '登录',
     exact: true,
     component: Login
-  },
-  {
-    path: '/resetpassword',
-    name: '重置密码',
-    exact: true,
-    component: ResetPassword
   },
   {
     path: '/auth',

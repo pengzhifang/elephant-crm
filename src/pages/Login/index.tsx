@@ -256,8 +256,65 @@ const Login: React.FC = observer(() => {
           <div className='w-[341px] h-[325px] bg-[#175FE9] flex justify-center items-center'>
             <img src={mainImg} className="w-[173px] h-[174px]" alt="mainImg" />
           </div>
-          <div className='w-[340px] h-[325px] bg-white'>
-            
+          {/* <div className='w-[340px] h-[325px] bg-white flex justify-center items-center'>
+            <div>
+              <div className='w-[190px] h-[190px] bg-[pink]'></div>
+              <div className='mt-5 font-PF-SE font-semibold text-base text-333 text-center'>扫码进入</div>
+            </div>
+          </div> */}
+          <div className='w-[340px] h-[325px] bg-white px-5 py-[38px]'>
+            <div className='text-lg font-PF-SE font-semibold text-333 text-center'>账号绑定</div>
+            <div className='text-sm font-PF-SE text-999 text-center mb-[17px]'>新账号需要先绑定后才可以使用</div>
+            <Form
+              form={form}
+              onFinish={onFinish}
+              autoComplete="off"
+              onValuesChange={() => setState({ ...state, errorTips: '' })}
+            >
+              <Form.Item
+                noStyle
+                name={['mobile']}
+                rules={[
+                  { required: true, message: '请输入手机号!', whitespace: true },
+                  { pattern: /^1[3|4|5|6|7|8|9][0-9]{9}$/, message: '手机号格式错误!' }
+                ]}
+              >
+                <Input
+                  size="large"
+                  name="mobile"
+                  placeholder="请输入手机号"
+                  style={{ flex: 1 }}
+                  onChange={handleMobileChange}
+                />
+              </Form.Item>
+              <div className="flex mt-4">
+                <Form.Item
+                  name="verifyCode"
+                  hasFeedback
+                  style={{ flex: 1 }}
+                  validateTrigger="onBlur"
+                  rules={[
+                    { required: true, message: '请输入验证码!', whitespace: true },
+                    { pattern: /^\d{4}$/, message: '验证码格式错误!' }
+                  ]}
+                >
+                  <Input
+                    size="large"
+                    placeholder="请输入验证码"
+                  />
+                </Form.Item>
+                <CaptchaGt isCanSendCode={isCanSendCode} onSuccess={sendSmsCode} count={count}></CaptchaGt>
+              </div>
+              <Button
+                block
+                size="large"
+                type="primary"
+                htmlType="submit"
+                loading={isLoading}
+              >
+                立即进驻
+              </Button>
+            </Form>
           </div>
         </div>
       </div>
