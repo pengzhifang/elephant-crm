@@ -27,6 +27,7 @@ const Login: React.FC = observer(() => {
 
 
   useEffect(() => {
+    // 参考文档 https://open.feishu.cn/document/common-capabilities/sso/web-application-sso/qr-sdk-documentation
     const gotoUrl = "https://passport.feishu.cn/suite/passport/oauth/authorize?client_id=cli_a5628965ea7a100b&redirect_uri=https://baidu.com&response_type=code&state=STATE";
     const QRLoginObj = (window as any).QRLogin({
       id:"qrcode_container",
