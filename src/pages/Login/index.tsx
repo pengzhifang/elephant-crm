@@ -30,7 +30,7 @@ const Login: React.FC = observer(() => {
     const gotoUrl = "https://passport.feishu.cn/suite/passport/oauth/authorize?client_id=cli_a5628965ea7a100b&redirect_uri=https://baidu.com&response_type=code&state=STATE";
     const QRLoginObj = (window as any).QRLogin({
       id:"qrcode_container",
-      goto: "https://passport.feishu.cn/suite/passport/oauth/authorize?client_id=cli_a5628965ea7a100b&redirect_uri=https://baidu.com&response_type=code&state=STATE",
+      goto: gotoUrl,
       width: "250",
       height: "250",
       style: "width:250px;height:250px"//可选的，二维码html标签的style属性
