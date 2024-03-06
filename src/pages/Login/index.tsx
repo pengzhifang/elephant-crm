@@ -7,7 +7,7 @@ import { decryptAESToObj } from '@utils/crypto';
 import { Button, Form, Input, message, Tabs, TabsProps } from 'antd';
 import classNames from 'classnames';
 import { observer } from 'mobx-react-lite';
-import React, { Fragment, useRef, useState } from 'react';
+import React, { Fragment, useEffect, useRef, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import mainImg from '../../assets/image/logo.png';
 import './index.scss';
@@ -25,29 +25,33 @@ const Login: React.FC = observer(() => {
     errorTips: '', // 错误信息
   });
 
-  const QRLoginObj = (window as any).QRLogin({
-    id:"login_container",
-    goto: "https://passport.feishu.cn/suite/passport/oauth/authorize?client_id=CLIENT_ID&redirect_uri=REDIRECT_URI&response_type=code&state=STATE",
-    width: "500",
-    height: "500",
-    style: "width:500px;height:600px"//可选的，二维码html标签的style属性
-  });
 
-  const handleMessage = (event) => {         
-    // 使用 matchOrigin 和 matchData 方法来判断 message 和来自的页面 url 是否合法
-    if(QRLoginObj.matchOrigin(event.origin) && QRLoginObj.matchData(event.data)) { 
-        var loginTmpCode = event.data.tmp_code; 
-      	// 在授权页面地址上拼接上参数 tmp_code，并跳转
-        // window.location.href = `${goto}&tmp_code=${loginTmpCode}`;
-    }
-  };
-
-  if (typeof window.addEventListener != 'undefined') {   
-    window.addEventListener('message', handleMessage, false);} 
-  else if (typeof (window as any).attachEvent != 'undefined') { 
-    (window as any).attachEvent('onmessage', handleMessage);
-  }
+  useEffect(() => {
+    const gotoUrl = "https://passport.feishu.cn/suite/passport/oauth/authorize?client_id=cli_a5628965ea7a100b&redirect_uri=https://baidu.com&response_type=code&state=STATE";
+    const QRLoginObj = (window as any).QRLogin({
+      id:"qrcode_container",
+      goto: "https://passport.feishu.cn/suite/passport/oauth/authorize?client_id=cli_a5628965ea7a100b&redirect_uri=https://baidu.com&response_type=code&state=STATE",
+      width: "250",
+      height: "250",
+      style: "width:250px;height:250px"//可选的，二维码html标签的style属性
+    });
+    const handleMessage = (event) => {        
+      console.log(event,QRLoginObj, QRLoginObj.matchOrigin(event.origin), QRLoginObj.matchData(event.data), 11111);
+       
+      // 使用 matchOrigin 和 matchData 方法来判断 message 和来自的页面 url 是否合法
+      if(QRLoginObj.matchOrigin(event.origin) && QRLoginObj.matchData(event.data)) { 
+          var loginTmpCode = event.data.tmp_code; 
+          // 在授权页面地址上拼接上参数 tmp_code，并跳转
+          window.location.href = `${gotoUrl}&tmp_code=${loginTmpCode}`;
+      }
+    };
   
+    if (typeof window.addEventListener != 'undefined') {   
+      window.addEventListener('message', handleMessage, false);} 
+    else if (typeof (window as any).attachEvent != 'undefined') { 
+      (window as any).attachEvent('onmessage', handleMessage);
+    }
+  }, []) 
 
   /**
    * 登录
@@ -279,13 +283,13 @@ const Login: React.FC = observer(() => {
           <div className='w-[341px] h-[325px] bg-[#175FE9] flex justify-center items-center'>
             <img src={mainImg} className="w-[173px] h-[174px]" alt="mainImg" />
           </div>
-          {/* <div className='w-[340px] h-[325px] bg-white flex justify-center items-center'>
+          <div className='w-[340px] h-[325px] bg-white flex justify-center items-center'>
             <div>
-              <div className='w-[190px] h-[190px] bg-[pink]'></div>
-              <div className='mt-5 font-PF-SE font-semibold text-base text-333 text-center'>扫码进入</div>
+              <div className='w-[250px] h-[250px]' id='qrcode_container'></div>
+              <div className='mt-3 font-PF-SE font-semibold text-base text-333 text-center'>扫码进入</div>
             </div>
-          </div> */}
-          <div className='w-[340px] h-[325px] bg-white px-5 py-[38px]'>
+          </div>
+          {/* <div className='w-[340px] h-[325px] bg-white px-5 py-[38px]'>
             <div className='text-lg font-PF-SE font-semibold text-333 text-center'>账号绑定</div>
             <div className='text-sm font-PF-SE text-999 text-center mb-[17px]'>新账号需要先绑定后才可以使用</div>
             <Form
@@ -338,7 +342,7 @@ const Login: React.FC = observer(() => {
                 立即进驻
               </Button>
             </Form>
-          </div>
+          </div> */}
         </div>
       </div>
     </div>
