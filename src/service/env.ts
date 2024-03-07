@@ -2,7 +2,8 @@
 const whenDev = process.env.REACT_APP_ENV === 'development';
 export const devConfig  = {
     PEANUT_HOST: window.location.origin,
-    PEANUT_API: 'https://bapi.t.surechinese.cc',
+    // PEANUT_API: 'https://bapi.t.surechinese.cc',
+    PEANUT_API: 'http://120.76.248.231',
     HEADKEY: '02e5e263e6c1cb81af0ce92fc93095d',
     AES_KEY: 'IO4EgnJD6FbhWOJH',
     AES_IV: '2UHgui5H39DgfHUY'

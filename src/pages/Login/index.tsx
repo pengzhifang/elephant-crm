@@ -266,17 +266,29 @@ const Login: React.FC = observer(() => {
       </Form>
     )
   }
+  const items: TabsProps['items'] = [
+    {
+      key: '1',
+      label: `密码登录`,
+      children: renderLoginComps(),
+    },
+    {
+      key: '2',
+      label: `验证码登录`,
+      children: renderLoginComps(),
+    }
+  ];
 
   return (
     <div className="login-container">
-      {/* <div
+      <div
         className="w-[25.25rem] h-[22.625rem] rounded absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 pt-10 pb-12 px-8 bg-white"
         style={{ boxShadow: '0px 2px 8px 0px rgba(0, 0, 0, 0.15)' }}
       >
         <Tabs activeKey={state.tabIdx} onChange={tabHandler} items={items}>
         </Tabs>
-      </div> */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
+      </div>
+      {/* <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
         <div>
 
         </div>
@@ -290,7 +302,7 @@ const Login: React.FC = observer(() => {
               <div className='mt-3 font-PF-SE font-semibold text-base text-333 text-center'>扫码进入</div>
             </div>
           </div>
-          {/* <div className='w-[340px] h-[325px] bg-white px-5 py-[38px]'>
+          <div className='w-[340px] h-[325px] bg-white px-5 py-[38px]'>
             <div className='text-lg font-PF-SE font-semibold text-333 text-center'>账号绑定</div>
             <div className='text-sm font-PF-SE text-999 text-center mb-[17px]'>新账号需要先绑定后才可以使用</div>
             <Form
@@ -343,9 +355,9 @@ const Login: React.FC = observer(() => {
                 立即进驻
               </Button>
             </Form>
-          </div> */}
+          </div>
         </div>
-      </div>
+      </div> */}
     </div>
   )
 
