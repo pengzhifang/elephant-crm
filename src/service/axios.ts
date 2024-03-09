@@ -65,10 +65,11 @@ let isHandleMsgCode = false;
 
 
 const axiosInstance = axios.create({
-  withCredentials: true,
+  // withCredentials: true,
   // baseURL: isLocal ? '/api' : ENV.PEANUT_API, //根据环境动态设置baseUrl
   baseURL: ENV.PEANUT_API, //根据环境动态设置baseUrl
   headers: {
+    'service-name': 'elephant-crm',
     'Content-Type': 'application/json;charset=UTF-8'
   }
 });
@@ -79,8 +80,8 @@ axiosInstance.interceptors.request.use(
       config.headers['Content-Type'] = 'multipart/form-data';
     }
     if (config.url.includes('user-api')) {
-      config.headers['token'] = Local.get('_token');
-      // config.headers['token'] = 'eyJhbGciOiJIUzUxMiJ9.eyJ1c2VyTnVtIjoxMjMsImV4cCI6MTY3Njk0NjQwNCwiaWF0IjoxNjc1MDQ1NjA0LCJrZXkiOiJibGluZ3poX3Rlc3QifQ.gCG-yI7KTpad3x2XYG_rTZQ4Feuwca9C2khw1tfs7YNpt-2yuyVqHAMdUVF_wi0Vm_09HA4noT3hVdAp05IWeA';
+      // config.headers['token'] = Local.get('_token');
+      config.headers['token'] = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJhdWQiOiJjbGllbnQiLCJpc3MiOiJjb20ua2p4aCIsImFkbWludXNlcmFjY291bnQiOiJhZG1pbiIsImV4cCI6MTcxMTcyNDAyNiwiaWF0IjoxNzA5ODIzMjI2LCJ1c2VySWQiOiIxIiwia2V5IjoiZWxlcGhhbnQtY2xlYXItZGV2IiwiYWRtaW51c2VybmFtZSI6Iuezu-e7n-euoeeQhuWRmCJ9.crAUpYD1bAQ4ILhdoGKYR46xXAg1c-KddEe41L4WG3O0BRPkhlFX8K9fItmzGp0AU2cKmrVsztGAaeb4rleQ2w';
     }
     return config;
   },
