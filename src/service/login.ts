@@ -68,3 +68,10 @@ export const resetPasswordBySmsCodeApi = (data: any): Promise<any> => {
  export const getBaseInfo = (): Promise<any> => {
   return axiosGet('/bms/user-api/lecturer/v1/detail');
 }
+
+/**
+ * 飞书扫码登录
+ */
+export const feishuLoginApi = (data: any): Promise<any> => {
+  return axiosGet('/open-api/fenshu/v1/login', data);
+}

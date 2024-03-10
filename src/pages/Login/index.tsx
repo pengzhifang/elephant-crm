@@ -1,20 +1,21 @@
 import CaptchaGt from '@components/CaptchaGt';
 import useCountDown from '@hooks/useCountDown';
 import { sendSmsCodeApi } from '@service/gt';
-import { loginByPasswordApi, loginBySmsCodeApi } from '@service/login';
+import { feishuLoginApi, loginByPasswordApi, loginBySmsCodeApi } from '@service/login';
 import { Local } from '@service/storage';
 import { decryptAESToObj } from '@utils/crypto';
 import { Button, Form, Input, message, Tabs, TabsProps } from 'antd';
 import classNames from 'classnames';
 import { observer } from 'mobx-react-lite';
 import React, { Fragment, useEffect, useRef, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import mainImg from '../../assets/image/logo.png';
 import './index.scss';
 import Captcha, { CaptchaHandles } from '@components/Captcha';
 
 const Login: React.FC = observer(() => {
   const navigate = useNavigate();
+  const [searchParams, setSearchParams] = useSearchParams();
   const [form] = Form.useForm();
   const [isCanSendCode, setIsCanSendCode] = useState(false);
   const [count, setCount] = useCountDown(0);
@@ -27,32 +28,58 @@ const Login: React.FC = observer(() => {
 
 
   useEffect(() => {
+    const code = searchParams.get('code');
+    console.log(code, 'code');
+    if(code) {
+      feishuLoginCallback(code);
+    } else {
+      initFeishuLogin();
+    }
+  }, [])
+
+  /** 飞书扫码登录回调 */
+  const feishuLoginCallback = async (code) => {
+    const { status, data } = await feishuLoginApi({
+      code,
+      state: 'STATE'
+    });
+    if (status === '00000') {
+      message.success('登录成功');
+      // const { token } = data;
+      // Local.set('_token', token);
+      // Local.set('_userInfo', data);
+      // navigate('/');
+    }
+  }
+
+  /** 飞书扫码登录 */
+  const initFeishuLogin = () => {
     // 参考文档 https://open.feishu.cn/document/common-capabilities/sso/web-application-sso/qr-sdk-documentation
-    const gotoUrl = "https://passport.feishu.cn/suite/passport/oauth/authorize?client_id=cli_a5628965ea7a100b&redirect_uri=https://baidu.com&response_type=code&state=STATE";
+    const gotoUrl = "https://passport.feishu.cn/suite/passport/oauth/authorize?client_id=cli_a569b831a93bd00c&redirect_uri=https://www.baidu.com&response_type=code&state=STATE";
+    // const gotoUrl = "https://passport.feishu.cn/suite/passport/oauth/authorize?client_id=cli_a569b831a93bd00c&redirect_uri=http://120.76.248.231/open-api/fenshu/v1/login&response_type=code&state=STATE";
     const QRLoginObj = (window as any).QRLogin({
-      id:"qrcode_container",
+      id: "qrcode_container",
       goto: gotoUrl,
       width: "250",
       height: "250",
       style: "width:250px;height:250px"//可选的，二维码html标签的style属性
     });
-    const handleMessage = (event) => {        
-      console.log(event,QRLoginObj, QRLoginObj.matchOrigin(event.origin), QRLoginObj.matchData(event.data), 11111);
-       
+    const handleMessage = (event) => {
       // 使用 matchOrigin 和 matchData 方法来判断 message 和来自的页面 url 是否合法
-      if(QRLoginObj.matchOrigin(event.origin) && QRLoginObj.matchData(event.data)) { 
-          var loginTmpCode = event.data.tmp_code; 
-          // 在授权页面地址上拼接上参数 tmp_code，并跳转
-          window.location.href = `${gotoUrl}&tmp_code=${loginTmpCode}`;
+      if (QRLoginObj.matchOrigin(event.origin) && QRLoginObj.matchData(event.data)) {
+        var loginTmpCode = event.data.tmp_code;
+        // 在授权页面地址上拼接上参数 tmp_code，并跳转
+        window.location.href = `${gotoUrl}&tmp_code=${loginTmpCode}`;
       }
     };
-  
-    if (typeof window.addEventListener != 'undefined') {   
-      window.addEventListener('message', handleMessage, false);} 
-    else if (typeof (window as any).attachEvent != 'undefined') { 
+
+    if (typeof window.addEventListener != 'undefined') {
+      window.addEventListener('message', handleMessage, false);
+    }
+    else if (typeof (window as any).attachEvent != 'undefined') {
       (window as any).attachEvent('onmessage', handleMessage);
     }
-  }, []) 
+  }
 
   /**
    * 登录
@@ -213,20 +240,20 @@ const Login: React.FC = observer(() => {
           state.tabIdx === '1' &&
           <Fragment>
 
-          <Form.Item
-            name="password"
-            hasFeedback
-            rules={[
-              { required: true, message: '请输入密码!', whitespace: true }
-            ]}
-          >
-            <Input
-              size="large"
-              type="password"
-              placeholder="请输入密码"
-            />
-          </Form.Item>
-          <Captcha onSuccess={toVerifySuccess} ref={captchaRef} />
+            <Form.Item
+              name="password"
+              hasFeedback
+              rules={[
+                { required: true, message: '请输入密码!', whitespace: true }
+              ]}
+            >
+              <Input
+                size="large"
+                type="password"
+                placeholder="请输入密码"
+              />
+            </Form.Item>
+            <Captcha onSuccess={toVerifySuccess} ref={captchaRef} />
           </Fragment>
         }
         {
@@ -357,7 +384,7 @@ const Login: React.FC = observer(() => {
             </Form>
           </div> */}
         </div>
-      </div> 
+      </div>
     </div>
   )
 

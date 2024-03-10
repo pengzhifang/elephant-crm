@@ -244,7 +244,7 @@ const StaffManage: React.FC = () => {
         )
     }
     return (<div className='staff-page'>
-        <BaseTitle title="员工管理" />
+        <BaseTitle title="用户管理" />
         <div className='mx-4 my-2 px-4 pt-4 pb-[-8px] bg-white relative'>
             <SearchForm />
         </div>
