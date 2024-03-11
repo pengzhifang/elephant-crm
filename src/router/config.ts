@@ -63,25 +63,25 @@ const routers: IRoute[] = [
     component: Login
   },
   {
-    path: '/main/system',
+    path: '/auth',
     name: '权限管理',
     exact: false,
     children: [
       {
-        path: '/main/system/menu',
+        path: '/auth/menu-manage',
         name: '菜单管理',
         exact: true,
         component: MenuManage
       },
       {
-        path: '/main/system/role',
+        path: '/auth/role-manage',
         name: '角色管理',
         exact: true,
         component: RoleManage
       },
       {
-        path: '/main/system/user',
-        name: '用户管理',
+        path: '/auth/staff-manage',
+        name: '员工管理',
         exact: true,
         component: StaffManage
       },

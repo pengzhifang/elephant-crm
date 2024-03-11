@@ -55,7 +55,7 @@ const BaseMenu: React.FC<IProps> = observer((props) => {
   const items: MenuItem[] = menuList.map(item => {
     if (item.childMenus.length > 0) {
       const childMenus = item.childMenus.map(child => {
-        return child.target == 1 ? getItem(<Link to={'/' + item.url + '/' + child.url}>{child.name}</Link>, child.id, '') : getItem(<span onClick={() => openUrlToNewPage('/' + item.url + '/' + child.url)}>{child.name}</span>, child.id, '')
+        return child.target == 1 ? getItem(<Link to={child.url}>{child.name}</Link>, child.id, '') : getItem(<span onClick={() => openUrlToNewPage(child.url)}>{child.name}</span>, child.id, '')
       });
       return getItem(item.name, item.id, <AntdIcon type={item.icon} />, childMenus);
     } else {
