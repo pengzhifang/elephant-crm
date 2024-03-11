@@ -81,7 +81,7 @@ const routers: IRoute[] = [
       },
       {
         path: '/auth/staff-manage',
-        name: '员工管理',
+        name: '用户管理',
         exact: true,
         component: StaffManage
       },
