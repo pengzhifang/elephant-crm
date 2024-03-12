@@ -1,7 +1,6 @@
 import { ExclamationCircleOutlined, PlusOutlined, UserOutlined } from '@ant-design/icons';
 import BaseTitle from "@components/common/BaseTitle";
 import { disabledUserApi, resetPasswordApi, roleListApi, staffListApi } from '@service/auth';
-import { getAreaConfig } from '@service/common';
 import { searchFormLayout, userStatusOptions } from '@utils/config';
 import { getViewPortHeight } from '@utils/index';
 import { Avatar, Badge, Button, Col, Empty, Form, Input, message, Modal, Row, Select, Space, Table } from 'antd';
@@ -26,9 +25,6 @@ const StaffManage: React.FC = () => {
     const initPage = { current: 1, total: 1, pageSize: 20 };
 
     useEffect(() => {
-        getAreaConfig().then(res => {
-            console.log(res, 'areaInfo');
-        });
 
         form.setFieldsValue({ status: '' })
         getList(initPage);
