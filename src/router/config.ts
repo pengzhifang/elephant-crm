@@ -6,6 +6,10 @@ const NotFoundPage = lazy(() => import('@pages/NotFoundPage'));
 const MenuManage = lazy(() => import('@pages/Auth/MenuManage'));
 const RoleManage = lazy(() => import('@pages/Auth/RoleManage'));
 const StaffManage = lazy(()=> import('@pages/Auth/StaffManage'));
+const StreetPrice = lazy(() => import('@pages/Config/StreetPrice'));
+const TreatmentPlant = lazy(() => import('@pages/Config/TreatmentPlant'));
+const PmcConfig = lazy(()=> import('@pages/Config/PmcConfig'));
+const VillageConfig = lazy(()=> import('@pages/Config/VillageConfig'));
 
 export interface IRouteBase {
   // 路由路径
@@ -85,6 +89,37 @@ const routers: IRoute[] = [
         exact: true,
         component: StaffManage
       },
+    ]
+  },
+  {
+    path: '/config',
+    name: '配置管理',
+    exact: false,
+    children: [
+      {
+        path: '/config/street-price',
+        name: '街道价格配置',
+        exact: true,
+        component: StreetPrice
+      },
+      {
+        path: '/config/treatment-plant',
+        name: '处理厂配置',
+        exact: true,
+        component: TreatmentPlant
+      },
+      {
+        path: '/config/pmc-config',
+        name: '物业公司配置',
+        exact: true,
+        component: PmcConfig
+      },
+      {
+        path: '/config/village-config',
+        name: '项目(小区)配置',
+        exact: true,
+        component: VillageConfig
+      }
     ]
   },
   {
