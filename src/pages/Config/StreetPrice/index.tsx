@@ -6,10 +6,11 @@ import { searchFormLayout } from "@utils/config";
 import { ColumnType } from "antd/es/table";
 import { getViewPortHeight } from "@utils/index";
 import { areaListApi, cityListApi, streetListApi, streetPriceListApi } from "@service/config";
+import AddPriceModal from "./AddPriceModal";
 
 const statusOptions = [
   { label: '全部', value: '' },
-  { label: '已开通', value: 1 }, 
+  { label: '已开通', value: 1 },
   { label: '未开通', value: 0 }
 ];
 
@@ -29,7 +30,7 @@ const StreetPrice: React.FC = () => {
       }
     },
     {
-      title: '操作', dataIndex: 'operate', fixed: 'left', width: 250,
+      title: '操作', dataIndex: 'operate', fixed: 'right', width: 250,
       render: (text, record) => {
         return (<Space size="middle">
           <Button type='link' style={{ padding: 0 }}>编辑</Button>
@@ -46,11 +47,12 @@ const StreetPrice: React.FC = () => {
   const [streetList, setStreetList] = useState([]);
   const [pageInfo, setPageInfo] = useState({ current: 1, total: 1, pageSize: 20 });
   const initPage = { current: 1, total: 1, pageSize: 20 };
+  const [priceModalInfo, setPriceModalInfo] = useState({ visible: false, type: 1, item: {} });
 
   useEffect(() => {
     getList(initPage);
     getCityList();
-}, [])
+  }, [])
 
   /** 列表数据查询 */
   const getList = async (pages: any): Promise<any> => {
@@ -96,7 +98,7 @@ const StreetPrice: React.FC = () => {
   /** 获取选定区/县对应街道 */
   const getStreetList = async (): Promise<any> => {
     const { cityCode, areaCode } = form.getFieldsValue(true);
-    
+
     const { result, data } = await streetListApi({
       cityCode,
       areaCode
@@ -130,6 +132,15 @@ const StreetPrice: React.FC = () => {
 
   const handleAreaChange = () => {
     getStreetList();
+  }
+
+  //关闭添加编辑弹框
+  const onClosePriceModal = (refresh: boolean) => {
+    setPriceModalInfo({ visible: false, type: 1, item: {} });
+    //关闭弹框是否刷新当前列表
+    if (refresh) {
+      getList({ current: pageInfo.current, pageSize: 20 });
+    }
   }
 
   const SearchForm = (): JSX.Element => {
@@ -172,7 +183,7 @@ const StreetPrice: React.FC = () => {
           </Col>
           <Col span={4}>
             <Form.Item label=" " colon={false} className='text-right'>
-              <Button icon={<PlusOutlined />} type='primary'>新建</Button>
+              <Button icon={<PlusOutlined />} type='primary' onClick={() => setPriceModalInfo({ visible: true, type: 1, item: { status: 1 } })}>新建</Button>
             </Form.Item>
           </Col>
           <Col span={5}>
@@ -212,6 +223,11 @@ const StreetPrice: React.FC = () => {
           onChange={onTableChange}
         />
       </div>
+      {/** 新建配置 */}
+      {priceModalInfo.visible && <AddPriceModal
+        onCancel={onClosePriceModal}
+        {...priceModalInfo}
+      />}
     </div>
   )
 }
