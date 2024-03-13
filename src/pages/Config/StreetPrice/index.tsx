@@ -1,10 +1,17 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import BaseTitle from "@components/common/BaseTitle";
-import { Button, Col, Empty, Form, Input, Row, Select, Space, Table } from "antd";
-import { ExclamationCircleOutlined, PlusOutlined, UserOutlined } from '@ant-design/icons';
+import { Button, Col, Empty, Form, Row, Select, Space, Table } from "antd";
+import { PlusOutlined } from '@ant-design/icons';
 import { searchFormLayout } from "@utils/config";
 import { ColumnType } from "antd/es/table";
 import { getViewPortHeight } from "@utils/index";
+import { areaListApi, cityListApi, streetListApi, streetPriceListApi } from "@service/config";
+
+const statusOptions = [
+  { label: '全部', value: '' },
+  { label: '已开通', value: 1 }, 
+  { label: '未开通', value: 0 }
+];
 
 const StreetPrice: React.FC = () => {
   const columns: ColumnType<any>[] = [
@@ -34,20 +41,95 @@ const StreetPrice: React.FC = () => {
   const [form] = Form.useForm();
   const [dataList, setDataList] = useState();
   const [loading, setLoading] = useState(false);
+  const [cityList, setCityList] = useState([]);
+  const [areaList, setAreaList] = useState([]);
+  const [streetList, setStreetList] = useState([]);
   const [pageInfo, setPageInfo] = useState({ current: 1, total: 1, pageSize: 20 });
+  const initPage = { current: 1, total: 1, pageSize: 20 };
+
+  useEffect(() => {
+    getList(initPage);
+    getCityList();
+}, [])
+
+  /** 列表数据查询 */
+  const getList = async (pages: any): Promise<any> => {
+    const formValues = form.getFieldsValue(true);
+    setLoading(true);
+    const { result, data } = await streetPriceListApi({ ...formValues, page: pages.current, size: pages.pageSize });
+    if (result) {
+      setLoading(false);
+      setDataList(data.list);
+      setPageInfo({ current: data.pageNum, total: data.total, pageSize: data.pageSize });
+    } else {
+      setLoading(false);
+    }
+  }
+
+  /** 获取所有城市 */
+  const getCityList = async (): Promise<any> => {
+    const { result, data } = await cityListApi();
+    if (result) {
+      data.map(x => {
+        x.label = x.name;
+        x.value = x.city;
+      })
+      setCityList(data);
+    }
+  }
+
+  /** 获取选定城市区/县 */
+  const getAreaList = async (): Promise<any> => {
+    const { cityCode } = form.getFieldsValue(true);
+    const { result, data } = await areaListApi({
+      cityCode
+    });
+    if (result) {
+      data.map(x => {
+        x.label = x.name;
+        x.value = x.area;
+      })
+      setAreaList(data);
+    }
+  }
+
+  /** 获取选定区/县对应街道 */
+  const getStreetList = async (): Promise<any> => {
+    const { cityCode, areaCode } = form.getFieldsValue(true);
+    
+    const { result, data } = await streetListApi({
+      cityCode,
+      areaCode
+    });
+    if (result) {
+      data.map(x => {
+        x.label = x.name;
+        x.value = x.town;
+      })
+      setStreetList(data);
+    }
+  }
 
   const onSearch = () => {
-    // getList(initPage);
+    getList(initPage);
   }
 
   const onReset = async () => {
     await form.resetFields();
-    // getList(initPage);
+    getList(initPage);
   }
 
   const onTableChange = (pagination) => {
     setPageInfo({ ...pagination });
-    // getList(pagination);
+    getList(pagination);
+  }
+
+  const handleCityChange = () => {
+    getAreaList();
+  }
+
+  const handleAreaChange = () => {
+    getStreetList();
   }
 
   const SearchForm = (): JSX.Element => {
@@ -57,24 +139,26 @@ const StreetPrice: React.FC = () => {
           <Col span={5}>
             <Form.Item label="城市" name="cityCode">
               <Select
-                options={[{ label: '全部', value: '' }]}
-                placeholder="请选择" getPopupContainer={trigger => trigger}
+                options={[{ label: '全部', value: '' }, ...cityList]}
+                placeholder="请选择"
+                onChange={handleCityChange}
               />
             </Form.Item>
           </Col>
           <Col span={5}>
             <Form.Item label="区/县" name="areaCode">
               <Select
-                options={[{ label: '全部', value: '' }]}
-                placeholder="请选择" getPopupContainer={trigger => trigger}
+                options={[{ label: '全部', value: '' }, ...areaList]}
+                placeholder="请选择"
+                onChange={handleAreaChange}
               />
             </Form.Item>
           </Col>
           <Col span={5}>
             <Form.Item label="街道" name="townCode">
               <Select
-                options={[{ label: '全部', value: '' }]}
-                placeholder="请选择" getPopupContainer={trigger => trigger}
+                options={[{ label: '全部', value: '' }, ...streetList]}
+                placeholder="请选择"
               />
             </Form.Item>
           </Col>
@@ -82,7 +166,7 @@ const StreetPrice: React.FC = () => {
             <Form.Item label="处理厂" name="wasteManagementId">
               <Select
                 options={[{ label: '全部', value: '' }]}
-                placeholder="请选择" getPopupContainer={trigger => trigger}
+                placeholder="请选择"
               />
             </Form.Item>
           </Col>
@@ -94,8 +178,8 @@ const StreetPrice: React.FC = () => {
           <Col span={5}>
             <Form.Item label="开通状态" name="status">
               <Select
-                options={[{ label: '全部', value: '' }]}
-                placeholder="请选择" getPopupContainer={trigger => trigger}
+                options={statusOptions}
+                placeholder="请选择"
               />
             </Form.Item>
           </Col>
