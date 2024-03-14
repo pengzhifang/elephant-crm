@@ -1,6 +1,8 @@
-import { areaListApi, cityListApi, streetListApi } from "@service/config";
-import { Col, Form, Input, InputNumber, Modal, Row, Select } from "antd";
+import { addStreetPriceApi, areaListApi, cityListApi, streetListApi, treatmentPlantListApi, updateStreetPriceApi } from "@service/config";
+import { Local } from "@service/storage";
+import { Col, Form, InputNumber, message, Modal, Row, Select } from "antd";
 import React, { useEffect, useState } from "react";
+import './index.scss';
 
 interface Iprops {
   visible: boolean,
@@ -14,10 +16,31 @@ const AddPriceModal: React.FC<Iprops> = ({ visible, onCancel, item, type }) => {
   const [cityList, setCityList] = useState([]);
   const [areaList, setAreaList] = useState([]);
   const [streetList, setStreetList] = useState([]);
+  const [treatmentPlantList, setTreatmentPlantList] = useState([]);
 
   useEffect(() => {
     getCityList();
+    getTreatmentPlantList();
   }, [])
+
+  useEffect(() => {
+    initForm();
+    getAreaList();
+    getStreetList();
+  }, [item]);
+
+  const initForm = () => {
+    const { cityCode, areaCode, townCode, wasteManagementId, distance, price } = item;
+    form.setFieldsValue({
+      cityCode, 
+      areaCode, 
+      townCode, 
+      wasteManagementId, 
+      distance,
+      price1: price.split(',')[0],
+      price2: price.split(',')[1]
+    })
+  }
 
   /** 获取所有城市 */
   const getCityList = async (): Promise<any> => {
@@ -64,21 +87,76 @@ const AddPriceModal: React.FC<Iprops> = ({ visible, onCancel, item, type }) => {
     }
   }
 
+  /** 处理厂列表 */
+  const getTreatmentPlantList = async (): Promise<any> => {
+    const { result, data } = await treatmentPlantListApi({
+      page: 1,
+      size: 99
+    });
+    if (result) {
+      data.list.map(x => {
+        x.label = x.name;
+        x.value = x.id;
+      })
+      setTreatmentPlantList(data.list);
+    }
+  }
+
   const onSubmit = () => {
     form.validateFields().then(() => {
-      // if (type === 1) {
-      //   addUser();
-      // } else {
-      //   updateUser();
-      // }
+      if (type === 1) {
+        addStreetPrice();
+      } else {
+        updateStreetPrice();
+      }
     })
   }
 
+  //新增
+  const addStreetPrice = async () => {
+    const formValues = form.getFieldsValue(true);
+    const { cityCode, areaCode, townCode, wasteManagementId, price1, price2 } = formValues;
+    const { result } = await addStreetPriceApi({
+      ...formValues,
+      cityName: cityList.find(x => x.city == cityCode).name,
+      areaName: areaList.find(x => x.area == areaCode).name,
+      townName: streetList.find(x => x.town == townCode).name,
+      wasteManagementName: treatmentPlantList.find(x => x.id == wasteManagementId).name,
+      price: price1 + ',' + price2,
+      creator: Local.get('_name')
+    });
+    if (result) {
+      message.success('新建成功');
+      onCancel(true);
+    }
+  }
+  //编辑
+  const updateStreetPrice = async () => {
+    const formValues = form.getFieldsValue(true);
+    const { cityCode, areaCode, townCode, wasteManagementId, price1, price2 } = formValues;
+    const { result } = await updateStreetPriceApi({
+      id: item.id,
+      cityName: cityList.find(x => x.city == cityCode).name,
+      areaName: areaList.find(x => x.area == areaCode).name,
+      townName: streetList.find(x => x.town == townCode).name,
+      wasteManagementName: treatmentPlantList.find(x => x.id == wasteManagementId).name,
+      price: price1 + ',' + price2,
+      ...formValues,
+    });
+    if (result) {
+      message.success('编辑成功');
+      onCancel(true);
+    }
+  }
+
   const handleCityChange = () => {
+    form.setFieldValue('areaCode', '');
+    form.setFieldValue('townCode', '');
     getAreaList();
   }
 
   const handleAreaChange = () => {
+    form.setFieldValue('townCode', '');
     getStreetList();
   }
 
@@ -122,10 +200,10 @@ const AddPriceModal: React.FC<Iprops> = ({ visible, onCancel, item, type }) => {
         <Row gutter={24}>
           <Col span={16}>
             <Form.Item label="处理厂" name="wasteManagementId" rules={[
-              { required: true, message: '请选择处理厂', whitespace: true }
+              { required: true, message: '请选择处理厂' }
             ]}>
               <Select
-                options={[{ label: '全部', value: '' }]}
+                options={treatmentPlantList}
                 placeholder="请选择"
               />
             </Form.Item>
@@ -135,22 +213,28 @@ const AddPriceModal: React.FC<Iprops> = ({ visible, onCancel, item, type }) => {
           <Col span={10}>
             <Form.Item label="运距" name="distance"
               rules={[
-                { required: true, message: '运距不能为空', whitespace: true }
+                { required: true, message: '请填写运距' }
               ]}
             >
               <InputNumber className="w-full" min={0} addonAfter="KM" placeholder="请输入" />
             </Form.Item>
           </Col>
-          <Col span={14}>
-            <Form.Item label="价格(每公里)" name="distance"
+          <Col span={7}>
+            <Form.Item label="价格(每公里)" name="price1"
               rules={[
-                { required: true, message: '运距不能为空', whitespace: true }
+                { required: true, message: '请填写价格' }
               ]}
             >
-              <div className="flex justify-between">
-                <InputNumber className="w-[48%]" min={0} prefix="小车" addonAfter="元" placeholder="请输入" />
-                <InputNumber className="w-[48%]" min={0} prefix="大车" addonAfter="元" placeholder="请输入" />
-              </div>
+              <InputNumber min={0} prefix="小车" addonAfter="元" placeholder="请输入" />
+            </Form.Item>
+          </Col>
+          <Col span={7}>
+            <Form.Item label=" " name="price2" className="no-star"
+              rules={[
+                { required: true, message: '请填写价格' }
+              ]}
+            >
+              <InputNumber min={0} prefix="大车" addonAfter="元" placeholder="请输入" />
             </Form.Item>
           </Col>
         </Row>

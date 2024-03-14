@@ -5,7 +5,7 @@ import { PlusOutlined } from '@ant-design/icons';
 import { searchFormLayout } from "@utils/config";
 import { ColumnType } from "antd/es/table";
 import { getViewPortHeight } from "@utils/index";
-import { areaListApi, cityListApi, streetListApi, streetPriceListApi } from "@service/config";
+import { areaListApi, cityListApi, streetListApi, streetPriceListApi, treatmentPlantListApi } from "@service/config";
 import AddPriceModal from "./AddPriceModal";
 
 const statusOptions = [
@@ -21,7 +21,12 @@ const StreetPrice: React.FC = () => {
     { title: '街道', dataIndex: 'townName', width: 100 },
     { title: '处理厂', dataIndex: 'wasteManagementName', width: 100 },
     { title: '运距(km)', dataIndex: 'distance', width: 100 },
-    { title: '每车价格', dataIndex: 'price', width: 100 },
+    {
+      title: '每车价格', dataIndex: 'price', width: 100,
+      render: (text) => {
+        return <span>¥{text.split(',')[0]} / ¥{text.split(',')[1]}</span>;
+      }
+    },
     {
       title: '开通状态', dataIndex: 'status', width: 100,
       render: (text) => {
@@ -33,7 +38,7 @@ const StreetPrice: React.FC = () => {
       title: '操作', dataIndex: 'operate', fixed: 'right', width: 250,
       render: (text, record) => {
         return (<Space size="middle">
-          <Button type='link' style={{ padding: 0 }}>编辑</Button>
+          <Button type='link' style={{ padding: 0 }} onClick={() => setPriceModalInfo({ visible: true, type: 2, item: record })}>编辑</Button>
           <Button type='link' style={{ padding: 0 }}>下线</Button>
         </Space>)
       }
@@ -45,6 +50,7 @@ const StreetPrice: React.FC = () => {
   const [cityList, setCityList] = useState([]);
   const [areaList, setAreaList] = useState([]);
   const [streetList, setStreetList] = useState([]);
+  const [treatmentPlantList, setTreatmentPlantList] = useState([]);
   const [pageInfo, setPageInfo] = useState({ current: 1, total: 1, pageSize: 20 });
   const initPage = { current: 1, total: 1, pageSize: 20 };
   const [priceModalInfo, setPriceModalInfo] = useState({ visible: false, type: 1, item: {} });
@@ -52,6 +58,7 @@ const StreetPrice: React.FC = () => {
   useEffect(() => {
     getList(initPage);
     getCityList();
+    getTreatmentPlantList();
   }, [])
 
   /** 列表数据查询 */
@@ -109,6 +116,21 @@ const StreetPrice: React.FC = () => {
         x.value = x.town;
       })
       setStreetList(data);
+    }
+  }
+
+  /** 处理厂列表 */
+  const getTreatmentPlantList = async (): Promise<any> => {
+    const { result, data } = await treatmentPlantListApi({
+      page: 1,
+      size: 99
+    });
+    if (result) {
+      data.list.map(x => {
+        x.label = x.name;
+        x.value = x.id;
+      })
+      setTreatmentPlantList(data.list);
     }
   }
 
@@ -176,7 +198,7 @@ const StreetPrice: React.FC = () => {
           <Col span={5}>
             <Form.Item label="处理厂" name="wasteManagementId">
               <Select
-                options={[{ label: '全部', value: '' }]}
+                options={[{ label: '全部', value: '' }, ...treatmentPlantList]}
                 placeholder="请选择"
               />
             </Form.Item>

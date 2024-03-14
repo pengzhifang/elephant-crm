@@ -18,16 +18,12 @@ const TreatmentPlant: React.FC = () => {
 
   /** 列表数据查询 */
   const getList = async (): Promise<any> => {
-    // setLoading(true);
     const { result, data } = await treatmentPlantListApi({
       page: 1,
       size: 99
     });
     if (result) {
-      // setLoading(false);
       setDataList(data.list);
-    } else {
-      // setLoading(false);
     }
   }
 
