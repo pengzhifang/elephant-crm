@@ -142,7 +142,6 @@ const AddPriceModal: React.FC<Iprops> = ({ visible, onCancel, item, type }) => {
       townName: streetList.find(x => x.town == townCode).name,
       wasteManagementName: treatmentPlantList.find(x => x.id == wasteManagementId).name,
       price: price1 + ',' + price2,
-      creator: Local.get('_name'),
       operator: Local.get('_name')
     });
     if (result) {

@@ -66,9 +66,9 @@ const TreatmentPlant: React.FC = () => {
           </div>
         </Card>
         {
-          dataList.map(item => {
+          dataList.map((item, index) => {
             return (
-              <Card className="font-PF-RE text-666">
+              <Card key={index} className="font-PF-RE text-666">
                 <div className="font-PF-SE font-semibold text-black text-base">{item.name}</div>
                 <div className="mt-2">{item.cityName + item.areaName + item.townName + item.address}</div>
                 <div className="mt-3 font-PF-ME font-medium">ID {item.id}</div>
@@ -78,7 +78,7 @@ const TreatmentPlant: React.FC = () => {
                 </div>
                 <div className="mt-1 text-right text-333 cursor-pointer group relative">
                     <EllipsisOutlined key="ellipsis" className="text-[30px]" />
-                    <span className="px-3 py-1 bg-[#eceaea] rounded text-666 absolute right-2 bottom-[-20px] hidden group-hover:inline-block" onClick={() => deleteCard(item.id)}>删除</span>
+                    <span className="px-4 py-1 bg-[#eceaea] rounded text-666 absolute right-2 bottom-[-20px] hidden group-hover:inline-block" onClick={() => deleteCard(item.id)}>删除</span>
                 </div>
               </Card>
             )
