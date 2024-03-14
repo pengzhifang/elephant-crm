@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from "react";
 import BaseTitle from "@components/common/BaseTitle";
-import { Button, Col, Empty, Form, Row, Select, Space, Table } from "antd";
+import { Button, Col, Empty, Form, message, Row, Select, Space, Table } from "antd";
 import { PlusOutlined } from '@ant-design/icons';
 import { searchFormLayout } from "@utils/config";
 import { ColumnType } from "antd/es/table";
 import { getViewPortHeight } from "@utils/index";
-import { areaListApi, cityListApi, streetListApi, streetPriceListApi, treatmentPlantListApi } from "@service/config";
+import { areaListApi, cityListApi, publishStreetPriceApi, streetListApi, streetPriceListApi, treatmentPlantListApi } from "@service/config";
 import AddPriceModal from "./AddPriceModal";
+import { Local } from "@service/storage";
 
 const statusOptions = [
   { label: '全部', value: '' },
@@ -35,11 +36,11 @@ const StreetPrice: React.FC = () => {
       }
     },
     {
-      title: '操作', dataIndex: 'operate', fixed: 'right', width: 250,
+      title: '操作', dataIndex: 'operate', fixed: 'right', width: 150,
       render: (text, record) => {
         return (<Space size="middle">
           <Button type='link' style={{ padding: 0 }} onClick={() => setPriceModalInfo({ visible: true, type: 2, item: record })}>编辑</Button>
-          <Button type='link' style={{ padding: 0 }}>下线</Button>
+          <Button type='link' style={{ padding: 0 }} onClick={() => changeStatus(record)}>{record.status === 1 ? '下线' : '开通'}</Button>
         </Space>)
       }
     },
@@ -131,6 +132,19 @@ const StreetPrice: React.FC = () => {
         x.value = x.id;
       })
       setTreatmentPlantList(data.list);
+    }
+  }
+
+  // 开通/下线
+  const changeStatus = async (item: any) => {
+    const { result } = await publishStreetPriceApi({ 
+      id: item.id, 
+      status: item.status === 1 ? 0 : 1,
+      operator: Local.get('_name')
+    });
+    if (result) {
+      message.success('操作成功');
+      getList({ current: pageInfo.current, pageSize: 20 });
     }
   }
 

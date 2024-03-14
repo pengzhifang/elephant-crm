@@ -135,13 +135,15 @@ const AddPriceModal: React.FC<Iprops> = ({ visible, onCancel, item, type }) => {
     const formValues = form.getFieldsValue(true);
     const { cityCode, areaCode, townCode, wasteManagementId, price1, price2 } = formValues;
     const { result } = await updateStreetPriceApi({
+      ...formValues,
       id: item.id,
       cityName: cityList.find(x => x.city == cityCode).name,
       areaName: areaList.find(x => x.area == areaCode).name,
       townName: streetList.find(x => x.town == townCode).name,
       wasteManagementName: treatmentPlantList.find(x => x.id == wasteManagementId).name,
       price: price1 + ',' + price2,
-      ...formValues,
+      creator: Local.get('_name'),
+      operator: Local.get('_name')
     });
     if (result) {
       message.success('编辑成功');
