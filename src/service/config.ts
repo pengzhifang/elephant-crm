@@ -73,6 +73,50 @@ export const publishStreetPriceApi = (data): Promise<any> => {
 }
 
 /**
+ * 配置管理-处理厂配置-列表
+ * @param data 
+ * @returns 
+ */
+export const treatmentPlantListApi = (data): Promise<any> => {
+  return axiosPost(`/user-api/waste/v1/page-list`, data);
+}
+
+/**
+ * 配置管理-处理厂配置-新建
+ * @param data 
+ * @returns 
+ */
+export const addTreatmentPlantApi = (data): Promise<any> => {
+  return axiosPost(`/user-api/waste/v1/insert`, data,);
+}
+
+/**
+ * 配置管理-处理厂配置-修改
+ * @param data 
+ * @returns 
+ */
+export const updateTreatmentPlantApi = (data): Promise<any> => {
+  return axiosPost(`/user-api/waste/v1/update`, data,);
+}
+
+/**
+ * 配置管理-处理厂配置-删除
+ * @param data 
+ * @returns 
+ */
+export const deleteTreatmentPlantApi = (data): Promise<any> => {
+  return axiosPost(`/user-api/waste/v1/delete`, data,);
+}
+
+/* 配置管理-处理厂配置-开通/下线
+* @param data 
+* @returns 
+*/
+export const publishTreatmentPlantApi = (data): Promise<any> => {
+ return axiosPost(`/user-api/waste/v1/publish`, data,);
+}
+
+/**
  * 获取中国所有省市区
  * @param data 
  * @returns 

@@ -1,5 +1,6 @@
-import { areaListApi, cityListApi, streetListApi } from "@service/config";
-import { Col, Form, Input, InputNumber, Modal, Row, Select } from "antd";
+import { addTreatmentPlantApi, areaListApi, cityListApi, streetListApi } from "@service/config";
+import { Local } from "@service/storage";
+import { Col, Form, Input, InputNumber, message, Modal, Row, Select } from "antd";
 import React, { useEffect, useState } from "react";
 
 interface Iprops {
@@ -9,7 +10,7 @@ interface Iprops {
   type: number
 }
 
-const AddPriceModal: React.FC<Iprops> = ({ visible, onCancel, item, type }) => {
+const AddTreatmentPlant: React.FC<Iprops> = ({ visible, onCancel, item, type }) => {
   const [form] = Form.useForm();
   const [cityList, setCityList] = useState([]);
   const [areaList, setAreaList] = useState([]);
@@ -65,12 +66,19 @@ const AddPriceModal: React.FC<Iprops> = ({ visible, onCancel, item, type }) => {
   }
 
   const onSubmit = () => {
-    form.validateFields().then(() => {
-      // if (type === 1) {
-      //   addUser();
-      // } else {
-      //   updateUser();
-      // }
+    form.validateFields().then(async () => {
+      const formValues = form.getFieldsValue(true);
+      const { cityCode, areaCode, townCode } = formValues;
+      const { result } = await addTreatmentPlantApi({ ...formValues, 
+        cityName: cityList.find(x => x.city == cityCode).name,
+        areaName: areaList.find(x => x.area == areaCode).name,
+        townName: streetList.find(x => x.town == townCode).name,
+        creator: Local.get('_name') 
+      });
+      if (result) {
+          message.success('操作成功');
+          onCancel(true);
+      }
     })
   }
 
@@ -85,6 +93,15 @@ const AddPriceModal: React.FC<Iprops> = ({ visible, onCancel, item, type }) => {
   return (
     <Modal wrapClassName='edit-staff-modal' open={visible} title={`${type === 1 ? '新建' : '编辑'}街道价格配置`} width={800} onOk={onSubmit} onCancel={() => onCancel(false)}>
       <Form form={form} layout="vertical">
+        <Row gutter={24}>
+          <Col span={24}>
+            <Form.Item label="处理厂名称" name="name" rules={[
+              { required: true, message: '请输入处理厂名称', whitespace: true }
+            ]}>
+              <Input placeholder="请输入" />
+            </Form.Item>
+          </Col>
+        </Row>
         <Row gutter={24}>
           <Col span={8}>
             <Form.Item label="城市" name="cityCode" rules={[
@@ -121,36 +138,52 @@ const AddPriceModal: React.FC<Iprops> = ({ visible, onCancel, item, type }) => {
         </Row>
         <Row gutter={24}>
           <Col span={16}>
-            <Form.Item label="处理厂" name="wasteManagementId" rules={[
-              { required: true, message: '请选择处理厂', whitespace: true }
+            <Form.Item label="处理厂详细地址" name="address" rules={[
+              { required: true, message: '请输入处理厂详细地址', whitespace: true }
             ]}>
-              <Select
-                options={[{ label: '全部', value: '' }]}
-                placeholder="请选择"
-              />
+              <Input placeholder="请输入" />
             </Form.Item>
           </Col>
         </Row>
         <Row gutter={24}>
-          <Col span={10}>
-            <Form.Item label="运距" name="distance"
+          <Col span={8}>
+            <Form.Item label="负责人" name="chargePersonName"
               rules={[
-                { required: true, message: '运距不能为空', whitespace: true }
+                { required: true, message: '请输入负责人名称', whitespace: true }
               ]}
             >
-              <InputNumber className="w-full" min={0} addonAfter="KM" placeholder="请输入" />
+              <Input placeholder="请输入" />
             </Form.Item>
           </Col>
-          <Col span={14}>
-            <Form.Item label="价格(每公里)" name="distance"
+          <Col span={8}>
+            <Form.Item label="负责人电话" name="chargePersonPhone"
               rules={[
-                { required: true, message: '运距不能为空', whitespace: true }
+                { required: true, message: '请输入负责人电话' },
+                { pattern: /^1[3|4|5|6|7|8|9][0-9]{9}$/, message: '手机号格式错误!' }
               ]}
             >
-              <div className="flex justify-between">
-                <InputNumber className="w-[48%]" min={0} prefix="小车" addonAfter="元" placeholder="请输入" />
-                <InputNumber className="w-[48%]" min={0} prefix="大车" addonAfter="元" placeholder="请输入" />
-              </div>
+              <InputNumber className="w-full" placeholder="请输入" />
+            </Form.Item>
+          </Col>
+        </Row>
+        <Row gutter={24}>
+          <Col span={8}>
+            <Form.Item label="联系人" name="contactPersonName"
+              rules={[
+                { required: true, message: '请输入联系人名称', whitespace: true }
+              ]}
+            >
+              <Input placeholder="请输入" />
+            </Form.Item>
+          </Col>
+          <Col span={8}>
+            <Form.Item label="联系人电话" name="contactPersonPhone"
+              rules={[
+                { required: true, message: '请输入联系人电话' },
+                { pattern: /^1[3|4|5|6|7|8|9][0-9]{9}$/, message: '手机号格式错误!' }
+              ]}
+            >
+              <InputNumber className="w-full" placeholder="请输入" />
             </Form.Item>
           </Col>
         </Row>
@@ -159,4 +192,4 @@ const AddPriceModal: React.FC<Iprops> = ({ visible, onCancel, item, type }) => {
   )
 }
 
-export default AddPriceModal;
+export default AddTreatmentPlant;

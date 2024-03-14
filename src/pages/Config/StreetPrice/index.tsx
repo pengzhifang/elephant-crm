@@ -40,7 +40,7 @@ const StreetPrice: React.FC = () => {
     },
   ]
   const [form] = Form.useForm();
-  const [dataList, setDataList] = useState();
+  const [dataList, setDataList] = useState([]);
   const [loading, setLoading] = useState(false);
   const [cityList, setCityList] = useState([]);
   const [areaList, setAreaList] = useState([]);
