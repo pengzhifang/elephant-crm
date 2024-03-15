@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import BaseTitle from "@components/common/BaseTitle";
 import { Button, Col, Empty, Form, Input, message, Row, Select, Space, Table } from "antd";
-import { PlusOutlined, ExclamationCircleOutlined } from '@ant-design/icons';
+import { PlusOutlined, ExclamationCircleOutlined, DownloadOutlined } from '@ant-design/icons';
 import { ColumnType } from "antd/es/table";
 import { getViewPortHeight } from "@utils/index";
 import { areaListApi, cityListApi, publishResidentialApi, residentialListApi, streetListApi } from "@service/config";
@@ -21,7 +21,7 @@ const VillageConfig: React.FC = () => {
     { title: '城市', dataIndex: 'cityName', width: 100 },
     { title: '区/县', dataIndex: 'areaName', width: 100 },
     { title: '街道', dataIndex: 'townName', width: 100 },
-    { title: '详细地址', dataIndex: 'address', width: 100 },
+    { title: '详细地址', dataIndex: 'address', width: 150 },
     {
       title: '开通状态', dataIndex: 'status', width: 100,
       render: (text) => {
@@ -29,6 +29,10 @@ const VillageConfig: React.FC = () => {
         return <span>{statusText}</span>;
       }
     },
+    { title: '创建人', dataIndex: 'creator', width: 100 },
+    { title: '创建时间', dataIndex: 'createTime', width: 150 },
+    { title: '最后操作人', dataIndex: 'operator', width: 150 },
+    { title: '最后操作时间', dataIndex: 'updateTime', width: 150 },
     {
       title: '操作', dataIndex: 'operate', fixed: 'right', width: 150,
       render: (text, record) => {
@@ -199,11 +203,6 @@ const VillageConfig: React.FC = () => {
               />
             </Form.Item>
           </Col>
-          <Col span={4}>
-            <Form.Item label=" " colon={false} className='text-right'>
-              <Button icon={<PlusOutlined />} type='primary' onClick={() => setAddModalInfo({ visible: true, type: 1, item: { status: 1 } })}>新建</Button>
-            </Form.Item>
-          </Col>
           <Col span={5}>
             <Form.Item label="区/县" name="areaCode">
               <Select
@@ -240,6 +239,13 @@ const VillageConfig: React.FC = () => {
         <SearchForm />
       </div>
       <div className='mx-4 p-4 bg-white'>
+        <div className="mb-4 flex justify-between">
+          <div>
+            <Button icon={<PlusOutlined />} type='primary' onClick={() => setAddModalInfo({ visible: true, type: 1, item: { status: 1 } })}>新建</Button>
+            <Button className="ml-4">批量导入</Button>
+          </div>
+          <Button icon={<DownloadOutlined />}>下载</Button>
+        </div>
         <Table
           columns={columns}
           dataSource={dataList}
