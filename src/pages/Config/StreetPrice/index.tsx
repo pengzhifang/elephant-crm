@@ -219,7 +219,7 @@ const StreetPrice: React.FC = () => {
           </Col>
           <Col span={4}>
             <Form.Item label=" " colon={false} className='text-right'>
-              <Button icon={<PlusOutlined />} type='primary' onClick={() => setPriceModalInfo({ visible: true, type: 1, item: { status: 1 } })}>新建</Button>
+              <Button icon={<PlusOutlined />} type='primary' onClick={() => setPriceModalInfo({ visible: true, type: 1, item: {} })}>新建</Button>
             </Form.Item>
           </Col>
           <Col span={5}>

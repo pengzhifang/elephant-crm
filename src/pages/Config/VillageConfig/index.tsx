@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from "react";
 import BaseTitle from "@components/common/BaseTitle";
 import { Button, Col, Empty, Form, Input, message, Row, Select, Space, Table } from "antd";
-import { PlusOutlined } from '@ant-design/icons';
-import { searchFormLayout } from "@utils/config";
+import { PlusOutlined, ExclamationCircleOutlined } from '@ant-design/icons';
 import { ColumnType } from "antd/es/table";
 import { getViewPortHeight } from "@utils/index";
-import { areaListApi, cityListApi, publishResidentialApi, publishStreetPriceApi, residentialListApi, streetListApi, streetPriceListApi, treatmentPlantListApi } from "@service/config";
+import { areaListApi, cityListApi, publishResidentialApi, residentialListApi, streetListApi } from "@service/config";
 import { Local } from "@service/storage";
+import AddVillageConfig from "./AddVillageConfig";
+import modal from "antd/es/modal";
 
 const statusOptions = [
   { label: '全部', value: '' },
@@ -32,7 +33,7 @@ const VillageConfig: React.FC = () => {
       title: '操作', dataIndex: 'operate', fixed: 'right', width: 150,
       render: (text, record) => {
         return (<Space size="middle">
-          <Button type='link' style={{ padding: 0 }} onClick={() => setPriceModalInfo({ visible: true, type: 2, item: record })}>编辑</Button>
+          <Button type='link' style={{ padding: 0 }} onClick={() => setAddModalInfo({ visible: true, type: 2, item: record })}>编辑</Button>
           <Button type='link' style={{ padding: 0 }} onClick={() => changeStatus(record)}>{record.status === 1 ? '下线' : '开通'}</Button>
         </Space>)
       }
@@ -46,7 +47,7 @@ const VillageConfig: React.FC = () => {
   const [streetList, setStreetList] = useState([]);
   const [pageInfo, setPageInfo] = useState({ current: 1, total: 1, pageSize: 20 });
   const initPage = { current: 1, total: 1, pageSize: 20 };
-  const [priceModalInfo, setPriceModalInfo] = useState({ visible: false, type: 1, item: {} });
+  const [addModalInfo, setAddModalInfo] = useState({ visible: false, type: 1, item: {} });
 
   useEffect(() => {
     getList(initPage);
@@ -111,17 +112,25 @@ const VillageConfig: React.FC = () => {
     }
   }
 
-  // 开通/下线
+  /** 开通/下线 */ 
   const changeStatus = async (item: any) => {
-    const { result } = await publishResidentialApi({ 
-      id: item.id, 
-      status: item.status === 1 ? 0 : 1,
-      operator: Local.get('_name')
+    modal.confirm({
+      title: `确认${ item.status === 0? '开通' : '下线'}该小区吗？`,
+      icon: <ExclamationCircleOutlined />,
+      okText: '确认',
+      cancelText: '取消',
+      onOk: async() => {
+        const { result } = await publishResidentialApi({ 
+          id: item.id, 
+          status: item.status === 1 ? 0 : 1,
+          operator: Local.get('_name')
+        });
+        if (result) {
+          message.success('操作成功');
+          getList({ current: pageInfo.current, pageSize: 20 });
+        }
+      }
     });
-    if (result) {
-      message.success('操作成功');
-      getList({ current: pageInfo.current, pageSize: 20 });
-    }
   }
 
   const onSearch = () => {
@@ -148,7 +157,7 @@ const VillageConfig: React.FC = () => {
 
   //关闭添加编辑弹框
   const onClosePriceModal = (refresh: boolean) => {
-    setPriceModalInfo({ visible: false, type: 1, item: {} });
+    setAddModalInfo({ visible: false, type: 1, item: {} });
     //关闭弹框是否刷新当前列表
     if (refresh) {
       getList({ current: pageInfo.current, pageSize: 20 });
@@ -192,7 +201,7 @@ const VillageConfig: React.FC = () => {
           </Col>
           <Col span={4}>
             <Form.Item label=" " colon={false} className='text-right'>
-              <Button icon={<PlusOutlined />} type='primary' onClick={() => setPriceModalInfo({ visible: true, type: 1, item: { status: 1 } })}>新建</Button>
+              <Button icon={<PlusOutlined />} type='primary' onClick={() => setAddModalInfo({ visible: true, type: 1, item: { status: 1 } })}>新建</Button>
             </Form.Item>
           </Col>
           <Col span={5}>
@@ -226,7 +235,7 @@ const VillageConfig: React.FC = () => {
 
   return (
     <div className="street-price">
-      <BaseTitle title="项目（小区）配置" />
+      <BaseTitle title="项目(小区)配置" />
       <div className='mx-4 my-2 px-4 pt-4 pb-[-8px] bg-white relative'>
         <SearchForm />
       </div>
@@ -243,10 +252,10 @@ const VillageConfig: React.FC = () => {
         />
       </div>
       {/** 新建配置 */}
-      {/* {priceModalInfo.visible && <AddPriceModal
+      {addModalInfo.visible && <AddVillageConfig
         onCancel={onClosePriceModal}
-        {...priceModalInfo}
-      />} */}
+        {...addModalInfo}
+      />}
     </div>
   )
 }

@@ -1,8 +1,7 @@
-import { addStreetPriceApi, areaListApi, cityListApi, streetListApi, treatmentPlantListApi, updateStreetPriceApi } from "@service/config";
+import { addResidentialApi, areaListApi, cityListApi, propertyListApi, streetListApi, updateResidentialApi } from "@service/config";
 import { Local } from "@service/storage";
-import { Col, Form, InputNumber, message, Modal, Row, Select } from "antd";
+import { Col, Form, Input, InputNumber, message, Modal, Row, Select } from "antd";
 import React, { useEffect, useState } from "react";
-import './index.scss';
 
 interface Iprops {
   visible: boolean,
@@ -11,16 +10,16 @@ interface Iprops {
   type: number
 }
 
-const AddPriceModal: React.FC<Iprops> = ({ visible, onCancel, item, type }) => {
+const AddVillageConfig: React.FC<Iprops> = ({ visible, onCancel, item, type }) => {
   const [form] = Form.useForm();
   const [cityList, setCityList] = useState([]);
   const [areaList, setAreaList] = useState([]);
   const [streetList, setStreetList] = useState([]);
-  const [treatmentPlantList, setTreatmentPlantList] = useState([]);
+  const [propertyList, setPropertyList] = useState([]);
 
   useEffect(() => {
     getCityList();
-    getTreatmentPlantList();
+    getPropertyList();
   }, [])
 
   useEffect(() => {
@@ -30,16 +29,17 @@ const AddPriceModal: React.FC<Iprops> = ({ visible, onCancel, item, type }) => {
   }, [item]);
 
   const initForm = () => {
-    const { cityCode, areaCode, townCode, wasteManagementId, distance, price } = item;
-    if(!cityCode) return;
+    const { name, cityCode, areaCode, townCode, propertyManagementId, address, contactPersonName, contactPersonPhone } = item;
+    if(!name) return;
     form.setFieldsValue({
+      name, 
       cityCode, 
       areaCode, 
       townCode, 
-      wasteManagementId, 
-      distance,
-      price1: price.split(',')[0],
-      price2: price.split(',')[1]
+      propertyManagementId, 
+      address, 
+      contactPersonName, 
+      contactPersonPhone
     })
   }
 
@@ -88,9 +88,9 @@ const AddPriceModal: React.FC<Iprops> = ({ visible, onCancel, item, type }) => {
     }
   }
 
-  /** 处理厂列表 */
-  const getTreatmentPlantList = async (): Promise<any> => {
-    const { result, data } = await treatmentPlantListApi({
+  /** 物业公司列表 */
+  const getPropertyList = async (): Promise<any> => {
+    const { result, data } = await propertyListApi({
       page: 1,
       size: 99
     });
@@ -99,7 +99,7 @@ const AddPriceModal: React.FC<Iprops> = ({ visible, onCancel, item, type }) => {
         x.label = x.name;
         x.value = x.id;
       })
-      setTreatmentPlantList(data.list);
+      setPropertyList(data.list);
     }
   }
 
@@ -116,14 +116,13 @@ const AddPriceModal: React.FC<Iprops> = ({ visible, onCancel, item, type }) => {
   //新增
   const addStreetPrice = async () => {
     const formValues = form.getFieldsValue(true);
-    const { cityCode, areaCode, townCode, wasteManagementId, price1, price2 } = formValues;
-    const { result } = await addStreetPriceApi({
+    const { cityCode, areaCode, townCode, propertyManagementId } = formValues;
+    const { result } = await addResidentialApi({
       ...formValues,
       cityName: cityList.find(x => x.city == cityCode).name,
       areaName: areaList.find(x => x.area == areaCode).name,
       townName: streetList.find(x => x.town == townCode).name,
-      wasteManagementName: treatmentPlantList.find(x => x.id == wasteManagementId).name,
-      price: price1 + ',' + price2,
+      propertyManagementName: propertyList.find(x => x.id == propertyManagementId).name,
       creator: Local.get('_name')
     });
     if (result) {
@@ -134,15 +133,14 @@ const AddPriceModal: React.FC<Iprops> = ({ visible, onCancel, item, type }) => {
   //编辑
   const updateStreetPrice = async () => {
     const formValues = form.getFieldsValue(true);
-    const { cityCode, areaCode, townCode, wasteManagementId, price1, price2 } = formValues;
-    const { result } = await updateStreetPriceApi({
+    const { cityCode, areaCode, townCode, propertyManagementId } = formValues;
+    const { result } = await updateResidentialApi({
       ...formValues,
       id: item.id,
       cityName: cityList.find(x => x.city == cityCode).name,
       areaName: areaList.find(x => x.area == areaCode).name,
       townName: streetList.find(x => x.town == townCode).name,
-      wasteManagementName: treatmentPlantList.find(x => x.id == wasteManagementId).name,
-      price: price1 + ',' + price2,
+      propertyManagementName: propertyList.find(x => x.id == propertyManagementId).name,
       operator: Local.get('_name')
     });
     if (result) {
@@ -163,8 +161,17 @@ const AddPriceModal: React.FC<Iprops> = ({ visible, onCancel, item, type }) => {
   }
 
   return (
-    <Modal wrapClassName='edit-staff-modal' open={visible} title={`${type === 1 ? '新建' : '编辑'}街道价格配置`} width={800} onOk={onSubmit} onCancel={() => onCancel(false)}>
+    <Modal wrapClassName='edit-staff-modal' open={visible} title={`${type === 1 ? '新建' : '编辑'}项目(小区)配置`} width={800} onOk={onSubmit} onCancel={() => onCancel(false)}>
       <Form form={form} layout="vertical">
+        <Row gutter={24}>
+          <Col span={24}>
+            <Form.Item label="项目(小区)名称" name="name" rules={[
+              { required: true, message: '请输入项目(小区)名称' }
+            ]}>
+              <Input placeholder="请输入" />
+            </Form.Item>
+          </Col>
+        </Row>
         <Row gutter={24}>
           <Col span={8}>
             <Form.Item label="城市" name="cityCode" rules={[
@@ -201,42 +208,43 @@ const AddPriceModal: React.FC<Iprops> = ({ visible, onCancel, item, type }) => {
         </Row>
         <Row gutter={24}>
           <Col span={16}>
-            <Form.Item label="处理厂" name="wasteManagementId" rules={[
-              { required: true, message: '请选择处理厂' }
+            <Form.Item label="物业公司" name="propertyManagementId" rules={[
+              { required: true, message: '请选择物业公司' }
             ]}>
               <Select
-                options={treatmentPlantList}
+                options={propertyList}
                 placeholder="请选择"
               />
             </Form.Item>
           </Col>
         </Row>
         <Row gutter={24}>
-          <Col span={10}>
-            <Form.Item label="运距" name="distance"
-              rules={[
-                { required: true, message: '请填写运距' }
-              ]}
-            >
-              <InputNumber className="w-full" min={0} addonAfter="KM" placeholder="请输入" />
+          <Col span={16}>
+            <Form.Item label="详细地址" name="address" rules={[
+              { required: true, message: '请输入详细地址', whitespace: true }
+            ]}>
+              <Input placeholder="请输入" />
             </Form.Item>
           </Col>
-          <Col span={7}>
-            <Form.Item label="价格(每公里)" name="price1"
+        </Row>
+        <Row gutter={24}>
+          <Col span={8}>
+            <Form.Item label="联系人" name="contactPersonName"
               rules={[
-                { required: true, message: '请填写价格' }
+                { required: true, message: '请输入联系人名称', whitespace: true }
               ]}
             >
-              <InputNumber min={0} prefix="小车" addonAfter="元" placeholder="请输入" />
+              <Input placeholder="请输入" />
             </Form.Item>
           </Col>
-          <Col span={7}>
-            <Form.Item label=" " name="price2" className="no-star"
+          <Col span={8}>
+            <Form.Item label="联系人电话" name="contactPersonPhone"
               rules={[
-                { required: true, message: '请填写价格' }
+                { required: true, message: '请输入联系人电话' },
+                { pattern: /^1[3|4|5|6|7|8|9][0-9]{9}$/, message: '手机号格式错误!' }
               ]}
             >
-              <InputNumber min={0} prefix="大车" addonAfter="元" placeholder="请输入" />
+              <InputNumber className="w-full" placeholder="请输入" />
             </Form.Item>
           </Col>
         </Row>
@@ -245,4 +253,4 @@ const AddPriceModal: React.FC<Iprops> = ({ visible, onCancel, item, type }) => {
   )
 }
 
-export default AddPriceModal;
+export default AddVillageConfig;
