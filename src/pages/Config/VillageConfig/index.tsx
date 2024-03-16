@@ -4,7 +4,7 @@ import { Button, Col, Empty, Form, Input, message, Row, Select, Space, Table } f
 import { PlusOutlined, ExclamationCircleOutlined, DownloadOutlined } from '@ant-design/icons';
 import { ColumnType } from "antd/es/table";
 import { getViewPortHeight } from "@utils/index";
-import { areaListApi, cityListApi, publishResidentialApi, residentialListApi, streetListApi } from "@service/config";
+import { areaListApi, cityListApi, exportResidentialApi, publishResidentialApi, residentialListApi, streetListApi } from "@service/config";
 import { Local } from "@service/storage";
 import AddVillageConfig from "./AddVillageConfig";
 import modal from "antd/es/modal";
@@ -46,6 +46,7 @@ const VillageConfig: React.FC = () => {
   const [form] = Form.useForm();
   const [dataList, setDataList] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [exportLoading, setExportLoading] = useState(false);
   const [cityList, setCityList] = useState([]);
   const [areaList, setAreaList] = useState([]);
   const [streetList, setStreetList] = useState([]);
@@ -159,13 +160,21 @@ const VillageConfig: React.FC = () => {
     getStreetList();
   }
 
-  //关闭添加编辑弹框
+  /** 关闭添加编辑弹框 */
   const onClosePriceModal = (refresh: boolean) => {
     setAddModalInfo({ visible: false, type: 1, item: {} });
     //关闭弹框是否刷新当前列表
     if (refresh) {
       getList({ current: pageInfo.current, pageSize: 20 });
     }
+  }
+
+  /** 下载列表 */
+  const exportConfig = async() => {
+    const formValues = form.getFieldsValue(true);
+    setExportLoading(true);
+    await exportResidentialApi({ ...formValues, page: pageInfo.current, size: pageInfo.pageSize });
+    setExportLoading(false);
   }
 
   const searchFormLayout = {
@@ -244,7 +253,7 @@ const VillageConfig: React.FC = () => {
             <Button icon={<PlusOutlined />} type='primary' onClick={() => setAddModalInfo({ visible: true, type: 1, item: { status: 1 } })}>新建</Button>
             <Button className="ml-4">批量导入</Button>
           </div>
-          <Button icon={<DownloadOutlined />}>下载</Button>
+          <Button icon={<DownloadOutlined />} loading={exportLoading} onClick={exportConfig}>下载</Button>
         </div>
         <Table
           columns={columns}

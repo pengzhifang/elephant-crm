@@ -1,5 +1,7 @@
 import { axiosGet, axiosPost } from "./axios";
 import axios from 'axios';
+import ENV from "./env";
+import { Local } from "./storage";
 
 /**
  * 配置管理-城市列表
@@ -69,7 +71,7 @@ export const deleteStreetPriceApi = (data): Promise<any> => {
 * @returns 
 */
 export const publishStreetPriceApi = (data): Promise<any> => {
- return axiosPost(`/user-api/town/v1/publish`, data,);
+  return axiosPost(`/user-api/town/v1/publish`, data,);
 }
 
 /**
@@ -113,7 +115,7 @@ export const deleteTreatmentPlantApi = (data): Promise<any> => {
 * @returns 
 */
 export const publishTreatmentPlantApi = (data): Promise<any> => {
- return axiosPost(`/user-api/waste/v1/publish`, data,);
+  return axiosPost(`/user-api/waste/v1/publish`, data,);
 }
 
 /**
@@ -153,11 +155,11 @@ export const deletePropertyApi = (data): Promise<any> => {
 }
 
 /* 配置管理-物业公司配置-开通/下线
-* @param data 
-* @returns 
-*/
+ * @param data 
+ * @returns 
+ */
 export const publishPropertyApi = (data): Promise<any> => {
- return axiosPost(`/user-api/property/v1/publish`, data,);
+  return axiosPost(`/user-api/property/v1/publish`, data,);
 }
 
 /**
@@ -197,11 +199,43 @@ export const deleteResidentialApi = (data): Promise<any> => {
 }
 
 /* 配置管理-项目（小区）配置-开通/下线
-* @param data 
-* @returns 
-*/
+ * @param data 
+ * @returns 
+ */
 export const publishResidentialApi = (data): Promise<any> => {
- return axiosPost(`/user-api/residential/v1/publish`, data,);
+  return axiosPost(`/user-api/residential/v1/publish`, data,);
+}
+
+/* 配置管理-项目（小区）配置-批量导入
+ * @param data 
+ * @returns 
+ */
+export const importResidentialApi = (data): Promise<any> => {
+  return axiosPost(`/user-api/residential/v1/imports`, data,);
+}
+
+/* 配置管理-项目（小区）配置-导出
+ * @param data 
+ * @returns 
+ */
+export const exportResidentialApi = (data): Promise<any> => {
+  return axios.post(`${ENV.PEANUT_API}/user-api/residential/v1/exports`, data, {
+    responseType: 'blob',
+    headers: {
+      'token': Local.get('_token'),
+      'service-name': 'elephant-crm',
+      'Content-Type': 'application/json;charset=UTF-8'
+    }
+  }).then(res => {
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(new Blob([res.data]));
+    a.style.display = 'none';
+    a.download = `项目(小区)配置表.xlsx`;
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+
+  })
 }
 
 /**
