@@ -8,6 +8,8 @@ import { areaListApi, cityListApi, exportResidentialApi, publishResidentialApi, 
 import { Local } from "@service/storage";
 import AddVillageConfig from "./AddVillageConfig";
 import modal from "antd/es/modal";
+import ImportVillageConfig from "./ImportVillage";
+import dayjs from "dayjs";
 
 const statusOptions = [
   { label: '全部', value: '' },
@@ -30,9 +32,19 @@ const VillageConfig: React.FC = () => {
       }
     },
     { title: '创建人', dataIndex: 'creator', width: 100 },
-    { title: '创建时间', dataIndex: 'createTime', width: 150 },
+    {
+      title: '创建时间', dataIndex: 'createTime', width: 200,
+      render: (text) => {
+        return text ? dayjs(text).format("YYYY-MM-DD HH:mm:ss") : '';
+      }
+    },
     { title: '最后操作人', dataIndex: 'operator', width: 150 },
-    { title: '最后操作时间', dataIndex: 'updateTime', width: 150 },
+    {
+      title: '最后操作时间', dataIndex: 'updateTime', width: 200,
+      render: (text) => {
+        return text ? dayjs(text).format("YYYY-MM-DD HH:mm:ss") : '';
+      }
+    },
     {
       title: '操作', dataIndex: 'operate', fixed: 'right', width: 150,
       render: (text, record) => {
@@ -53,6 +65,7 @@ const VillageConfig: React.FC = () => {
   const [pageInfo, setPageInfo] = useState({ current: 1, total: 1, pageSize: 20 });
   const initPage = { current: 1, total: 1, pageSize: 20 };
   const [addModalInfo, setAddModalInfo] = useState({ visible: false, type: 1, item: {} });
+  const [importVisible, setImportVisible] = useState(false); // 批量导入弹窗visible
 
   useEffect(() => {
     getList(initPage);
@@ -117,16 +130,16 @@ const VillageConfig: React.FC = () => {
     }
   }
 
-  /** 开通/下线 */ 
+  /** 开通/下线 */
   const changeStatus = async (item: any) => {
     modal.confirm({
-      title: `确认${ item.status === 0? '开通' : '下线'}该小区吗？`,
+      title: `确认${item.status === 0 ? '开通' : '下线'}该小区吗？`,
       icon: <ExclamationCircleOutlined />,
       okText: '确认',
       cancelText: '取消',
-      onOk: async() => {
-        const { result } = await publishResidentialApi({ 
-          id: item.id, 
+      onOk: async () => {
+        const { result } = await publishResidentialApi({
+          id: item.id,
           status: item.status === 1 ? 0 : 1,
           operator: Local.get('_name')
         });
@@ -170,7 +183,7 @@ const VillageConfig: React.FC = () => {
   }
 
   /** 下载列表 */
-  const exportConfig = async() => {
+  const exportConfig = async () => {
     const formValues = form.getFieldsValue(true);
     setExportLoading(true);
     await exportResidentialApi({ ...formValues, page: pageInfo.current, size: pageInfo.pageSize });
@@ -184,7 +197,7 @@ const VillageConfig: React.FC = () => {
     return (
       <Form form={form} {...searchFormLayout} >
         <Row gutter={24}>
-        
+
           <Col span={5}>
             <Form.Item label="公司名称" name="name">
               <Input placeholder="请输入" />
@@ -229,7 +242,7 @@ const VillageConfig: React.FC = () => {
               />
             </Form.Item>
           </Col>
-          
+
           <Col span={5}>
             <Form.Item label=" " colon={false}>
               <Button type='primary' onClick={onSearch}>查询</Button>
@@ -251,7 +264,7 @@ const VillageConfig: React.FC = () => {
         <div className="mb-4 flex justify-between">
           <div>
             <Button icon={<PlusOutlined />} type='primary' onClick={() => setAddModalInfo({ visible: true, type: 1, item: { status: 1 } })}>新建</Button>
-            <Button className="ml-4">批量导入</Button>
+            <Button className="ml-4" onClick={() => { setImportVisible(true) }}>批量导入</Button>
           </div>
           <Button icon={<DownloadOutlined />} loading={exportLoading} onClick={exportConfig}>下载</Button>
         </div>
@@ -271,6 +284,15 @@ const VillageConfig: React.FC = () => {
         onCancel={onClosePriceModal}
         {...addModalInfo}
       />}
+      {/* 批量导入 */}
+      <ImportVillageConfig
+        {...{
+          visible: importVisible,
+        }}
+        setModalVisible={(flag) => {
+          setImportVisible(false);
+          flag && getList(initPage);
+        }} />
     </div>
   )
 }
