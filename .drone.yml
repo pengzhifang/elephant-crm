@@ -1,0 +1,49 @@
+kind: pipeline
+name: elephant-crm
+
+steps:
+- name: restore-cache
+  image: drillster/drone-volume-cache
+  volumes:
+  - name: cache
+    path: /cache
+  settings:
+    restore: true
+    mount:
+      - ./node_modules
+
+- name: build
+  image: node:14.16.0
+  environment:
+    NODE_ENV: product
+  commands:
+    - npm config set registry https://registry.npmmirror.com
+    - npm install
+    - npm run build:test
+    - pwd
+    - ls -la
+
+- name: deploy
+  pull: if-not-exists
+  image: appleboy/drone-scp
+  settings:
+    host: 
+      from_secret: ssh_url
+    port: 22
+    username: 
+      from_secret: ssh_name
+    password: 
+      from_secret: ssh_pwd
+    target: /usr/share/nginx/test
+    source: www/*
+    strip_components: 1
+
+- name: rebuild-cache
+  image: drillster/drone-volume-cache
+  volumes:
+  - name: cache
+    path: /cache
+  settings:
+    rebuild: true
+    mount:
+      - ./node_modules
