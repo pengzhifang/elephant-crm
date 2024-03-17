@@ -39,7 +39,7 @@ const Login: React.FC = observer(() => {
   /** 飞书扫码登录 */
   const initFeishuLogin = () => {
     // 参考文档 https://open.feishu.cn/document/common-capabilities/sso/web-application-sso/qr-sdk-documentation
-    const gotoUrl = "https://passport.feishu.cn/suite/passport/oauth/authorize?client_id=cli_a569b831a93bd00c&redirect_uri=https://www.baidu.com&response_type=code&state=STATE";
+    const gotoUrl = "https://passport.feishu.cn/suite/passport/oauth/authorize?client_id=cli_a569b831a93bd00c&redirect_uri=http://www.t.daxiangqingyun.com/login&response_type=code&state=STATE";
     const QRLoginObj = (window as any).QRLogin({
       id: "qrcode_container",
       goto: gotoUrl,

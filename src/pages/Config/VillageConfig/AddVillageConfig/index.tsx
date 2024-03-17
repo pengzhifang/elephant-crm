@@ -1,7 +1,8 @@
-import { addResidentialApi, areaListApi, cityListApi, propertyListApi, streetListApi, updateResidentialApi } from "@service/config";
+import { addResidentialApi, areaListApi, cityListApi, propertyListApi, streetListApi, streetPriceListApi, updateResidentialApi } from "@service/config";
 import { Local } from "@service/storage";
-import { Col, Form, Input, InputNumber, message, Modal, Row, Select } from "antd";
+import { Button, Col, Form, Input, InputNumber, message, Modal, Row, Select } from "antd";
 import React, { useEffect, useState } from "react";
+import SelectStreetPrice from "./SelectStreetPrice";
 
 interface Iprops {
   visible: boolean,
@@ -12,20 +13,18 @@ interface Iprops {
 
 const AddVillageConfig: React.FC<Iprops> = ({ visible, onCancel, item, type }) => {
   const [form] = Form.useForm();
-  const [cityList, setCityList] = useState([]);
-  const [areaList, setAreaList] = useState([]);
-  const [streetList, setStreetList] = useState([]);
   const [propertyList, setPropertyList] = useState([]);
+  const [selectInfo, setSelectInfo] = useState({
+    visible: false,
+    selectedData: []
+  }); // 选择资源弹窗
 
   useEffect(() => {
-    getCityList();
     getPropertyList();
   }, [])
 
   useEffect(() => {
     initForm();
-    getAreaList();
-    getStreetList();
   }, [item]);
 
   const initForm = () => {
@@ -41,51 +40,6 @@ const AddVillageConfig: React.FC<Iprops> = ({ visible, onCancel, item, type }) =
       contactPersonName, 
       contactPersonPhone
     })
-  }
-
-  /** 获取所有城市 */
-  const getCityList = async (): Promise<any> => {
-    const { result, data } = await cityListApi();
-
-    if (result) {
-      data.map(x => {
-        x.label = x.name;
-        x.value = x.city;
-      })
-      setCityList(data);
-    }
-  }
-
-  /** 获取选定城市区/县 */
-  const getAreaList = async (): Promise<any> => {
-    const { cityCode } = form.getFieldsValue(true);
-    const { result, data } = await areaListApi({
-      cityCode
-    });
-    if (result) {
-      data.map(x => {
-        x.label = x.name;
-        x.value = x.area;
-      })
-      setAreaList(data);
-    }
-  }
-
-  /** 获取选定区/县对应街道 */
-  const getStreetList = async (): Promise<any> => {
-    const { cityCode, areaCode } = form.getFieldsValue(true);
-
-    const { result, data } = await streetListApi({
-      cityCode,
-      areaCode
-    });
-    if (result) {
-      data.map(x => {
-        x.label = x.name;
-        x.value = x.town;
-      })
-      setStreetList(data);
-    }
   }
 
   /** 物业公司列表 */
@@ -116,12 +70,16 @@ const AddVillageConfig: React.FC<Iprops> = ({ visible, onCancel, item, type }) =
   //新增
   const addStreetPrice = async () => {
     const formValues = form.getFieldsValue(true);
-    const { cityCode, areaCode, townCode, propertyManagementId } = formValues;
+    const { propertyManagementId } = formValues;
+    const { id, cityCode, cityName, areaCode, areaName, townName } = selectInfo.selectedData[0];
     const { result } = await addResidentialApi({
       ...formValues,
-      cityName: cityList.find(x => x.city == cityCode).name,
-      areaName: areaList.find(x => x.area == areaCode).name,
-      townName: streetList.find(x => x.town == townCode).name,
+      cityCode,
+      cityName,
+      areaCode,
+      areaName,
+      townName,
+      townManagementId: id,
       propertyManagementName: propertyList.find(x => x.id == propertyManagementId).name,
       creator: Local.get('_name')
     });
@@ -133,13 +91,16 @@ const AddVillageConfig: React.FC<Iprops> = ({ visible, onCancel, item, type }) =
   //编辑
   const updateStreetPrice = async () => {
     const formValues = form.getFieldsValue(true);
-    const { cityCode, areaCode, townCode, propertyManagementId } = formValues;
+    const { propertyManagementId } = formValues;
+    const { id, cityCode, cityName, areaCode, areaName, townName } = selectInfo.selectedData[0];
     const { result } = await updateResidentialApi({
       ...formValues,
       id: item.id,
-      cityName: cityList.find(x => x.city == cityCode).name,
-      areaName: areaList.find(x => x.area == areaCode).name,
-      townName: streetList.find(x => x.town == townCode).name,
+      cityCode,
+      cityName,
+      areaCode,
+      areaName,
+      townManagementId: id,
       propertyManagementName: propertyList.find(x => x.id == propertyManagementId).name,
       operator: Local.get('_name')
     });
@@ -149,22 +110,11 @@ const AddVillageConfig: React.FC<Iprops> = ({ visible, onCancel, item, type }) =
     }
   }
 
-  const handleCityChange = () => {
-    form.setFieldValue('areaCode', '');
-    form.setFieldValue('townCode', '');
-    getAreaList();
-  }
-
-  const handleAreaChange = () => {
-    form.setFieldValue('townCode', '');
-    getStreetList();
-  }
-
   return (
-    <Modal wrapClassName='edit-staff-modal' open={visible} title={`${type === 1 ? '新建' : '编辑'}项目(小区)配置`} width={800} onOk={onSubmit} onCancel={() => onCancel(false)}>
+    <Modal wrapClassName='edit-staff-modal' open={visible} title={`${type === 1 ? '新建' : '编辑'}项目(小区)配置`} width={600} onOk={onSubmit} onCancel={() => onCancel(false)}>
       <Form form={form} layout="vertical">
         <Row gutter={24}>
-          <Col span={24}>
+          <Col span={20}>
             <Form.Item label="项目(小区)名称" name="name" rules={[
               { required: true, message: '请输入项目(小区)名称' }
             ]}>
@@ -173,41 +123,21 @@ const AddVillageConfig: React.FC<Iprops> = ({ visible, onCancel, item, type }) =
           </Col>
         </Row>
         <Row gutter={24}>
-          <Col span={8}>
-            <Form.Item label="城市" name="cityCode" rules={[
-              { required: true, message: '请选择城市', whitespace: true }
+          <Col span={20}>
+            <Form.Item label="街道（仅支持选择已开通街道）" name="townCode" rules={[
+              { required: true, message: '请选择街道' }
             ]}>
-              <Select
-                options={cityList}
-                placeholder="请选择"
-                onChange={handleCityChange}
-              />
-            </Form.Item>
-          </Col>
-          <Col span={8}>
-            <Form.Item label="区/县" name="areaCode" rules={[
-              { required: true, message: '请选择区/县', whitespace: true }
-            ]}>
-              <Select
-                options={areaList}
-                placeholder="请选择"
-                onChange={handleAreaChange}
-              />
-            </Form.Item>
-          </Col>
-          <Col span={8}>
-            <Form.Item label="街道" name="townCode" rules={[
-              { required: true, message: '请选择街道', whitespace: true }
-            ]}>
-              <Select
-                options={streetList}
-                placeholder="请选择"
-              />
+              <div className="flex items-center">
+                <Button type='primary' onClick={() => { setSelectInfo({ ...selectInfo, visible: true }) }}>选择街道</Button>
+                { selectInfo.selectedData.length > 0 && 
+                  <div className="ml-5">{selectInfo.selectedData[0].cityName + selectInfo.selectedData[0].areaName + selectInfo.selectedData[0].townName}</div>
+                }
+              </div>
             </Form.Item>
           </Col>
         </Row>
         <Row gutter={24}>
-          <Col span={16}>
+          <Col span={20}>
             <Form.Item label="物业公司" name="propertyManagementId" rules={[
               { required: true, message: '请选择物业公司' }
             ]}>
@@ -219,7 +149,7 @@ const AddVillageConfig: React.FC<Iprops> = ({ visible, onCancel, item, type }) =
           </Col>
         </Row>
         <Row gutter={24}>
-          <Col span={16}>
+          <Col span={20}>
             <Form.Item label="详细地址" name="address" rules={[
               { required: true, message: '请输入详细地址', whitespace: true }
             ]}>
@@ -228,7 +158,7 @@ const AddVillageConfig: React.FC<Iprops> = ({ visible, onCancel, item, type }) =
           </Col>
         </Row>
         <Row gutter={24}>
-          <Col span={8}>
+          <Col span={10}>
             <Form.Item label="联系人" name="contactPersonName"
               rules={[
                 { required: true, message: '请输入联系人名称', whitespace: true }
@@ -237,7 +167,7 @@ const AddVillageConfig: React.FC<Iprops> = ({ visible, onCancel, item, type }) =
               <Input placeholder="请输入" />
             </Form.Item>
           </Col>
-          <Col span={8}>
+          <Col span={10}>
             <Form.Item label="联系人电话" name="contactPersonPhone"
               rules={[
                 { required: true, message: '请输入联系人电话' },
@@ -249,6 +179,16 @@ const AddVillageConfig: React.FC<Iprops> = ({ visible, onCancel, item, type }) =
           </Col>
         </Row>
       </Form>
+      {selectInfo.visible && <SelectStreetPrice 
+        visible={selectInfo.visible}
+        selectInfo={selectInfo}
+        setModalVisible={(flag, data?) => {
+          setSelectInfo({ ...selectInfo, visible: false });
+          if (!flag) return;
+          form.setFieldValue('townCode', data[0].townCode)
+          setSelectInfo({ visible: false,  selectedData: data });
+        }}
+      ></SelectStreetPrice>}
     </Modal>
   )
 }

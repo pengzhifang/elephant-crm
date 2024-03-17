@@ -23,7 +23,7 @@ const StreetPrice: React.FC = () => {
     { title: '处理厂', dataIndex: 'wasteManagementName', width: 100 },
     { title: '运距(km)', dataIndex: 'distance', width: 100 },
     {
-      title: '每车价格', dataIndex: 'price', width: 100,
+      title: '每车价格', dataIndex: 'price', width: 120,
       render: (text) => {
         return <span>¥{text.split(',')[0]} / ¥{text.split(',')[1]}</span>;
       }
