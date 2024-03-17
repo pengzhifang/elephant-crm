@@ -10,6 +10,7 @@ import AddVillageConfig from "./AddVillageConfig";
 import modal from "antd/es/modal";
 import ImportVillageConfig from "./ImportVillage";
 import dayjs from "dayjs";
+import classNames from "classnames";
 
 const statusOptions = [
   { label: '全部', value: '' },
@@ -28,7 +29,7 @@ const VillageConfig: React.FC = () => {
       title: '开通状态', dataIndex: 'status', width: 100,
       render: (text) => {
         const statusText = text === 1 ? '已开通' : '未开通';
-        return <span>{statusText}</span>;
+        return <span className={classNames({'published': text === 1})}>{statusText}</span>;
       }
     },
     { title: '创建人', dataIndex: 'creator', width: 100 },

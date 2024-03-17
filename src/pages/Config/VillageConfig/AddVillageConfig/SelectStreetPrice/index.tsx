@@ -1,6 +1,7 @@
 import { streetPriceListApi } from "@service/config";
 import { Button, Empty, Input, Modal, Table, message } from "antd";
 import { ColumnType } from "antd/es/table";
+import classNames from "classnames";
 import React, { useEffect, useState } from "react";
 
 interface Iprops {
@@ -26,7 +27,7 @@ const SelectStreetPrice: React.FC<Iprops> = ({ visible, selectInfo, setModalVisi
       title: '开通状态', dataIndex: 'status', width: 100,
       render: (text) => {
         const statusText = text === 1 ? '已开通' : '未开通';
-        return <span>{statusText}</span>;
+        return <span className={classNames({'published': text === 1})}>{statusText}</span>;
       }
     }
   ]
