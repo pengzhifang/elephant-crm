@@ -51,7 +51,7 @@ const Login: React.FC = observer(() => {
       goto: gotoUrl,
       width: "250",
       height: "250",
-      style: "width:250px;height:250px"//可选的，二维码html标签的style属性
+      style: "width:250px;height:250px; overflow: hidden;"//可选的，二维码html标签的style属性
     });
     const handleMessage = (event) => {
       // 使用 matchOrigin 和 matchData 方法来判断 message 和来自的页面 url 是否合法
