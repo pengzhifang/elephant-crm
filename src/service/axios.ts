@@ -80,8 +80,8 @@ axiosInstance.interceptors.request.use(
       config.headers['Content-Type'] = 'multipart/form-data';
     }
     if (config.url.includes('user-api')) {
-      // config.headers['token'] = Local.get('_token');
-      config.headers['token'] = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJhdWQiOiJjbGllbnQiLCJpc3MiOiJjb20ua2p4aCIsImFkbWludXNlcmFjY291bnQiOiJhZG1pbiIsImV4cCI6MTcxMjQ5MDQ3MiwiaWF0IjoxNzEwNTg5NjcyLCJ1c2VySWQiOiIxIiwia2V5IjoiZWxlcGhhbnQtY2xlYXItZGV2IiwiYWRtaW51c2VybmFtZSI6IumprOWkp-a1oiJ9.or2XS1uHUkF0yqwjpPF5UhktVjFlb5xcRTIyn59hMD-yFEnen9ji1fVJF3gvga5hyWvOKRaRnV9Z2mL78xjJ9w';
+      config.headers['token'] = Local.get('_token');
+      // config.headers['token'] = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJhdWQiOiJjbGllbnQiLCJpc3MiOiJjb20ua2p4aCIsImFkbWludXNlcmFjY291bnQiOiJhZG1pbiIsImV4cCI6MTcxMjQ5MDQ3MiwiaWF0IjoxNzEwNTg5NjcyLCJ1c2VySWQiOiIxIiwia2V5IjoiZWxlcGhhbnQtY2xlYXItZGV2IiwiYWRtaW51c2VybmFtZSI6IumprOWkp-a1oiJ9.or2XS1uHUkF0yqwjpPF5UhktVjFlb5xcRTIyn59hMD-yFEnen9ji1fVJF3gvga5hyWvOKRaRnV9Z2mL78xjJ9w';
     }
     return config;
   },
