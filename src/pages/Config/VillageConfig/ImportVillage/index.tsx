@@ -1,8 +1,8 @@
-import { Local } from "@service/storage";
 import { Button, Modal, Upload, message } from "antd";
 import React, { useState } from "react";
 import { UploadOutlined, LoadingOutlined } from '@ant-design/icons';
 import { importResidentialApi } from "@service/config";
+import { userAccount } from "@utils/index";
 
 interface Iprops {
   visible: boolean,
@@ -12,7 +12,7 @@ interface Iprops {
 const ImportVillageConfig: React.FC<Iprops> = ({ visible, setModalVisible }) => {
   const [fileList, setFileList] = useState<any>([]);
   const [uploading, setUploading] = useState(false);
-  const userName = Local.get('_name');
+  const userName = userAccount;
 
   const handleOk = async () => {
     if (fileList.length == 0) {

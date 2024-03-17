@@ -6,7 +6,7 @@ import AddTreatmentPlant from "./AddTreatmentPlant";
 import { deleteTreatmentPlantApi, treatmentPlantListApi } from "@service/config";
 import './index.scss';
 import modal from "antd/es/modal";
-import { Local } from "@service/storage";
+import { userAccount } from "@utils/index";
 
 const TreatmentPlant: React.FC = () => {
   const [addModalInfo, setAddModalInfo] = useState({ visible: false, type: 1, item: {} });
@@ -36,7 +36,7 @@ const TreatmentPlant: React.FC = () => {
       onOk: async() => {
         const { result, data } = await deleteTreatmentPlantApi({ 
           id,
-          operator: Local.get('_name')
+          operator: userAccount
          });
         if (result) {
           message.success('删除成功');

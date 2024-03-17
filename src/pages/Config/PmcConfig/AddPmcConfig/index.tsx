@@ -1,5 +1,5 @@
 import { addPropertyApi, cityListApi, updatePropertyApi } from "@service/config";
-import { Local } from "@service/storage";
+import { userAccount } from "@utils/index";
 import { Col, Form, Input, InputNumber, message, Modal, Row, Select } from "antd";
 import React, { useEffect, useState } from "react";
 
@@ -64,7 +64,7 @@ const AddPmcConfig: React.FC<Iprops> = ({ visible, onCancel, item, type }) => {
     const { result } = await addPropertyApi({
       ...formValues,
       cityName: cityList.find(x => x.city == cityCode).name,
-      creator: Local.get('_name')
+      creator: userAccount
     });
     if (result) {
       message.success('新建成功');
@@ -79,7 +79,7 @@ const AddPmcConfig: React.FC<Iprops> = ({ visible, onCancel, item, type }) => {
       ...formValues,
       id: item.id,
       cityName: cityList.find(x => x.city == cityCode).name,
-      operator: Local.get('_name')
+      operator: userAccount
     });
     if (result) {
       message.success('编辑成功');

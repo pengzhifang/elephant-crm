@@ -1,8 +1,8 @@
-import { addResidentialApi, areaListApi, cityListApi, propertyListApi, streetListApi, streetPriceListApi, updateResidentialApi } from "@service/config";
-import { Local } from "@service/storage";
+import { addResidentialApi, propertyListApi, updateResidentialApi } from "@service/config";
 import { Button, Col, Form, Input, InputNumber, message, Modal, Row, Select } from "antd";
 import React, { useEffect, useState } from "react";
 import SelectStreetPrice from "./SelectStreetPrice";
+import { userAccount } from "@utils/index";
 
 interface Iprops {
   visible: boolean,
@@ -81,7 +81,7 @@ const AddVillageConfig: React.FC<Iprops> = ({ visible, onCancel, item, type }) =
       townName,
       townManagementId: id,
       propertyManagementName: propertyList.find(x => x.id == propertyManagementId).name,
-      creator: Local.get('_name')
+      creator: userAccount
     });
     if (result) {
       message.success('新建成功');
@@ -102,7 +102,7 @@ const AddVillageConfig: React.FC<Iprops> = ({ visible, onCancel, item, type }) =
       areaName,
       townManagementId: id,
       propertyManagementName: propertyList.find(x => x.id == propertyManagementId).name,
-      operator: Local.get('_name')
+      operator: userAccount
     });
     if (result) {
       message.success('编辑成功');

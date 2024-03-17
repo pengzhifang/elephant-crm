@@ -1,3 +1,4 @@
+import { Local } from "@service/storage";
 import axios from "axios";
 
 /**
@@ -156,3 +157,6 @@ export const getVideoSize = (url)  => {
       console.log('Error:', error.message);
     });
 }
+
+    
+export const userAccount = Local.get('_userInfo')?.account;

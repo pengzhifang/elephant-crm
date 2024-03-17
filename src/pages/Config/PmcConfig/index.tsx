@@ -4,7 +4,7 @@ import { Button, Col, Empty, Form, Input, message, Row, Select, Space, Table } f
 import { PlusOutlined } from '@ant-design/icons';
 import { searchFormLayout } from "@utils/config";
 import { ColumnType } from "antd/es/table";
-import { getViewPortHeight } from "@utils/index";
+import { getViewPortHeight, userAccount } from "@utils/index";
 import { propertyListApi, publishPropertyApi } from "@service/config";
 import AddPmcConfig from "./AddPmcConfig";
 import { Local } from "@service/storage";
@@ -70,7 +70,7 @@ const PmcConfig: React.FC = () => {
     const { result } = await publishPropertyApi({ 
       id: item.id, 
       status: item.status === 1 ? 0 : 1,
-      operator: Local.get('_name')
+      operator: userAccount
     });
     if (result) {
       message.success('操作成功');

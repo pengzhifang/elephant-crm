@@ -4,11 +4,11 @@ import { Button, Col, Empty, Form, message, Row, Select, Space, Table } from "an
 import { PlusOutlined } from '@ant-design/icons';
 import { searchFormLayout } from "@utils/config";
 import { ColumnType } from "antd/es/table";
-import { getViewPortHeight } from "@utils/index";
+import { getViewPortHeight, userAccount } from "@utils/index";
 import { areaListApi, cityListApi, publishStreetPriceApi, streetListApi, streetPriceListApi, treatmentPlantListApi } from "@service/config";
 import AddPriceModal from "./AddPriceModal";
-import { Local } from "@service/storage";
 import classNames from "classnames";
+import { Local } from "@service/storage";
 
 const statusOptions = [
   { label: '全部', value: '' },
@@ -141,7 +141,7 @@ const StreetPrice: React.FC = () => {
     const { result } = await publishStreetPriceApi({ 
       id: item.id, 
       status: item.status === 1 ? 0 : 1,
-      operator: Local.get('_name')
+      operator: userAccount
     });
     if (result) {
       message.success('操作成功');

@@ -3,9 +3,8 @@ import { Modal, Form, Input, Upload, Select, message } from "antd";
 import { userStatusOptions } from "@utils/config";
 import { PlusOutlined, LoadingOutlined } from "@ant-design/icons";
 import { addUserApi, updateUserApi } from "@service/auth";
-import { uploadFile } from "@service/oss";
 import { uploadFileApi } from "@service/wordMangement";
-import { Local } from '@service/storage';
+import { userAccount } from "@utils/index";
 const formLayout = {
     labelCol: { span: 4 },
     wrapperCol: { span: 20 }
@@ -54,7 +53,7 @@ const AddStaffModal: React.FC<Iprops> = ({ visible, onCancel, item, type }) => {
     //新增
     const addUser = async () => {
         const formValues = form.getFieldsValue(true);
-        const { result } = await addUserApi({ ...formValues, headImg: imageUrl, creator: Local.get('_name') });
+        const { result } = await addUserApi({ ...formValues, headImg: imageUrl, creator: userAccount });
         if (result) {
             message.success('操作成功');
             onCancel(true);

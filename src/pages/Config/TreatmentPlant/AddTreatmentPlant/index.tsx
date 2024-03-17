@@ -1,5 +1,5 @@
 import { addTreatmentPlantApi, areaListApi, cityListApi, streetListApi } from "@service/config";
-import { Local } from "@service/storage";
+import { userAccount } from "@utils/index";
 import { Col, Form, Input, InputNumber, message, Modal, Row, Select } from "antd";
 import React, { useEffect, useState } from "react";
 
@@ -73,7 +73,7 @@ const AddTreatmentPlant: React.FC<Iprops> = ({ visible, onCancel, item, type }) 
         cityName: cityList.find(x => x.city == cityCode).name,
         areaName: areaList.find(x => x.area == areaCode).name,
         townName: streetList.find(x => x.town == townCode).name,
-        creator: Local.get('_name') 
+        creator: userAccount 
       });
       if (result) {
           message.success('操作成功');

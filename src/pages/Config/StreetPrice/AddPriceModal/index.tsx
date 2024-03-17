@@ -1,8 +1,8 @@
 import { addStreetPriceApi, areaListApi, cityListApi, streetListApi, treatmentPlantListApi, updateStreetPriceApi } from "@service/config";
-import { Local } from "@service/storage";
 import { Col, Form, InputNumber, message, Modal, Row, Select } from "antd";
 import React, { useEffect, useState } from "react";
 import './index.scss';
+import { userAccount } from "@utils/index";
 
 interface Iprops {
   visible: boolean,
@@ -19,6 +19,7 @@ const AddPriceModal: React.FC<Iprops> = ({ visible, onCancel, item, type }) => {
   const [treatmentPlantList, setTreatmentPlantList] = useState([]);
 
   useEffect(() => {
+    console.log(userAccount, 'userAccount')
     getCityList();
     getTreatmentPlantList();
   }, [])
@@ -124,7 +125,7 @@ const AddPriceModal: React.FC<Iprops> = ({ visible, onCancel, item, type }) => {
       townName: streetList.find(x => x.town == townCode).name,
       wasteManagementName: treatmentPlantList.find(x => x.id == wasteManagementId).name,
       price: price1 + ',' + price2,
-      creator: Local.get('_name')
+      creator: userAccount
     });
     if (result) {
       message.success('新建成功');
@@ -143,7 +144,7 @@ const AddPriceModal: React.FC<Iprops> = ({ visible, onCancel, item, type }) => {
       townName: streetList.find(x => x.town == townCode).name,
       wasteManagementName: treatmentPlantList.find(x => x.id == wasteManagementId).name,
       price: price1 + ',' + price2,
-      operator: Local.get('_name')
+      operator: userAccount
     });
     if (result) {
       message.success('编辑成功');
