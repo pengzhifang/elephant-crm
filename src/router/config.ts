@@ -1,3 +1,6 @@
+import OrderList from '@pages/Order/OrderList';
+import RefundList from '@pages/Order/RefundList';
+import RefundManagement from '@pages/Order/RefundManagement';
 import { lazy } from 'react';
 const NoAuthPage = lazy(() => import('@pages/NoAuthPage'));
 const Home = lazy(() => import('@pages/Home'));
@@ -119,6 +122,31 @@ const routers: IRoute[] = [
         name: '项目(小区)配置',
         exact: true,
         component: VillageConfig
+      }
+    ]
+  },
+  {
+    path: '/order',
+    name: '订单管理',
+    exact: false,
+    children: [
+      {
+        path: '/order/order-list',
+        name: '订单列表',
+        exact: true,
+        component: OrderList
+      },
+      {
+        path: '/order/refund-management',
+        name: '退费管理',
+        exact: true,
+        component: RefundManagement
+      },
+      {
+        path: '/order/refund-list',
+        name: '退费列表',
+        exact: true,
+        component: RefundList
       }
     ]
   },
