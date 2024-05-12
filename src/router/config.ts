@@ -1,7 +1,3 @@
-import OrderList from '@pages/Order/OrderList';
-import OrderDetail from '@pages/Order/OrderList/OrderDetail';
-import RefundList from '@pages/Order/RefundList';
-import RefundManagement from '@pages/Order/RefundManagement';
 import { lazy } from 'react';
 const NoAuthPage = lazy(() => import('@pages/NoAuthPage'));
 const Home = lazy(() => import('@pages/Home'));
@@ -14,6 +10,9 @@ const StreetPrice = lazy(() => import('@pages/Config/StreetPrice'));
 const TreatmentPlant = lazy(() => import('@pages/Config/TreatmentPlant'));
 const PmcConfig = lazy(()=> import('@pages/Config/PmcConfig'));
 const VillageConfig = lazy(()=> import('@pages/Config/VillageConfig'));
+const OrderList = lazy(()=> import('@pages/Order/OrderList'));
+const OrderDetail = lazy(()=> import('@pages/Order/OrderList/OrderDetail'));
+const RefundList = lazy(()=> import('@pages/Order/RefundList'));
 
 export interface IRouteBase {
   // 路由路径
@@ -142,12 +141,6 @@ const routers: IRoute[] = [
         name: '订单详情',
         exact: true,
         component: OrderDetail
-      },
-      {
-        path: '/order/refund-management',
-        name: '退费管理',
-        exact: true,
-        component: RefundManagement
       },
       {
         path: '/order/refund-list',
