@@ -1,0 +1,22 @@
+.order-detail {
+  .ant-card {
+    width: 100%;
+    padding: 12px !important;
+     
+    .ant-card-body {
+      padding: 0;
+    }
+  }
+  .ant-row {
+    margin: 12px 0 !important;
+  }
+  .ant-col {
+    display: flex;
+    align-items: center;
+  }
+  .title-label {
+    width: 100px;
+    font-weight: 500;
+    font-size: 14px;
+  }
+}

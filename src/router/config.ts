@@ -1,4 +1,5 @@
 import OrderList from '@pages/Order/OrderList';
+import OrderDetail from '@pages/Order/OrderList/OrderDetail';
 import RefundList from '@pages/Order/RefundList';
 import RefundManagement from '@pages/Order/RefundManagement';
 import { lazy } from 'react';
@@ -135,6 +136,12 @@ const routers: IRoute[] = [
         name: '订单列表',
         exact: true,
         component: OrderList
+      },
+      {
+        path: '/order/detail',
+        name: '订单详情',
+        exact: true,
+        component: OrderDetail
       },
       {
         path: '/order/refund-management',
