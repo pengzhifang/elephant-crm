@@ -9,7 +9,7 @@ import { Local } from "./storage";
  * @returns 
  */
 export const cityListApi = (): Promise<any> => {
-  return axiosGet(`/user-api/common/v1/city`);
+  return axiosGet(`/crm-api/common/v1/city`);
 }
 
 /**
@@ -18,7 +18,7 @@ export const cityListApi = (): Promise<any> => {
  * @returns 
  */
 export const areaListApi = (data): Promise<any> => {
-  return axiosGet(`/user-api/common/v1/area`, data);
+  return axiosGet(`/crm-api/common/v1/area`, data);
 }
 
 /**
@@ -27,7 +27,7 @@ export const areaListApi = (data): Promise<any> => {
  * @returns 
  */
 export const streetListApi = (data): Promise<any> => {
-  return axiosGet(`/user-api/common/v1/town`, data);
+  return axiosGet(`/crm-api/common/v1/town`, data);
 }
 
 /**
@@ -36,7 +36,7 @@ export const streetListApi = (data): Promise<any> => {
  * @returns 
  */
 export const streetPriceListApi = (data): Promise<any> => {
-  return axiosPost(`/user-api/town/v1/page-list`, data);
+  return axiosPost(`/crm-api/town/v1/page-list`, data);
 }
 
 /**
@@ -45,7 +45,7 @@ export const streetPriceListApi = (data): Promise<any> => {
  * @returns 
  */
 export const addStreetPriceApi = (data): Promise<any> => {
-  return axiosPost(`/user-api/town/v1/insert`, data,);
+  return axiosPost(`/crm-api/town/v1/insert`, data,);
 }
 
 /**
@@ -54,7 +54,7 @@ export const addStreetPriceApi = (data): Promise<any> => {
  * @returns 
  */
 export const updateStreetPriceApi = (data): Promise<any> => {
-  return axiosPost(`/user-api/town/v1/update`, data,);
+  return axiosPost(`/crm-api/town/v1/update`, data,);
 }
 
 /**
@@ -63,7 +63,7 @@ export const updateStreetPriceApi = (data): Promise<any> => {
  * @returns 
  */
 export const deleteStreetPriceApi = (data): Promise<any> => {
-  return axiosPost(`/user-api/town/v1/delete`, data,);
+  return axiosPost(`/crm-api/town/v1/delete`, data,);
 }
 
 /* 配置管理-街道价格配置-开通/下线
@@ -71,7 +71,7 @@ export const deleteStreetPriceApi = (data): Promise<any> => {
 * @returns 
 */
 export const publishStreetPriceApi = (data): Promise<any> => {
-  return axiosPost(`/user-api/town/v1/publish`, data,);
+  return axiosPost(`/crm-api/town/v1/publish`, data,);
 }
 
 /**
@@ -80,7 +80,7 @@ export const publishStreetPriceApi = (data): Promise<any> => {
  * @returns 
  */
 export const treatmentPlantListApi = (data): Promise<any> => {
-  return axiosPost(`/user-api/waste/v1/page-list`, data);
+  return axiosPost(`/crm-api/waste/v1/page-list`, data);
 }
 
 /**
@@ -89,7 +89,7 @@ export const treatmentPlantListApi = (data): Promise<any> => {
  * @returns 
  */
 export const addTreatmentPlantApi = (data): Promise<any> => {
-  return axiosPost(`/user-api/waste/v1/insert`, data,);
+  return axiosPost(`/crm-api/waste/v1/insert`, data,);
 }
 
 /**
@@ -98,7 +98,7 @@ export const addTreatmentPlantApi = (data): Promise<any> => {
  * @returns 
  */
 export const updateTreatmentPlantApi = (data): Promise<any> => {
-  return axiosPost(`/user-api/waste/v1/update`, data,);
+  return axiosPost(`/crm-api/waste/v1/update`, data,);
 }
 
 /**
@@ -107,7 +107,7 @@ export const updateTreatmentPlantApi = (data): Promise<any> => {
  * @returns 
  */
 export const deleteTreatmentPlantApi = (data): Promise<any> => {
-  return axiosPost(`/user-api/waste/v1/delete`, data,);
+  return axiosPost(`/crm-api/waste/v1/delete`, data,);
 }
 
 /* 配置管理-处理厂配置-开通/下线
@@ -115,7 +115,7 @@ export const deleteTreatmentPlantApi = (data): Promise<any> => {
 * @returns 
 */
 export const publishTreatmentPlantApi = (data): Promise<any> => {
-  return axiosPost(`/user-api/waste/v1/publish`, data,);
+  return axiosPost(`/crm-api/waste/v1/publish`, data,);
 }
 
 /**
@@ -124,7 +124,7 @@ export const publishTreatmentPlantApi = (data): Promise<any> => {
  * @returns 
  */
 export const propertyListApi = (data): Promise<any> => {
-  return axiosPost(`/user-api/property/v1/page-list`, data);
+  return axiosPost(`/crm-api/property/v1/page-list`, data);
 }
 
 /**
@@ -133,7 +133,7 @@ export const propertyListApi = (data): Promise<any> => {
  * @returns 
  */
 export const addPropertyApi = (data): Promise<any> => {
-  return axiosPost(`/user-api/property/v1/insert`, data,);
+  return axiosPost(`/crm-api/property/v1/insert`, data,);
 }
 
 /**
@@ -142,7 +142,7 @@ export const addPropertyApi = (data): Promise<any> => {
  * @returns 
  */
 export const updatePropertyApi = (data): Promise<any> => {
-  return axiosPost(`/user-api/property/v1/update`, data,);
+  return axiosPost(`/crm-api/property/v1/update`, data,);
 }
 
 /**
@@ -151,7 +151,7 @@ export const updatePropertyApi = (data): Promise<any> => {
  * @returns 
  */
 export const deletePropertyApi = (data): Promise<any> => {
-  return axiosPost(`/user-api/property/v1/delete`, data,);
+  return axiosPost(`/crm-api/property/v1/delete`, data,);
 }
 
 /* 配置管理-物业公司配置-开通/下线
@@ -159,7 +159,7 @@ export const deletePropertyApi = (data): Promise<any> => {
  * @returns 
  */
 export const publishPropertyApi = (data): Promise<any> => {
-  return axiosPost(`/user-api/property/v1/publish`, data,);
+  return axiosPost(`/crm-api/property/v1/publish`, data,);
 }
 
 /**
@@ -168,7 +168,7 @@ export const publishPropertyApi = (data): Promise<any> => {
  * @returns 
  */
 export const residentialListApi = (data): Promise<any> => {
-  return axiosPost(`/user-api/residential/v1/page-list`, data);
+  return axiosPost(`/crm-api/residential/v1/page-list`, data);
 }
 
 /**
@@ -177,7 +177,7 @@ export const residentialListApi = (data): Promise<any> => {
  * @returns 
  */
 export const addResidentialApi = (data): Promise<any> => {
-  return axiosPost(`/user-api/residential/v1/insert`, data,);
+  return axiosPost(`/crm-api/residential/v1/insert`, data,);
 }
 
 /**
@@ -186,7 +186,7 @@ export const addResidentialApi = (data): Promise<any> => {
  * @returns 
  */
 export const updateResidentialApi = (data): Promise<any> => {
-  return axiosPost(`/user-api/residential/v1/update`, data,);
+  return axiosPost(`/crm-api/residential/v1/update`, data,);
 }
 
 /**
@@ -195,7 +195,7 @@ export const updateResidentialApi = (data): Promise<any> => {
  * @returns 
  */
 export const deleteResidentialApi = (data): Promise<any> => {
-  return axiosPost(`/user-api/residential/v1/delete`, data,);
+  return axiosPost(`/crm-api/residential/v1/delete`, data,);
 }
 
 /* 配置管理-项目（小区）配置-开通/下线
@@ -203,7 +203,7 @@ export const deleteResidentialApi = (data): Promise<any> => {
  * @returns 
  */
 export const publishResidentialApi = (data): Promise<any> => {
-  return axiosPost(`/user-api/residential/v1/publish`, data,);
+  return axiosPost(`/crm-api/residential/v1/publish`, data,);
 }
 
 /* 配置管理-项目（小区）配置-批量导入
@@ -211,7 +211,7 @@ export const publishResidentialApi = (data): Promise<any> => {
  * @returns 
  */
 export const importResidentialApi = (data): Promise<any> => {
-  return axiosPost(`/user-api/residential/v1/imports`, data,);
+  return axiosPost(`/crm-api/residential/v1/imports`, data,);
 }
 
 /* 配置管理-项目（小区）配置-导出
@@ -219,7 +219,7 @@ export const importResidentialApi = (data): Promise<any> => {
  * @returns 
  */
 export const exportResidentialApi = (data): Promise<any> => {
-  return axios.post(`${ENV.PEANUT_API}/user-api/residential/v1/exports`, data, {
+  return axios.post(`${ENV.PEANUT_API}/crm-api/residential/v1/exports`, data, {
     responseType: 'blob',
     headers: {
       'token': Local.get('_token'),

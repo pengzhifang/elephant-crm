@@ -8,5 +8,5 @@ import ENV from "./env";
  * @returns 
  */
 export const orderListApi = (data): Promise<any> => {
-  return axiosGet(`/user-api/order/v1/page-list`, data);
+  return axiosGet(`/crm-api/order/v1/page-list`, data);
 }

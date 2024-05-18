@@ -7,7 +7,7 @@ import { axiosGet, axiosPost } from "./axios";
  * @link http://wiki.blingabc.com/pages/viewpage.action?pageId=2340052
  */
 export const videoListApi = (data?: any): Promise<any> => {
-    return axiosGet('/bms/user-api/video/v1/page-list', data);
+    return axiosGet('/bms/crm-api/video/v1/page-list', data);
 }
 
 /**
@@ -15,7 +15,7 @@ export const videoListApi = (data?: any): Promise<any> => {
  * @link http://wiki.blingabc.com/pages/viewpage.action?pageId=2340060
  */
 export const deleteVideoApi = (data?: any): Promise<any> => {
-    return axiosPost('/bms/user-api/video/v1/delete', data);
+    return axiosPost('/bms/crm-api/video/v1/delete', data);
 }
 
 /**
@@ -23,14 +23,14 @@ export const deleteVideoApi = (data?: any): Promise<any> => {
  * @link http://wiki.blingabc.com/pages/viewpage.action?pageId=2340064
  */
 export const publishVideoApi = (data?: any): Promise<any> => {
-    return axiosPost('/bms/user-api/video/v1/publish', data);
+    return axiosPost('/bms/crm-api/video/v1/publish', data);
 }
 /**
  * 视频管理-新增
  * @link http://wiki.blingabc.com/pages/viewpage.action?pageId=2340056
  */
 export const addVideoApi = (data?: any): Promise<any> => {
-    return axiosPost('/bms/user-api/video/v1/insert', data);
+    return axiosPost('/bms/crm-api/video/v1/insert', data);
 }
 
 /**
@@ -45,7 +45,7 @@ export const uploadVideoApi = (data?: any): Promise<any> => {
  * @link http://wiki.blingabc.com/pages/viewpage.action?pageId=2340074
  */
 export const updateVideoApi = (data?: any): Promise<any> => {
-    return axiosPost('/bms/user-api/video/v1/update', data);
+    return axiosPost('/bms/crm-api/video/v1/update', data);
 }
 
 /**
@@ -53,7 +53,7 @@ export const updateVideoApi = (data?: any): Promise<any> => {
  * @link http://wiki.blingabc.com/pages/viewpage.action?pageId=2340070
  */
 export const importVideoApi = (data?: any): Promise<any> => {
-    return axiosPost('/bms/user-api/video/v1/import', data);
+    return axiosPost('/bms/crm-api/video/v1/import', data);
 }
 
 /**
@@ -61,14 +61,14 @@ export const importVideoApi = (data?: any): Promise<any> => {
  * @link http://wiki.blingabc.com/pages/viewpage.action?pageId=2340068
  */
 export const importSaveVideoApi = (data?: any): Promise<any> => {
-    return axiosGet('/bms/user-api/video/v1/import-save', data);
+    return axiosGet('/bms/crm-api/video/v1/import-save', data);
 }
 /**
  * 课时管理-列表
  * @link http://wiki.blingabc.com/pages/viewpage.action?pageId=2340097
  */
 export const lessonListApi = (data?: any): Promise<any> => {
-    return axiosPost('/bms/user-api/lesson/v1/page', data);
+    return axiosPost('/bms/crm-api/lesson/v1/page', data);
 }
 
 /**
@@ -76,7 +76,7 @@ export const lessonListApi = (data?: any): Promise<any> => {
  * @link http://wiki.blingabc.com/pages/viewpage.action?pageId=2340086
  */
 export const addLessonApi = (data?: any): Promise<any> => {
-    return axiosPost('/bms/user-api/lesson/v1/save', data);
+    return axiosPost('/bms/crm-api/lesson/v1/save', data);
 }
 
 /**
@@ -84,7 +84,7 @@ export const addLessonApi = (data?: any): Promise<any> => {
  * @link http://wiki.blingabc.com/pages/viewpage.action?pageId=2340091
  */
 export const updateLessonApi = (data?: any): Promise<any> => {
-    return axiosPost('/bms/user-api/lesson/v1/update', data);
+    return axiosPost('/bms/crm-api/lesson/v1/update', data);
 }
 
 /**
@@ -92,7 +92,7 @@ export const updateLessonApi = (data?: any): Promise<any> => {
  * @link http://wiki.blingabc.com/pages/viewpage.action?pageId=2340093
  */
 export const deleteLessonApi = (data?: any): Promise<any> => {
-    return axiosPost('/bms/user-api/lesson/v1/delete', data);
+    return axiosPost('/bms/crm-api/lesson/v1/delete', data);
 }
 
 /**
@@ -100,7 +100,7 @@ export const deleteLessonApi = (data?: any): Promise<any> => {
  * @link http://wiki.blingabc.com/pages/viewpage.action?pageId=2340095
  */
 export const publishLessonApi = (data?: any): Promise<any> => {
-    return axiosPost('/bms/user-api/lesson/v1/batch-publish', data);
+    return axiosPost('/bms/crm-api/lesson/v1/batch-publish', data);
 }
 
 /**
@@ -108,7 +108,7 @@ export const publishLessonApi = (data?: any): Promise<any> => {
  * @link http://wiki.blingabc.com/pages/viewpage.action?pageId=2340100
  */
 export const lessonInfoApi = (data?: any): Promise<any> => {
-    return axiosGet('/bms/user-api/lesson/v1/info', data);
+    return axiosGet('/bms/crm-api/lesson/v1/info', data);
 }
 
 /**
@@ -116,7 +116,7 @@ export const lessonInfoApi = (data?: any): Promise<any> => {
  * @link http://wiki.blingabc.com/pages/viewpage.action?pageId=2340054
  */
 export const dialogListApi = (data?: any): Promise<any> => {
-    return axiosGet('/bms/user-api/dialogue/v1/page-list', data);
+    return axiosGet('/bms/crm-api/dialogue/v1/page-list', data);
 }
 
 /**
@@ -124,7 +124,7 @@ export const dialogListApi = (data?: any): Promise<any> => {
  * @link http://wiki.blingabc.com/pages/viewpage.action?pageId=2340058
  */
 export const addDialogApi = (data?: any): Promise<any> => {
-    return axiosPost('/bms/user-api/dialogue/v1/insert', data);
+    return axiosPost('/bms/crm-api/dialogue/v1/insert', data);
 }
 
 /**
@@ -132,7 +132,7 @@ export const addDialogApi = (data?: any): Promise<any> => {
  * @link http://wiki.blingabc.com/pages/viewpage.action?pageId=2340072
  */
 export const updateDialogApi = (data?: any): Promise<any> => {
-    return axiosPost('/bms/user-api/dialogue/v1/update', data);
+    return axiosPost('/bms/crm-api/dialogue/v1/update', data);
 }
 
 /**
@@ -140,7 +140,7 @@ export const updateDialogApi = (data?: any): Promise<any> => {
  * @link http://wiki.blingabc.com/pages/viewpage.action?pageId=2340062
  */
 export const deleteDialogApi = (data?: any): Promise<any> => {
-    return axiosPost('/bms/user-api/dialogue/v1/delete', data);
+    return axiosPost('/bms/crm-api/dialogue/v1/delete', data);
 }
 
 /**
@@ -148,7 +148,7 @@ export const deleteDialogApi = (data?: any): Promise<any> => {
  * @link http://wiki.blingabc.com/pages/viewpage.action?pageId=2340066
  */
 export const publishDialogApi = (data?: any): Promise<any> => {
-    return axiosPost('/bms/user-api/dialogue/v1/publish', data);
+    return axiosPost('/bms/crm-api/dialogue/v1/publish', data);
 }
 
 /**
@@ -156,7 +156,7 @@ export const publishDialogApi = (data?: any): Promise<any> => {
  * @link http://wiki.blingabc.com/pages/viewpage.action?pageId=2340076
  */
 export const dialogInfoApi = (data?: any): Promise<any> => {
-    return axiosGet('/bms/user-api/dialogue/v1/detail', data);
+    return axiosGet('/bms/crm-api/dialogue/v1/detail', data);
 }
 
 /**
@@ -172,7 +172,7 @@ export const getLevelApi = (data?: any): Promise<any> => {
  * @link http://wiki.blingabc.com/pages/viewpage.action?pageId=2340689
  */
 export const courseListApi = (data?: any): Promise<any> => {
-    return axiosPost('/bms/user-api/course/v1/page', data);
+    return axiosPost('/bms/crm-api/course/v1/page', data);
 }
 
 /**
@@ -180,7 +180,7 @@ export const courseListApi = (data?: any): Promise<any> => {
  * @link http://wiki.blingabc.com/pages/viewpage.action?pageId=2340676
  */
 export const addCourseApi = (data?: any): Promise<any> => {
-    return axiosPost('/bms/user-api/course/v1/save', data);
+    return axiosPost('/bms/crm-api/course/v1/save', data);
 }
 
 /**
@@ -188,7 +188,7 @@ export const addCourseApi = (data?: any): Promise<any> => {
  * @link http://wiki.blingabc.com/pages/viewpage.action?pageId=2340678
  */
 export const updateCourseApi = (data?: any): Promise<any> => {
-    return axiosPost('/bms/user-api/course/v1/update', data);
+    return axiosPost('/bms/crm-api/course/v1/update', data);
 }
 
 /**
@@ -196,7 +196,7 @@ export const updateCourseApi = (data?: any): Promise<any> => {
  * @link http://wiki.blingabc.com/pages/viewpage.action?pageId=2340680
  */
 export const deleteCourseApi = (data?: any): Promise<any> => {
-    return axiosPost('/bms/user-api/course/v1/delete', data);
+    return axiosPost('/bms/crm-api/course/v1/delete', data);
 }
 
 /**
@@ -204,7 +204,7 @@ export const deleteCourseApi = (data?: any): Promise<any> => {
  * @link http://wiki.blingabc.com/pages/viewpage.action?pageId=2340683
  */
 export const publishCourseApi = (data?: any): Promise<any> => {
-    return axiosPost('/bms/user-api/course/v1/publish', data);
+    return axiosPost('/bms/crm-api/course/v1/publish', data);
 }
 
 /**
@@ -212,6 +212,6 @@ export const publishCourseApi = (data?: any): Promise<any> => {
  * @link http://wiki.blingabc.com/pages/viewpage.action?pageId=2340691
  */
 export const courseInfoApi = (data?: any): Promise<any> => {
-    return axiosGet('/bms/user-api/course/v1/detail', data);
+    return axiosGet('/bms/crm-api/course/v1/detail', data);
 }
 

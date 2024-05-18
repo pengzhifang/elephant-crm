@@ -79,7 +79,7 @@ axiosInstance.interceptors.request.use(
     if (config.data instanceof FormData) {
       config.headers['Content-Type'] = 'multipart/form-data';
     }
-    if (config.url.includes('user-api')) {
+    if (config.url.includes('crm-api')) {
       config.headers['token'] = Local.get('_token');
       // config.headers['token'] = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJhdWQiOiJjbGllbnQiLCJpc3MiOiJjb20ua2p4aCIsImFkbWludXNlcmFjY291bnQiOiJZRzAwMDAwMiIsImV4cCI6MTcxNzM4NTA5NSwiaWF0IjoxNzE1NDg0Mjk1LCJ1c2VySWQiOiIyIiwia2V5IjoiZWxlcGhhbnQtY2xlYXItZGV2IiwiYWRtaW51c2VybmFtZSI6IuiKs-iKsyJ9.xRlI74yd4YqT3XRaOkJYCMOkIdhxh-YAhRuRXAuQs0cTZWloCJ8ZiBVFZtwtEgT5wSA3D6RjWLvXEGDDudqoSg';
     }
@@ -190,7 +190,7 @@ export const axiosStrong = async <R = any>(
     });
     if (response.status !== '00000' && handleErrorAuto && !findErrorCode(response.message!)) {
       // 同步字节（抖音）课程库资源的错误信息不提醒
-      if (!url.includes('/user-api/douyin/v1/query-resource-status')) {
+      if (!url.includes('/crm-api/douyin/v1/query-resource-status')) {
         message.error(response.message);
       }
     }

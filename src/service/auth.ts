@@ -8,8 +8,8 @@ import { encryptAESByObj } from '@utils/crypto'
  * @returns 
  */
 export const systemMenuApi = (): Promise<any> => {
-    // return axiosGet(`/bms/user-api/adminuser/v1/me-menu-list`);
-    return axiosGet(`/user-api/adminmenu/v1/menu-list`);
+    // return axiosGet(`/bms/crm-api/adminuser/v1/me-menu-list`);
+    return axiosGet(`/crm-api/adminmenu/v1/menu-list`);
 }
 
 /**
@@ -18,7 +18,7 @@ export const systemMenuApi = (): Promise<any> => {
  * @returns 
  */
 export const menuListApi = (): Promise<any> => {
-    return axiosGet(`/user-api/adminmenu/v1/menu-list`);
+    return axiosGet(`/crm-api/adminmenu/v1/menu-list`);
 }
 /**
  * 权限管理-角色管理-授权菜单列表
@@ -26,7 +26,7 @@ export const menuListApi = (): Promise<any> => {
  * @returns 
  */
 export const authMenuListApi = (): Promise<any> => {
-    return axiosGet(`/user-api/adminmenu/v1/role/menu-list`);
+    return axiosGet(`/crm-api/adminmenu/v1/role/menu-list`);
 }
 
 /**
@@ -35,7 +35,7 @@ export const authMenuListApi = (): Promise<any> => {
  * @returns 
  */
 export const addMenuApi = (data): Promise<any> => {
-    return axiosPost(`/user-api/adminmenu/v1/save`, data,);
+    return axiosPost(`/crm-api/adminmenu/v1/save`, data,);
 }
 
 /**
@@ -44,7 +44,7 @@ export const addMenuApi = (data): Promise<any> => {
  * @returns 
  */
 export const updateMenuApi = (data): Promise<any> => {
-    return axiosPost(`/user-api/adminmenu/v1/update`, data);
+    return axiosPost(`/crm-api/adminmenu/v1/update`, data);
 }
 
 /**
@@ -53,7 +53,7 @@ export const updateMenuApi = (data): Promise<any> => {
  * @returns 
  */
 export const deleteMenuApi = (data): Promise<any> => {
-    return axiosGet(`/user-api/adminmenu/v1/delete?id=${data.id}`);
+    return axiosGet(`/crm-api/adminmenu/v1/delete?id=${data.id}`);
 }
 
 /**
@@ -62,7 +62,7 @@ export const deleteMenuApi = (data): Promise<any> => {
  * @returns 
  */
 export const addRoleApi = (data: any): Promise<any> => {
-    return axiosPost('/user-api/adminrole/v1/save', data);
+    return axiosPost('/crm-api/adminrole/v1/save', data);
 }
 
 /**
@@ -71,7 +71,7 @@ export const addRoleApi = (data: any): Promise<any> => {
  * @returns 
  */
 export const updateRoleApi = (data: any): Promise<any> => {
-    return axiosPost('/user-api/adminrole/v1/update', data);
+    return axiosPost('/crm-api/adminrole/v1/update', data);
 }
 
 /**
@@ -80,7 +80,7 @@ export const updateRoleApi = (data: any): Promise<any> => {
  * @returns 
  */
 export const deleteRoleApi = (data: any): Promise<any> => {
-    return axiosGet(`/user-api/adminrole/v1/delete/${data.id}`);
+    return axiosGet(`/crm-api/adminrole/v1/delete/${data.id}`);
 }
 
 /**
@@ -89,7 +89,7 @@ export const deleteRoleApi = (data: any): Promise<any> => {
  * @returns 
  */
 export const roleListApi = (data: any): Promise<any> => {
-    return axiosPost('/user-api/adminrole/v1/page', data);
+    return axiosPost('/crm-api/adminrole/v1/page', data);
 }
 
 /**
@@ -98,7 +98,7 @@ export const roleListApi = (data: any): Promise<any> => {
  * @returns 
  */
 export const saveRoleMenuApi = (data: any): Promise<any> => {
-    return axiosPost('/user-api/adminrolemenu/v1/save', data);
+    return axiosPost('/crm-api/adminrolemenu/v1/save', data);
 }
 
 /**
@@ -107,7 +107,7 @@ export const saveRoleMenuApi = (data: any): Promise<any> => {
  * @returns 
  */
 export const roleMenuListApi = (data: any): Promise<any> => {
-    return axiosGet(`/user-api/adminrolemenu/v1/role-menu-list/${data.id}`);
+    return axiosGet(`/crm-api/adminrolemenu/v1/role-menu-list/${data.id}`);
 }
 
 /**
@@ -116,7 +116,7 @@ export const roleMenuListApi = (data: any): Promise<any> => {
  * @returns 
  */
 export const staffListApi = (data: any): Promise<any> => {
-    return axiosPost('/user-api/adminuser/v1/page', data);
+    return axiosPost('/crm-api/adminuser/v1/page', data);
 }
 
 /**
@@ -125,7 +125,7 @@ export const staffListApi = (data: any): Promise<any> => {
  * @returns 
  */
 export const addUserApi = (data: any): Promise<any> => {
-    return axiosPost('/user-api/adminuser/v1/save', data);
+    return axiosPost('/crm-api/adminuser/v1/save', data);
 }
 /**
  * 权限管理-员工管理-编辑员工
@@ -133,7 +133,7 @@ export const addUserApi = (data: any): Promise<any> => {
  * @returns 
  */
 export const updateUserApi = (data: any): Promise<any> => {
-    return axiosPost('/user-api/adminuser/v1/update', data);
+    return axiosPost('/crm-api/adminuser/v1/update', data);
 }
 
 /**
@@ -142,7 +142,7 @@ export const updateUserApi = (data: any): Promise<any> => {
  * @returns 
  */
 export const disabledUserApi = (data: any): Promise<any> => {
-    return axiosPost('/user-api/adminuser/v1/disable', data);
+    return axiosPost('/crm-api/adminuser/v1/disable', data);
 }
 /**
  * 权限管理-员工管理-设置用户角色
@@ -150,7 +150,7 @@ export const disabledUserApi = (data: any): Promise<any> => {
  * @returns 
  */
 export const setUserRoleApi = (data: any): Promise<any> => {
-    return axiosPost('/user-api/adminuser/v1/set/role', data);
+    return axiosPost('/crm-api/adminuser/v1/set/role', data);
 }
 
 /**
@@ -159,7 +159,7 @@ export const setUserRoleApi = (data: any): Promise<any> => {
  * @returns 
  */
 export const resetPasswordApi = (data: any): Promise<any> => {
-    return axiosPost('/user-api/user/v1/reset-password', encryptAESByObj(data));
+    return axiosPost('/crm-api/user/v1/reset-password', encryptAESByObj(data));
 }
 
 /**
@@ -168,5 +168,5 @@ export const resetPasswordApi = (data: any): Promise<any> => {
  * @returns 
  */
 export const staffAuthApi = (data: any): Promise<any> => {
-    return axiosGet('/user-api/adminuser/v1/user-menu-list', data);
+    return axiosGet('/crm-api/adminuser/v1/user-menu-list', data);
 }

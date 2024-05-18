@@ -66,7 +66,7 @@ export const resetPasswordBySmsCodeApi = (data: any): Promise<any> => {
  * @link http://wiki.blingabc.com/pages/viewpage.action?pageId=2335274
  */
  export const getBaseInfo = (): Promise<any> => {
-  return axiosGet('/bms/user-api/lecturer/v1/detail');
+  return axiosGet('/bms/crm-api/lecturer/v1/detail');
 }
 
 /**
