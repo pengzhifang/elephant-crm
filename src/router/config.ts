@@ -1,3 +1,4 @@
+import GeneralConfig from '@pages/Config/GeneralConfig';
 import { lazy } from 'react';
 const NoAuthPage = lazy(() => import('@pages/NoAuthPage'));
 const Home = lazy(() => import('@pages/Home'));
@@ -122,6 +123,12 @@ const routers: IRoute[] = [
         name: '项目(小区)配置',
         exact: true,
         component: VillageConfig
+      },
+      {
+        path: '/config/general-config',
+        name: '项目(小区)配置',
+        exact: true,
+        component: GeneralConfig
       }
     ]
   },

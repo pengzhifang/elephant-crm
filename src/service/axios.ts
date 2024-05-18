@@ -81,7 +81,7 @@ axiosInstance.interceptors.request.use(
     }
     if (config.url.includes('crm-api')) {
       config.headers['token'] = Local.get('_token');
-      // config.headers['token'] = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJhdWQiOiJjbGllbnQiLCJpc3MiOiJjb20ua2p4aCIsImFkbWludXNlcmFjY291bnQiOiJZRzAwMDAwMiIsImV4cCI6MTcxNzM4NTA5NSwiaWF0IjoxNzE1NDg0Mjk1LCJ1c2VySWQiOiIyIiwia2V5IjoiZWxlcGhhbnQtY2xlYXItZGV2IiwiYWRtaW51c2VybmFtZSI6IuiKs-iKsyJ9.xRlI74yd4YqT3XRaOkJYCMOkIdhxh-YAhRuRXAuQs0cTZWloCJ8ZiBVFZtwtEgT5wSA3D6RjWLvXEGDDudqoSg';
+      // config.headers['token'] = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJhdWQiOiJjbGllbnQiLCJpc3MiOiJjb20ua2p4aCIsIm5hbWUiOiLoirPoirMiLCJ1c2VyVHlwZSI6ImFkbWluIiwiZXhwIjoxNzE3OTEwNDcyLCJpYXQiOjE3MTYwMDk2NzIsInVzZXJJZCI6IjIiLCJrZXkiOiJlbGVwaGFudC1jbGVhci1kZXYiLCJhY2NvdW50IjoiWUcwMDAwMDIifQ.03UQ9J0YFt0LF_a6k8CSRG32omcp2HC7GtXRCxcNajfdv7U8u_CSN7MWQeRNT3KfelN2Zs9i603BiqtlRLpl8Q";
     }
     return config;
   },

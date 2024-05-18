@@ -239,6 +239,33 @@ export const exportResidentialApi = (data): Promise<any> => {
 }
 
 /**
+ * 配置管理-通用配置-列表-分页
+ * @param data 
+ * @returns 
+ */
+export const generalListApi = (data): Promise<any> => {
+  return axiosPost(`/crm-api/commonConfig/v1/page`, data);
+}
+
+/**
+ * 配置管理-通用配置-新建
+ * @param data 
+ * @returns 
+ */
+export const addGeneralApi = (data): Promise<any> => {
+  return axiosPost(`/crm-api/commonConfig/v1/save`, data,);
+}
+
+/**
+ * 配置管理-通用配置-修改
+ * @param data 
+ * @returns 
+ */
+export const updateGeneralApi = (data): Promise<any> => {
+  return axiosPost(`/crm-api/commonConfig/v1/update`, data,);
+}
+
+/**
  * 获取中国所有省市区
  * @param data 
  * @returns 
