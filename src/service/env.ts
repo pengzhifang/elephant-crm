@@ -2,7 +2,7 @@
 const whenDev = process.env.REACT_APP_ENV === 'development';
 export const devConfig  = {
     PEANUT_HOST: window.location.origin,
-    PEANUT_API: 'http://api.t.daxiangqingyun.com',
+    PEANUT_API: 'https://api.t.daxiangqingyun.com',
     // PEANUT_API: 'http://120.76.248.231',
     HEADKEY: '02e5e263e6c1cb81af0ce92fc93095d',
     AES_KEY: 'IO4EgnJD6FbhWOJH',
@@ -11,7 +11,7 @@ export const devConfig  = {
 
 export const prodConfig = {
     PEANUT_HOST: window.location.origin,
-    PEANUT_API: 'http://api.daxiangqingyun.com',
+    PEANUT_API: 'https://api.daxiangqingyun.com',
     HEADKEY: '8823bd5ee34d4ce58c6674b250a9faea',
     AES_KEY: 'blingzhSN50LP174',
     AES_IV: 'JIHN7249bfgs8230'
