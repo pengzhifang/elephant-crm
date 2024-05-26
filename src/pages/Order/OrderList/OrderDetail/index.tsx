@@ -1,8 +1,27 @@
 import { Button, Card, Col, Divider, Row, Steps } from "antd";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import './index.scss'
+import { useSearchParams } from "react-router-dom";
+import { orderDetailApi } from "@service/order";
 
 const OrderDetail: React.FC = () => {
+  const [searchParams] = useSearchParams();
+  const [detailInfo, setDetailInfo] = useState<any>();
+
+  useEffect(() => {
+    const orderCode = searchParams.get('orderCode');
+    getOrderDetail(orderCode);
+  }, [])
+
+  const getOrderDetail = async(orderCode) => {
+    const { result, data } = await orderDetailApi({ 
+      orderCode
+     });
+    if (result) {
+      setDetailInfo(data);
+    }
+  }
+
   return (
     <div className="order-detail min-h-full pb-3">
       <div className='mx-4 my-2 p-4 bg-white'>
@@ -15,11 +34,11 @@ const OrderDetail: React.FC = () => {
           <Row gutter={24}>
             <Col span={8}>
               <span className="title-label">订单编号</span>
-              <span className="text-[#1677ff]">073285792237589234234</span>
+              <span className="text-[#1677ff]">{detailInfo?.orderCode}</span>
             </Col>
             <Col span={8}>
               <span className="title-label">订单价格</span>
-              <span>￥790</span>
+              <span>￥{detailInfo?.orderPrice}</span>
             </Col>
           </Row>
           <Row gutter={24}>
@@ -48,48 +67,48 @@ const OrderDetail: React.FC = () => {
           <Row gutter={24}>
             <Col span={8}>
               <span className="title-label">区域</span>
-              <span>越秀区</span>
+              <span>{detailInfo?.areaName}</span>
             </Col>
             <Col span={8}>
               <span className="title-label">街道</span>
-              <span>XXXX街道</span>
+              <span>{detailInfo?.townName}</span>
             </Col>
             <Col span={8}>
               <span className="title-label">小区/项目</span>
-              <span>XXXX小区</span>
+              <span>{detailInfo?.residentialName}</span>
             </Col>
           </Row>
           <Row gutter={24}>
             <Col span={8}>
               <span className="title-label">所属物业</span>
-              <span>物业公司名称</span>
+              <span>{detailInfo?.propertyManagementName}</span>
             </Col>
             <Col span={8}>
               <span className="title-label">详细地址</span>
-              <span>西土城86号</span>
+              <span>{detailInfo?.address}</span>
             </Col>
           </Row>
           <Divider />
           <Row gutter={24}>
             <Col span={8}>
               <span className="title-label">联系人</span>
-              <span>王小明</span>
+              <span>{detailInfo?.nickname}</span>
             </Col>
             <Col span={8}>
               <span className="title-label">联系方式</span>
-              <span>1388888888</span>
+              <span>{detailInfo?.mobile}</span>
             </Col>
           </Row>
           <Row gutter={24}>
             <Col>
               <span className="title-label">车型</span>
-              <span>小型车</span>
+              <span>{detailInfo?.carType == 1? '小型车' : '中型车'}</span>
             </Col>
           </Row>
           <Row gutter={24}>
             <Col>
               <span className="title-label">期望清运时间</span>
-              <span>2024.6.1 12:00-14:00</span>
+              <span>{detailInfo?.clearDate + detailInfo?.clearTime}</span>
             </Col>
           </Row>
           <Row gutter={24}>
@@ -100,7 +119,7 @@ const OrderDetail: React.FC = () => {
           <Row gutter={24}>
             <Col>
               <span className="title-label">备注</span>
-              <span>这是一堆备注</span>
+              <span>{detailInfo?.userRemark}</span>
             </Col>
           </Row>
         </Card>
@@ -109,17 +128,17 @@ const OrderDetail: React.FC = () => {
           <Row gutter={24}>
             <Col span={8}>
               <span className="title-label">完成时间</span>
-              <span>2024.6.2 12:25:40</span>
+              <span>{detailInfo?.finishTime}</span>
             </Col>
             <Col span={8}>
               <span className="title-label">操作人</span>
-              <span>王小妮</span>
+              <span>{detailInfo?.finishOperator}</span>
             </Col>
           </Row>
           <Row gutter={24}>
             <Col>
               <span className="title-label">处理厂</span>
-              <span>XXXXXXX处理厂</span>
+              <span>{detailInfo?.wasteManagementName}</span>
             </Col>
           </Row>
           <Row gutter={24}>

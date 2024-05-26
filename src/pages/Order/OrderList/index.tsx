@@ -5,39 +5,38 @@ import { getViewPortHeight } from "@utils/index";
 import { Button, Col, Empty, Form, Input, Row, Select, Table } from "antd";
 import { ColumnType } from "antd/es/table";
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const statusOptions = [
   { label: '待支付', value: 0 },
-  { label: '已支付', value: 1 },
-  { label: '已完成', value: 2 },
-  { label: '已取消', value: 3 },
-  { label: '已退费', value: 4 }
+  { label: '已取消', value: 10 },
+  { label: '已支付', value: 20 }
 ];
 
 const OrderList: React.FC = () => {
   const [form] = Form.useForm();
   const columns: ColumnType<any>[] = [
-    { title: '订单编号', dataIndex: 'order', width: 100 },
-    { title: '订单状态', dataIndex: 'status', width: 100,
+    { title: '订单编号', dataIndex: 'orderCode', width: 100 },
+    { title: '订单状态', dataIndex: 'payStatus', width: 100,
       render: (text) => {
         return <span>{statusOptions.find(x => x.value == text)?.label}</span>
       }
     },
-    { title: '街道', dataIndex: 'sci', width: 100 },
-    { title: '小区', dataIndex: 'sci', width: 100 },
-    { title: '联系人', dataIndex: 'contactPersonName', width: 100 },
-    { title: '联系方式', dataIndex: 'contactPersonPhone', width: 100 },
-    { title: '期望清运时间', dataIndex: 'contactPersonPhone', width: 100 },
-    { title: '车型', dataIndex: 'contactPersonPhone', width: 100 },
-    { title: '订单价格', dataIndex: 'contactPersonPhone', width: 100 },
-    { title: '照片', dataIndex: 'imgUrl', width: 100,
+    { title: '街道', dataIndex: 'townName', width: 100 },
+    { title: '小区', dataIndex: 'residentialName', width: 100 },
+    { title: '联系人', dataIndex: 'nickname', width: 100 },
+    { title: '联系方式', dataIndex: 'mobile', width: 100 },
+    { title: '期望清运时间', dataIndex: 'clearDate', width: 100 },
+    { title: '车型', dataIndex: 'carType', width: 100 },
+    { title: '订单价格', dataIndex: 'orderPrice', width: 100 },
+    { title: '照片', dataIndex: 'rubbishImgs', width: 100,
       render: (text) => {
         return text? <img src={text} alt="" /> : null
       }
     },
-    { title: '操作', dataIndex: 'id', width: 100,
+    { title: '操作', dataIndex: 'orderCode', width: 100,
       render: (text) => {
-        return <Button type='link' style={{ padding: 0 }}>详情</Button>
+        return <Button type='link' style={{ padding: 0 }} onClick={() => toDetail(text)}>详情</Button>
       }
     },
   ]
@@ -45,9 +44,10 @@ const OrderList: React.FC = () => {
   const [loading, setLoading] = useState(false);
   const [pageInfo, setPageInfo] = useState({ current: 1, total: 1, pageSize: 20 });
   const initPage = { current: 1, total: 1, pageSize: 20 };
+  const navigate = useNavigate();
   
   useEffect(() => {
-    // getList(initPage);
+    getList(initPage);
   }, [])
   
   const onSearch = () => {
@@ -76,6 +76,10 @@ const OrderList: React.FC = () => {
   const onTableChange = (pagination) => {
     setPageInfo({ ...pagination });
     getList(pagination);
+  }
+
+  const toDetail = (orderCode) => {
+    navigate(`/order/detail?orderCode=${orderCode}`);
   }
 
   const SearchForm = (): JSX.Element => {
