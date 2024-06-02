@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import './index.scss'
 import { useSearchParams } from "react-router-dom";
 import { orderDetailApi } from "@service/order";
+import dayjs from "dayjs";
 
 const OrderDetail: React.FC = () => {
   const [searchParams] = useSearchParams();
@@ -67,25 +68,25 @@ const OrderDetail: React.FC = () => {
           <Row gutter={24}>
             <Col span={8}>
               <span className="title-label">区域</span>
-              <span>{detailInfo?.areaName}</span>
+              <span>{detailInfo?.residentialManagement?.areaName}</span>
             </Col>
             <Col span={8}>
               <span className="title-label">街道</span>
-              <span>{detailInfo?.townName}</span>
+              <span>{detailInfo?.residentialManagement?.townName}</span>
             </Col>
             <Col span={8}>
               <span className="title-label">小区/项目</span>
-              <span>{detailInfo?.residentialName}</span>
+              <span>{detailInfo?.residentialManagement?.name}</span>
             </Col>
           </Row>
           <Row gutter={24}>
             <Col span={8}>
               <span className="title-label">所属物业</span>
-              <span>{detailInfo?.propertyManagementName}</span>
+              <span>{detailInfo?.residentialManagement?.propertyManagementName}</span>
             </Col>
             <Col span={8}>
               <span className="title-label">详细地址</span>
-              <span>{detailInfo?.address}</span>
+              <span>{detailInfo?.residentialManagement?.address}</span>
             </Col>
           </Row>
           <Divider />
@@ -108,7 +109,7 @@ const OrderDetail: React.FC = () => {
           <Row gutter={24}>
             <Col>
               <span className="title-label">期望清运时间</span>
-              <span>{detailInfo?.clearDate + detailInfo?.clearTime}</span>
+              <span>{dayjs(detailInfo?.clearDate).format("YYYY-MM-DD") + ' ' + detailInfo?.clearTime}</span>
             </Col>
           </Row>
           <Row gutter={24}>
@@ -138,7 +139,7 @@ const OrderDetail: React.FC = () => {
           <Row gutter={24}>
             <Col>
               <span className="title-label">处理厂</span>
-              <span>{detailInfo?.wasteManagementName}</span>
+              <span>{detailInfo?.townManagement?.wasteManagementName}</span>
             </Col>
           </Row>
           <Row gutter={24}>
@@ -151,7 +152,7 @@ const OrderDetail: React.FC = () => {
           <Row gutter={24}>
             <Col>
               <span className="title-label">补充信息</span>
-              <span>XXXXXXX补充信息</span>
+              <span>{detailInfo?.finishRemark}</span>
             </Col>
           </Row>
         </Card>

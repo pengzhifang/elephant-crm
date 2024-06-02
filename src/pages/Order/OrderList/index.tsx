@@ -4,6 +4,7 @@ import { searchFormLayout } from "@utils/config";
 import { getViewPortHeight } from "@utils/index";
 import { Button, Col, Empty, Form, Input, Row, Select, Table } from "antd";
 import { ColumnType } from "antd/es/table";
+import dayjs from "dayjs";
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -16,8 +17,9 @@ const statusOptions = [
 const OrderList: React.FC = () => {
   const [form] = Form.useForm();
   const columns: ColumnType<any>[] = [
-    { title: '订单编号', dataIndex: 'orderCode', width: 100 },
-    { title: '订单状态', dataIndex: 'payStatus', width: 100,
+    { title: '订单编号', dataIndex: 'orderCode', width: 150 },
+    {
+      title: '订单状态', dataIndex: 'payStatus', width: 100,
       render: (text) => {
         return <span>{statusOptions.find(x => x.value == text)?.label}</span>
       }
@@ -26,15 +28,22 @@ const OrderList: React.FC = () => {
     { title: '小区', dataIndex: 'residentialName', width: 100 },
     { title: '联系人', dataIndex: 'nickname', width: 100 },
     { title: '联系方式', dataIndex: 'mobile', width: 100 },
-    { title: '期望清运时间', dataIndex: 'clearDate', width: 100 },
-    { title: '车型', dataIndex: 'carType', width: 100 },
-    { title: '订单价格', dataIndex: 'orderPrice', width: 100 },
-    { title: '照片', dataIndex: 'rubbishImgs', width: 100,
-      render: (text) => {
-        return text? <img src={text} alt="" /> : null
+    {
+      title: '期望清运时间', dataIndex: 'clearDate', width: 200,
+      render: (text, record) => {
+        return <span>{ dayjs(text).format("YYYY-MM-DD") + ' ' + record.clearTime}</span>
       }
     },
-    { title: '操作', dataIndex: 'orderCode', width: 100,
+    { title: '车型', dataIndex: 'carType', width: 100 },
+    { title: '订单价格', dataIndex: 'orderPrice', width: 100 },
+    {
+      title: '照片', dataIndex: 'rubbishImgs', width: 100,
+      render: (text) => {
+        return text ? <img src={text} alt="" /> : null
+      }
+    },
+    {
+      title: '操作', dataIndex: 'orderCode', width: 100,
       render: (text) => {
         return <Button type='link' style={{ padding: 0 }} onClick={() => toDetail(text)}>详情</Button>
       }
@@ -45,11 +54,11 @@ const OrderList: React.FC = () => {
   const [pageInfo, setPageInfo] = useState({ current: 1, total: 1, pageSize: 20 });
   const initPage = { current: 1, total: 1, pageSize: 20 };
   const navigate = useNavigate();
-  
+
   useEffect(() => {
     getList(initPage);
   }, [])
-  
+
   const onSearch = () => {
     getList(initPage);
   }
@@ -114,7 +123,7 @@ const OrderList: React.FC = () => {
       </Form>
     )
   }
-  
+
   return (
     <div className="order-list">
       <BaseTitle title="订单列表" />
