@@ -4,23 +4,32 @@ import './index.scss'
 import { useSearchParams } from "react-router-dom";
 import { orderDetailApi } from "@service/order";
 import dayjs from "dayjs";
+import OrderAudit from "../OrderAudit";
 
 const OrderDetail: React.FC = () => {
   const [searchParams] = useSearchParams();
   const [detailInfo, setDetailInfo] = useState<any>();
+  const [orderCode, setOrderCode] = useState<any>();
+  const [auditOrderFlag, setAuditOrderFlag] = useState(false);
 
   useEffect(() => {
     const orderCode = searchParams.get('orderCode');
-    getOrderDetail(orderCode);
+    setOrderCode(orderCode);
+    getOrderDetail();
   }, [])
 
-  const getOrderDetail = async(orderCode) => {
+  const getOrderDetail = async() => {
     const { result, data } = await orderDetailApi({ 
-      orderCode
+      orderCode: orderCode
      });
     if (result) {
       setDetailInfo(data);
     }
+  }
+
+  /** 完成订单 */
+  const completeOrder = () => {
+
   }
 
   return (
@@ -28,7 +37,8 @@ const OrderDetail: React.FC = () => {
       <div className='mx-4 my-2 p-4 bg-white'>
         <div className="flex items-center justify-between">
           <div>订单详情</div>
-          <Button type='primary'>审核/完成</Button>
+          {detailInfo?.payStatus == 20 && <Button type='primary' onClick={(flag) => { setAuditOrderFlag(true); flag && getOrderDetail(); }}>审核</Button>}
+          {detailInfo?.payStatus == 40 && <Button type='primary' onClick={completeOrder}>完成</Button>}
         </div>
         <Card className="mt-4">
           <div className="text-[#999] font-bold">基本信息</div>
@@ -157,6 +167,9 @@ const OrderDetail: React.FC = () => {
           </Row>
         </Card>
       </div>
+      { auditOrderFlag &&
+        <OrderAudit visible={auditOrderFlag} orderCode={detailInfo?.orderCode} onCancel={() => { setAuditOrderFlag(false) }} ></OrderAudit>
+      }
     </div>
   )
 }
