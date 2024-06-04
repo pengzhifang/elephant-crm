@@ -135,7 +135,7 @@ const OrderList: React.FC = () => {
           columns={columns}
           dataSource={dataList}
           scroll={{ y: getViewPortHeight() > 800 ? 'calc(100vh - 380px)' : null }}
-          rowKey={record => record.id}
+          rowKey={record => record.orderCode}
           loading={loading}
           locale={{ emptyText: <Empty /> }}
           pagination={{ ...pageInfo, showTotal: (total: number) => `共 ${total} 条` }}
