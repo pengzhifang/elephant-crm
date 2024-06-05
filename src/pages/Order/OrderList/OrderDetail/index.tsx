@@ -62,13 +62,25 @@ const OrderDetail: React.FC = () => {
                 current={1}
                 items={[
                   {
-                    title: 'Finished',
+                    title: '下单',
                   },
                   {
-                    title: 'In Progress',
+                    title: '支付',
                   },
                   {
-                    title: 'Waiting',
+                    title: '审核',
+                  },
+                  {
+                    title: '完成',
+                  },
+                  {
+                    title: '取消',
+                  },
+                  {
+                    title: '退费审核',
+                  },
+                  {
+                    title: '退费到账',
                   },
                 ]}
               />

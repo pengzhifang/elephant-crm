@@ -87,10 +87,10 @@ const AddStaffModal: React.FC<Iprops> = ({ visible, onCancel, item, type }) => {
         formData.append('file', event.file)
         const { data, status } = await uploadFileApi(formData);
         if (status !== '00000') { return; }
-        form.setFieldsValue({ headImg: data.url });
-        setImageUrl(data.url);
+        form.setFieldsValue({ headImg: data });
+        setImageUrl(data);
         let fileObj = [{
-            url: data.url,
+            url: data,
             name: data.fileName
         }];
         setFileList(fileObj);
