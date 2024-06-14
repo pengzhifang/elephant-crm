@@ -5,6 +5,7 @@ import { observer } from 'mobx-react-lite';
 import React, { useEffect } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import mainImg from '../../assets/image/logo.png';
+import logoImg from '../../assets/image/image_daxiang@2x.png';
 import './index.scss';
 
 const Login: React.FC = observer(() => {
@@ -73,9 +74,7 @@ const Login: React.FC = observer(() => {
   return (
     <div className="login-container">
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
-        <div>
-          
-        </div>
+        <img src={logoImg} className="w-[117px] h-[44px] mb-[14px]" alt="mainImg" />
         <div className='shadow-grey4 flex'>
           <div className='w-[341px] h-[325px] bg-[#175FE9] flex justify-center items-center'>
             <img src={mainImg} className="w-[173px] h-[174px]" alt="mainImg" />
