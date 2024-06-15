@@ -9,6 +9,8 @@ import OrderAudit from "../OrderAudit";
 const OrderDetail: React.FC = () => {
   const [searchParams] = useSearchParams();
   const [detailInfo, setDetailInfo] = useState<any>();
+  const [payStatusItems, setPayStatusItems] = useState<any>();
+  const [currentPayStatus, setCurrentPayStatus] = useState<any>(0);
   const [auditOrderModalInfo, setAuditOrderModalInfo] = useState({
     visible: false,
     orderCode: '',
@@ -26,6 +28,70 @@ const OrderDetail: React.FC = () => {
      });
     if (result) {
       setDetailInfo(data);
+      if(data?.payStatus == 0 || data?.payStatus == 20 || data?.payStatus == 40 || data?.payStatus == 50) {
+        setPayStatusItems([
+          {
+            title: '下单',
+            description: data?.createTime ? dayjs(data?.createTime).format("YYYY-MM-DD HH:mm:ss") : ''
+          },
+          {
+            title: '支付',
+            description: data?.payTime ? dayjs(data?.createTime).format("YYYY-MM-DD HH:mm:ss") : ''
+          },
+          {
+            title: '审核',
+            description: data?.payStatus == 40? '审核通过' : ''
+          },
+          {
+            title: '完成',
+          }
+        ]);
+        switch(data?.payStatus) {
+          case 0: setCurrentPayStatus(0); break;
+          case 20: setCurrentPayStatus(1); break;
+          case 40: setCurrentPayStatus(2); break;
+          case 30: setCurrentPayStatus(2); break;
+          case 50: setCurrentPayStatus(3); break;
+        }
+      }
+      if(data?.payStatus == 10 || data?.payStatus == 11) {
+        setPayStatusItems([
+          {
+            title: '下单',
+            description: data?.createTime ? dayjs(data?.createTime).format("YYYY-MM-DD HH:mm:ss") : ''
+          },
+          {
+            title: '取消',
+            description: data?.payStatus == 10? '超时取消' : '手动取消'
+          }
+        ]);
+        setCurrentPayStatus(1);
+      }
+      if(data?.payStatus == 30 || data?.payStatus == 21 || data?.payStatus == 51) {
+        setPayStatusItems([
+          {
+            title: '下单',
+            description: data?.createTime ? dayjs(data?.createTime).format("YYYY-MM-DD HH:mm:ss") : ''
+          },
+          {
+            title: '支付',
+            description: data?.payTime ? dayjs(data?.createTime).format("YYYY-MM-DD HH:mm:ss") : ''
+          },
+          {
+            title: '审核',
+            description: '审核不通过'
+          },
+          {
+            title: '退费审核',
+            description: data?.payStatus == 21? '退费审核不通过' : (data?.payStatus == 51? '退费审核通过' : '')
+          }
+        ]);
+        switch(data?.payStatus) {
+          case 30: setCurrentPayStatus(2); break;
+          case 21: setCurrentPayStatus(3); break;
+          case 51: setCurrentPayStatus(3); break;
+        }
+      }
     }
   }
 
@@ -50,34 +116,12 @@ const OrderDetail: React.FC = () => {
             </Col>
           </Row>
           <Row gutter={24}>
-            <Col span={24}>
+            <Col span={18}>
               <div className="title-label">订单状态</div>
               <Steps
                 size="small"
-                current={1}
-                items={[
-                  {
-                    title: '下单',
-                  },
-                  {
-                    title: '支付',
-                  },
-                  {
-                    title: '审核',
-                  },
-                  {
-                    title: '完成',
-                  },
-                  {
-                    title: '取消',
-                  },
-                  {
-                    title: '退费审核',
-                  },
-                  {
-                    title: '退费到账',
-                  },
-                ]}
+                current={currentPayStatus}
+                items={payStatusItems}
               />
             </Col>
           </Row>

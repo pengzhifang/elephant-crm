@@ -7,6 +7,7 @@ import { ColumnType } from "antd/es/table";
 import classNames from "classnames";
 import React, { useEffect, useState } from "react";
 import { ExclamationCircleOutlined } from "@ant-design/icons";
+import dayjs from "dayjs";
 
 const statusOptions = [
   { label: '待退费', value: 30 },
@@ -41,9 +42,17 @@ const RefundList: React.FC = () => {
     { title: '订单价格', dataIndex: 'orderPrice', width: 100 },
     { title: '理由', dataIndex: 'refundReason', width: 100 },
     { title: '退费发起人', dataIndex: 'refundOperator', width: 150 },
-    { title: '发起时间', dataIndex: 'refundCreateTime', width: 100 },
+    { title: '发起时间', dataIndex: 'refundCreateTime', width: 150,
+      render: (text) => {
+        return text ? dayjs(text).format("YYYY-MM-DD HH:mm:ss") : '';
+      }
+    },
     { title: '退费操作人', dataIndex: 'refundApproveOperator', width: 150 },
-    { title: '操作时间', dataIndex: 'refundApproveDate', width: 100 },
+    { title: '操作时间', dataIndex: 'refundApproveDate', width: 150,
+      render: (text) => {
+        return text ? dayjs(text).format("YYYY-MM-DD HH:mm:ss") : '';
+      }
+    },
     {
       title: '操作', dataIndex: 'id', width: 100, fixed: 'right',
       render: (text, record) => {
