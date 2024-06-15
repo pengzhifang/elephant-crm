@@ -1,42 +1,56 @@
 import BaseTitle from "@components/common/BaseTitle";
-import { orderListApi } from "@service/order";
+import { refundOrderAudit, refundOrderListApi } from "@service/order";
 import { searchFormLayout } from "@utils/config";
-import { getViewPortHeight } from "@utils/index";
-import { Button, Col, Empty, Form, Input, Row, Select, Space, Table } from "antd";
+import { getViewPortHeight, userAccount } from "@utils/index";
+import { Button, Col, Empty, Form, Input, Row, Select, Space, Table, Modal, message } from "antd";
 import { ColumnType } from "antd/es/table";
+import classNames from "classnames";
 import React, { useEffect, useState } from "react";
+import { ExclamationCircleOutlined } from "@ant-design/icons";
 
 const statusOptions = [
-  { label: '待退费', value: 0 },
-  { label: '已退费', value: 1 }
+  { label: '待退费', value: 30 },
+  { label: '已退费', value: 51 }
 ];
 
 const RefundList: React.FC = () => {
   const [form] = Form.useForm();
   const columns: ColumnType<any>[] = [
-    { title: '订单编号', dataIndex: 'order', width: 100 },
-    { title: '订单状态', dataIndex: 'status', width: 100,
+    {
+      title: '订单编号', dataIndex: 'orderCode', width: 150,
       render: (text) => {
-        return <span>{statusOptions.find(x => x.value == text)?.label}</span>
+        return <span className="text-[#1677ff]">{text}</span>
       }
     },
-    { title: '街道', dataIndex: 'sci', width: 100 },
-    { title: '小区', dataIndex: 'sci', width: 100 },
-    { title: '联系人', dataIndex: 'contactPersonName', width: 100 },
-    { title: '联系方式', dataIndex: 'contactPersonPhone', width: 100 },
-    { title: '车型', dataIndex: 'contactPersonPhone', width: 100 },
-    { title: '订单价格', dataIndex: 'contactPersonPhone', width: 100 },
-    { title: '理由', dataIndex: 'contactPersonPhone', width: 100 },
-    { title: '发起人', dataIndex: 'contactPersonPhone', width: 100 },
-    { title: '发起时间', dataIndex: 'contactPersonPhone', width: 100 },
-    { title: '操作人', dataIndex: 'contactPersonPhone', width: 100 },
-    { title: '操作时间', dataIndex: 'contactPersonPhone', width: 100 },
-    { title: '操作', dataIndex: 'id', width: 100, fixed: 'right',
+    {
+      title: '订单状态', dataIndex: 'payStatus', width: 100,
       render: (text) => {
+        return <span className={classNames({ 'text-[#1677ff]': text == 0, 'text-[#FF6700]': text == 20, 'text-[#7ED321]': text == 50 })}>{statusOptions.find(x => x.value == text)?.label}</span>
+      }
+    },
+    { title: '街道', dataIndex: 'townName', width: 100 },
+    { title: '小区', dataIndex: 'residentialName', width: 100 },
+    { title: '联系人', dataIndex: 'nickname', width: 100 },
+    { title: '联系方式', dataIndex: 'mobile', width: 100 },
+    {
+      title: '车型', dataIndex: 'carType', width: 100,
+      render: (text) => {
+        return <span>{text === 1 ? '小型车' : '中型车'}</span>
+      }
+    },
+    { title: '订单价格', dataIndex: 'orderPrice', width: 100 },
+    { title: '理由', dataIndex: 'refundReason', width: 100 },
+    { title: '退费发起人', dataIndex: 'refundOperator', width: 150 },
+    { title: '发起时间', dataIndex: 'refundCreateTime', width: 100 },
+    { title: '退费操作人', dataIndex: 'refundApproveOperator', width: 150 },
+    { title: '操作时间', dataIndex: 'refundApproveDate', width: 100 },
+    {
+      title: '操作', dataIndex: 'id', width: 100, fixed: 'right',
+      render: (text, record) => {
         return (
           <Space size="middle">
-            <Button type='link' style={{ padding: 0 }}>退费</Button>
-            <Button type='link' style={{ padding: 0 }}>驳回</Button>
+            <Button type='link' style={{ padding: 0 }} onClick={() => { refundOperation(record, 1) }}>退费</Button>
+            <Button type='link' style={{ padding: 0 }} onClick={() => { refundOperation(record, 1) }}>驳回</Button>
           </Space>
         )
       }
@@ -46,11 +60,11 @@ const RefundList: React.FC = () => {
   const [loading, setLoading] = useState(false);
   const [pageInfo, setPageInfo] = useState({ current: 1, total: 1, pageSize: 20 });
   const initPage = { current: 1, total: 1, pageSize: 20 };
-  
+
   useEffect(() => {
-    // getList(initPage);
+    getList(initPage);
   }, [])
-  
+
   const onSearch = () => {
     getList(initPage);
   }
@@ -64,7 +78,7 @@ const RefundList: React.FC = () => {
   const getList = async (pages: any): Promise<any> => {
     const formValues = form.getFieldsValue(true);
     setLoading(true);
-    const { result, data } = await orderListApi({ ...formValues, page: pages.current, size: pages.pageSize });
+    const { result, data } = await refundOrderListApi({ ...formValues, page: pages.current, size: pages.pageSize });
     if (result) {
       setLoading(false);
       setDataList(data.list);
@@ -79,12 +93,34 @@ const RefundList: React.FC = () => {
     getList(pagination);
   }
 
+  const refundOperation = (record, type) => {
+    Modal.confirm({
+      title: '提示',
+      icon: <ExclamationCircleOutlined />,
+      content: `确定要${type == 1? '退费': '驳回'}吗`,
+      onOk: async () => {
+        const { result } = await refundOrderAudit({
+          orderCode: record.orderCode,
+          result: type,
+          operator: userAccount,
+        });
+        if (result) {
+          message.success('操作成功');
+          getList(pageInfo);
+        }
+      },
+      onCancel() {
+
+      },
+    });
+  }
+
   const SearchForm = (): JSX.Element => {
     return (
       <Form form={form} {...searchFormLayout} >
         <Row gutter={24}>
           <Col span={5}>
-            <Form.Item label="手机号" name="phone">
+            <Form.Item label="手机号" name="mobile">
               <Input placeholder="请输入" />
             </Form.Item>
           </Col>
@@ -94,7 +130,7 @@ const RefundList: React.FC = () => {
             </Form.Item>
           </Col>
           <Col span={5}>
-            <Form.Item label="订单状态" name="status">
+            <Form.Item label="订单状态" name="payStatus">
               <Select
                 options={statusOptions}
                 placeholder="请选择"
@@ -111,7 +147,7 @@ const RefundList: React.FC = () => {
       </Form>
     )
   }
-  
+
   return (
     <div className="refund-list">
       <BaseTitle title="退费列表" />

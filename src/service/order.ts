@@ -37,3 +37,21 @@ export const auditOrderApi = (data): Promise<any> => {
 export const finishOrderApi = (data): Promise<any> => {
   return axiosPost(`/crm-api/order/v1/finish`, data);
 }
+
+/**
+ * 订单管理-退费列表
+ * @param data 
+ * @returns 
+ */
+export const refundOrderListApi = (data): Promise<any> => {
+  return axiosPost(`/crm-api/refund/v1/list`, data);
+}
+
+/**
+ * 订单管理-退费审核
+ * @param data 
+ * @returns 
+ */
+export const refundOrderAudit = (data): Promise<any> => {
+  return axiosPost(`/crm-api/order/v1/refund-audit`, data);
+}

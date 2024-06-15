@@ -131,15 +131,15 @@ const OrderDetail: React.FC = () => {
               <span>{dayjs(detailInfo?.clearDate).format("YYYY-MM-DD") + ' ' + detailInfo?.clearTime}</span>
             </Col>
           </Row>
-          <Row gutter={24}>
+          {detailInfo?.rubbishImgs && <Row gutter={24}>
             <Col>
               {
-                detailInfo?.rubbishImgs?.split(',')?.map(x => {
-                  return <img src={x} className="w-[50px] h-[50px] mr-[10px]" />
+                detailInfo?.rubbishImgs?.split(',')?.map((x, index) => {
+                  return <img src={x} key={index} className="w-[50px] h-[50px] mr-[10px]" />
                 })
               }
             </Col>
-          </Row>
+          </Row>}
           <Row gutter={24}>
             <Col>
               <span className="title-label">备注</span>
@@ -175,8 +175,8 @@ const OrderDetail: React.FC = () => {
           {detailInfo?.finishImgs && <Row gutter={24}>
             <Col>
               {
-                detailInfo?.finishImgs?.split(',')?.map(x => {
-                  return <img src={x} className="w-[50px] h-[50px] mr-[10px]" />
+                detailInfo?.finishImgs?.split(',')?.map((x, index) => {
+                  return <img src={x} key={index} className="w-[50px] h-[50px] mr-[10px]" />
                 })
               }
             </Col>
