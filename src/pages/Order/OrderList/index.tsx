@@ -11,10 +11,10 @@ import { useNavigate } from "react-router-dom";
 
 const statusOptions = [
   { label: '待支付', value: 0 },
-  { label: '超时取消', value: 10 },
-  { label: '手动取消', value: 10 },
+  { label: '已取消', value: 10 },
+  { label: '已取消', value: 11 },
   { label: '已支付', value: 20 },
-  { label: '已支付(退费审核不通过)', value: 20 },
+  { label: '已支付(退费审核不通过)', value: 21 },
   { label: '待退费', value: 30 },
   { label: '待派车', value: 40 },
   { label: '已完成', value: 50 },
