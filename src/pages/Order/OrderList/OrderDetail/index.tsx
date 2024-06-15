@@ -29,11 +29,6 @@ const OrderDetail: React.FC = () => {
     }
   }
 
-  /** 完成订单 */
-  const completeOrder = () => {
-
-  }
-
   return (
     <div className="order-detail min-h-full pb-3">
       <div className='mx-4 my-2 p-4 bg-white'>
@@ -138,7 +133,11 @@ const OrderDetail: React.FC = () => {
           </Row>
           <Row gutter={24}>
             <Col>
-              <span>图片</span>
+              {
+                detailInfo?.rubbishImgs?.split(',')?.map(x => {
+                  return <img src={x} className="w-[50px] h-[50px] mr-[10px]" />
+                })
+              }
             </Col>
           </Row>
           <Row gutter={24}>
@@ -169,16 +168,25 @@ const OrderDetail: React.FC = () => {
           <Row gutter={24}>
             <Col>
               <div>
-                <div className="font-bold">处理厂凭证/图像等资料上传（选填）</div>
+                <div className="font-bold">处理厂凭证/图像等资料</div>
               </div>
             </Col>
           </Row>
-          <Row gutter={24}>
+          {detailInfo?.finishImgs && <Row gutter={24}>
+            <Col>
+              {
+                detailInfo?.finishImgs?.split(',')?.map(x => {
+                  return <img src={x} className="w-[50px] h-[50px] mr-[10px]" />
+                })
+              }
+            </Col>
+          </Row>}
+          {<Row gutter={24} >
             <Col>
               <span className="title-label">补充信息</span>
               <span>{detailInfo?.finishRemark}</span>
             </Col>
-          </Row>
+          </Row>}
         </Card>
       </div>
       <OrderAudit {...auditOrderModalInfo} onCancel={(flag) => { setAuditOrderModalInfo({ ...auditOrderModalInfo, visible: false}); flag && getOrderDetail(); }} ></OrderAudit>

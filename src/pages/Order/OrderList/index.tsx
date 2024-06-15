@@ -4,24 +4,35 @@ import { searchFormLayout } from "@utils/config";
 import { getViewPortHeight } from "@utils/index";
 import { Button, Col, Empty, Form, Input, Row, Select, Table } from "antd";
 import { ColumnType } from "antd/es/table";
+import classNames from "classnames";
 import dayjs from "dayjs";
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 const statusOptions = [
   { label: '待支付', value: 0 },
-  { label: '已取消', value: 10 },
-  { label: '已支付', value: 20 }
+  { label: '超时取消', value: 10 },
+  { label: '手动取消', value: 10 },
+  { label: '已支付', value: 20 },
+  { label: '已支付(退费审核不通过)', value: 20 },
+  { label: '待退费', value: 30 },
+  { label: '待派车', value: 40 },
+  { label: '已完成', value: 50 },
+  { label: '已退费', value: 51 },
 ];
 
 const OrderList: React.FC = () => {
   const [form] = Form.useForm();
   const columns: ColumnType<any>[] = [
-    { title: '订单编号', dataIndex: 'orderCode', width: 150 },
+    { title: '订单编号', dataIndex: 'orderCode', width: 150,
+      render: (text) => {
+        return <span className="text-[#1677ff]">{ text }</span>
+      }
+    },
     {
       title: '订单状态', dataIndex: 'payStatus', width: 100,
       render: (text) => {
-        return <span>{statusOptions.find(x => x.value == text)?.label}</span>
+        return <span className={classNames({ 'text-[#1677ff]': text == 0, 'text-[#FF6700]': text == 20, 'text-[#7ED321]': text == 50 })}>{statusOptions.find(x => x.value == text)?.label}</span>
       }
     },
     { title: '街道', dataIndex: 'townName', width: 100 },
@@ -34,12 +45,16 @@ const OrderList: React.FC = () => {
         return <span>{ dayjs(text).format("YYYY-MM-DD") + ' ' + record.clearTime}</span>
       }
     },
-    { title: '车型', dataIndex: 'carType', width: 100 },
+    { title: '车型', dataIndex: 'carType', width: 100,
+      render: (text) => {
+        return <span>{ text === 1? '小型车' : '中型车' }</span>
+      }
+    },
     { title: '订单价格', dataIndex: 'orderPrice', width: 100 },
     {
       title: '照片', dataIndex: 'rubbishImgs', width: 100,
       render: (text) => {
-        return text ? <img src={text} alt="" /> : null
+        return text ? <img src={text} className="w-10 h-10" alt="" /> : null
       }
     },
     {
@@ -96,7 +111,7 @@ const OrderList: React.FC = () => {
       <Form form={form} {...searchFormLayout} >
         <Row gutter={24}>
           <Col span={5}>
-            <Form.Item label="手机号" name="phone">
+            <Form.Item label="手机号" name="mobile">
               <Input placeholder="请输入" />
             </Form.Item>
           </Col>
@@ -106,7 +121,7 @@ const OrderList: React.FC = () => {
             </Form.Item>
           </Col>
           <Col span={5}>
-            <Form.Item label="订单状态" name="status">
+            <Form.Item label="订单状态" name="payStatus">
               <Select
                 options={statusOptions}
                 placeholder="请选择"

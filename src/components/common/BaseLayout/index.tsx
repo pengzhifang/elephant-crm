@@ -3,17 +3,14 @@
  */
 import BaseBreadcrumb from '@components/common/BaseBreadcrumb';
 import BaseMenu from '@components/common/BaseMenu';
-import { checkToken } from '@router/config';
-import { getBaseInfo } from '@service/login';
 import { Local } from '@service/storage';
-import { Avatar, Dropdown, Image, Layout, Menu, MenuProps, Space } from 'antd';
+import { Avatar, Dropdown, Layout, MenuProps, Space } from 'antd';
 import { observer } from 'mobx-react-lite';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import ImgLogo from '@assets/image/logo.png';
-import ImgAvatar from '@assets/image/img_logo.png';
+import ImgLogo from '@assets/image/top-logo.png';
+import ImgAvatar from '@assets/image/avatar.png';
 import { Link } from 'react-router-dom';
-import useStore from '@store/index';
 
 const { Header, Sider, Content } = Layout;
 
@@ -27,31 +24,15 @@ const BaseLayout: React.FC<IProps> = observer(({ children }) => {
   const userAvatar = Local.get('_userInfo')?.headImg;
   const userName = Local.get('_userInfo')?.account;
   const [hasChild, setHasChild] = useState(false);
-  const { menuList, clearMenuList } = useStore();
 
   //后续需增加 && pathname !== '/'
   const isLogin = pathname !== '/login';
-  const token = Local.get('_token') && !checkToken(pathname); // 判断token是否存在
-
-  useEffect(() => {
-    if (isLogin && token) {
-      // getBaseInfo().then(res => {
-      //   if (res.result) {
-      //     const { lecturerInfo } = res.data;
-      //     Local.set('_headImg', lecturerInfo.headImg);
-      //     Local.set('_name', lecturerInfo.nickname);
-      //     Local.set('_distributionStatus', lecturerInfo.distributionStatus);
-      //   }
-      // })
-    }
-  }, [isLogin, token])
 
   /**
    * 退出
    */
   const onLogout = () => {
     localStorage.clear(); // 清除所有存储信息
-    clearMenuList();
     navigate('/login');
   }
 
@@ -77,7 +58,7 @@ const BaseLayout: React.FC<IProps> = observer(({ children }) => {
     <Layout className='bg-white h-screen'>
       {isLogin &&
         <Header className="flex justify-between !bg-white !h-12 !pl-5 !pr-6 !shadow-grey1">
-          <Link to="/"><img className='w-[192px] h-8' src={ImgLogo} alt=''/></Link>
+          <Link to="/"><img className='w-[117px] h-5' src={ImgLogo} alt=''/></Link>
           <Dropdown
             getPopupContainer={trigger => trigger}
             menu={{items}}
