@@ -33,20 +33,6 @@ const StaffManage: React.FC = () => {
     }, [])
 
     const columns: ColumnType<any>[] = [
-        {
-            title: '操作', dataIndex: 'operate', fixed: 'left', width: 250,
-            render: (text, record) => {
-                return (<Space size="middle">
-                    <Button type='link' style={{ padding: 0 }} onClick={() => setStaffModalInfo({ visible: true, type: 2, item: record })}>编辑</Button>
-                    <Button type='link' style={{ padding: 0 }} onClick={() => onDisableUser(record)}>{record.status === 1 ? '停用' : '启用'}</Button>
-                    <Button type='link' style={{ padding: 0 }}
-                        onClick={() => setRoleModalInfo({ visible: true, item: record, roleList, })}>
-                        设置角色
-                    </Button>
-                    <Button type='link' style={{ padding: 0 }} onClick={() => onConfirmResetPassword(record)}>重置密码</Button>
-                </Space>)
-            }
-        },
         { title: '账号', dataIndex: 'account', width: 150 },
         { title: '手机号', dataIndex: 'mobile', width: 150 },
         { title: '姓名', dataIndex: 'name', width: 100 },
@@ -95,6 +81,20 @@ const StaffManage: React.FC = () => {
             title: '更新时间', dataIndex: 'updateTime', width: 200,
             render: (text) => {
                 return text ? dayjs(text).format("YYYY-MM-DD HH:mm:ss") : '';
+            }
+        },
+        {
+            title: '操作', dataIndex: 'operate', fixed: 'right', width: 250,
+            render: (text, record) => {
+                return (<Space size="middle">
+                    <Button type='link' style={{ padding: 0 }} onClick={() => setStaffModalInfo({ visible: true, type: 2, item: record })}>编辑</Button>
+                    <Button type='link' style={{ padding: 0 }} onClick={() => onDisableUser(record)}>{record.status === 1 ? '停用' : '启用'}</Button>
+                    <Button type='link' style={{ padding: 0 }}
+                        onClick={() => setRoleModalInfo({ visible: true, item: record, roleList, })}>
+                        设置角色
+                    </Button>
+                    <Button type='link' style={{ padding: 0 }} onClick={() => onConfirmResetPassword(record)}>重置密码</Button>
+                </Space>)
             }
         }
     ]

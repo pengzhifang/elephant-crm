@@ -99,3 +99,12 @@ img {
   color: rgb(51, 203, 104);
 }
 
+.ant-layout-sider {
+  flex: 0 0 160px !important;
+  max-width: 160px !important;
+  min-width: 160px !important;
+  width: 160px !important;
+}
+.ant-menu-item {
+  padding-left: 38px !important;
+}

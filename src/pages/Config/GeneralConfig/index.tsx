@@ -71,6 +71,7 @@ const GeneralConfig: React.FC = () => {
       title: '操作',
       dataIndex: 'userCode',
       width: 150,
+      fixed: 'right',
       render: (_, record: any) => {
         return (
           <Space>

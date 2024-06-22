@@ -163,6 +163,10 @@ const AddPriceModal: React.FC<Iprops> = ({ visible, onCancel, item, type }) => {
     getStreetList();
   }
 
+  const alertMessage = () => {
+    message.warning('暂未开通');
+  }
+
   return (
     <Modal wrapClassName='edit-staff-modal' open={visible} title={`${type === 1 ? '新建' : '编辑'}街道价格配置`} width={800} onOk={onSubmit} onCancel={() => onCancel(false)}>
       <Form form={form} layout="vertical">
@@ -237,7 +241,10 @@ const AddPriceModal: React.FC<Iprops> = ({ visible, onCancel, item, type }) => {
                 { required: true, message: '请填写价格' }
               ]}
             >
-              <InputNumber min={0} prefix="大车" addonAfter="元" placeholder="请输入" />
+              <div>
+                <div className="absolute w-full h-full z-10" onClick={alertMessage}></div>
+                <InputNumber min={0} prefix="大车" addonAfter="元" placeholder="请输入" disabled />
+              </div>
             </Form.Item>
           </Col>
         </Row>

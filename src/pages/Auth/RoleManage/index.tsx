@@ -33,16 +33,6 @@ const RoleManage: React.FC = () => {
     }, []);
 
     const columns: ColumnType<any>[] = [
-        {
-            title: '操作', dataIndex: 'operate', width: '25%',
-            render: (text, record) => {
-                return (<Space size='middle'>
-                    <Button type='link' style={{ padding: 0 }} onClick={() => onSetAuth(record)}>授权</Button>
-                    <Button type='link' style={{ padding: 0 }} onClick={() => setRoleModalInfo({ visible: true, item: record, type: 2 })}>编辑</Button>
-                    <Button type='link' style={{ padding: 0 }} onClick={() => onDeleteRole(record.id)}>删除</Button>
-                </Space>)
-            }
-        },
         { title: '角色编码', dataIndex: 'code', width: '25%' },
         { title: '角色名称', dataIndex: 'name', width: '25%' },
         {
@@ -53,6 +43,16 @@ const RoleManage: React.FC = () => {
                 return <span>{status}<span>{statusText}</span></span>;
             }
         },
+        {
+            title: '操作', dataIndex: 'operate', fixed: 'right', width: '25%',
+            render: (text, record) => {
+                return (<Space size='middle'>
+                    <Button type='link' style={{ padding: 0 }} onClick={() => onSetAuth(record)}>授权</Button>
+                    <Button type='link' style={{ padding: 0 }} onClick={() => setRoleModalInfo({ visible: true, item: record, type: 2 })}>编辑</Button>
+                    <Button type='link' style={{ padding: 0 }} onClick={() => onDeleteRole(record.id)}>删除</Button>
+                </Space>)
+            }
+        }
     ]
 
     const getList = async (pages: any) => {

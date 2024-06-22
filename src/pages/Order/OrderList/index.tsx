@@ -32,7 +32,7 @@ const OrderList: React.FC = () => {
     {
       title: '订单状态', dataIndex: 'payStatus', width: 100,
       render: (text) => {
-        return <span className={classNames({ 'text-[#1677ff]': text == 0, 'text-[#FF6700]': text == 20, 'text-[#7ED321]': text == 50 })}>{statusOptions.find(x => x.value == text)?.label}</span>
+        return <span className={classNames({ 'text-[#FF6700]': text == 0, 'text-[#7ED321]': text == 20, 'text-999': text == 10 || text == 11 })}>{statusOptions.find(x => x.value == text)?.label}</span>
       }
     },
     { title: '街道', dataIndex: 'townName', width: 100 },
@@ -58,7 +58,7 @@ const OrderList: React.FC = () => {
       }
     },
     {
-      title: '操作', dataIndex: 'orderCode', width: 100,
+      title: '操作', dataIndex: 'orderCode', fixed: 'right', width: 100,
       render: (text) => {
         return <Button type='link' style={{ padding: 0 }} onClick={() => toDetail(text)}>详情</Button>
       }

@@ -131,7 +131,7 @@ const OrderAudit: React.FC<Iprops> = ({ visible, onCancel, orderCode, type }) =>
                 listType="picture-card">
                 {fileList.length < 1 ? uploadButton : null}
               </Upload>
-              <p>建议尺寸750*560或比例4:3，小于5M的jpg/png格式图片</p>
+              {/* <p>建议尺寸750*560或比例4:3，小于5M的jpg/png格式图片</p> */}
             </Form.Item>
             <Form.Item label="补充信息" name="finishRemark">
               <Input placeholder="请输入" />

@@ -53,12 +53,12 @@ const BaseLayout: React.FC<IProps> = observer(({ children }) => {
       ),
     },
   ];
-  
+
   return (
     <Layout className='bg-white h-screen'>
       {isLogin &&
-        <Header className="flex justify-between !bg-white !h-12 !pl-5 !pr-6 !shadow-grey1">
-          <Link to="/"><img className='w-[117px] h-5' src={ImgLogo} alt=''/></Link>
+        <Header className="flex justify-between !bg-white !h-12 !pl-[10px] !pr-6 !shadow-grey1">
+          <Link to="/" className='flex items-center'><img className='w-[117px] h-5' src={ImgLogo} alt=''/></Link>
           <Dropdown
             getPopupContainer={trigger => trigger}
             menu={{items}}
