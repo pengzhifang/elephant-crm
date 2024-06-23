@@ -42,9 +42,9 @@ const Login: React.FC = observer(() => {
     // 参考文档 https://open.feishu.cn/document/common-capabilities/sso/web-application-sso/qr-sdk-documentation
     let redirectUri;
     if(process.env.REACT_APP_ENV === 'development') {
-      redirectUri = 'https://www.t.daxiangqingyun.com/login';
+      redirectUri = 'https://crm.t.daxiangqingyun.com/login';
     }else {
-      redirectUri = 'https://www.daxiangqingyun.com/login';
+      redirectUri = 'https://crm.daxiangqingyun.com/login';
     }
     const gotoUrl = `https://passport.feishu.cn/suite/passport/oauth/authorize?client_id=cli_a569b831a93bd00c&redirect_uri=${redirectUri}&response_type=code&state=STATE`;
     const QRLoginObj = (window as any).QRLogin({
