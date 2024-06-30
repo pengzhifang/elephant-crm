@@ -2,7 +2,7 @@ import BaseTitle from "@components/common/BaseTitle";
 import { orderListApi } from "@service/order";
 import { searchFormLayout } from "@utils/config";
 import { getViewPortHeight } from "@utils/index";
-import { Button, Col, Empty, Form, Input, Row, Select, Table } from "antd";
+import { Button, Col, Empty, Form, Input, Row, Select, Table, Image } from "antd";
 import { ColumnType } from "antd/es/table";
 import classNames from "classnames";
 import dayjs from "dayjs";
@@ -52,9 +52,18 @@ const OrderList: React.FC = () => {
     },
     { title: '订单价格', dataIndex: 'orderPrice', width: 100 },
     {
-      title: '照片', dataIndex: 'rubbishImgs', width: 100,
+      title: '照片', dataIndex: 'rubbishImgs', width: 200,
       render: (text) => {
-        return text ? <img src={text} className="w-10 h-10" alt="" /> : null
+        const imgArr = text? text?.split(',') : [];
+        return (
+          imgArr.length > 0 ? 
+          <div className="flex items-center">
+            { imgArr.map((item, i) => {
+              return <Image key={i} src={item} width={40} height={40} /> 
+            }) }
+          </div>
+          : null
+        )
       }
     },
     {

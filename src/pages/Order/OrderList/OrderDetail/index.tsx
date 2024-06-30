@@ -1,4 +1,4 @@
-import { Button, Card, Col, Divider, Row, Steps } from "antd";
+import { Button, Card, Col, Divider, Row, Steps, Image } from "antd";
 import React, { useEffect, useState } from "react";
 import './index.scss'
 import { useSearchParams } from "react-router-dom";
@@ -179,7 +179,7 @@ const OrderDetail: React.FC = () => {
             <Col>
               {
                 detailInfo?.rubbishImgs?.split(',')?.map((x, index) => {
-                  return <img src={x} key={index} className="w-[50px] h-[50px] mr-[10px]" />
+                  return <div className="mr-[20px]"><Image key={index} src={x} width={50} height={50} /></div> 
                 })
               }
             </Col>
@@ -220,7 +220,7 @@ const OrderDetail: React.FC = () => {
             <Col>
               {
                 detailInfo?.finishImgs?.split(',')?.map((x, index) => {
-                  return <img src={x} key={index} className="w-[50px] h-[50px] mr-[10px]" />
+                  return <div className="mr-[20px]"><Image key={index} src={x} width={50} height={50} /></div> 
                 })
               }
             </Col>
