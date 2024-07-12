@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import { auditOrderApi, finishOrderApi } from "@service/order";
-import { userAccount } from "@utils/index";
 import { Form, Input, Modal, Radio, Upload, message } from "antd";
 import { PlusOutlined, LoadingOutlined } from "@ant-design/icons";
 import { uploadFileApi } from "@service/wordMangement";
+import { Local } from "@service/storage";
 
 interface Iprops {
   visible: boolean,
@@ -28,7 +28,7 @@ const OrderAudit: React.FC<Iprops> = ({ visible, onCancel, orderCode, type }) =>
       if (type === 1) { // 审核
         const { result, data } = await auditOrderApi({
           orderCode,
-          operator: userAccount,
+          operator: Local.get('_userInfo')?.account,
           ...formValues
         });
         if (result) {
@@ -38,7 +38,7 @@ const OrderAudit: React.FC<Iprops> = ({ visible, onCancel, orderCode, type }) =>
       } else { // 完成
         const { result, data } = await finishOrderApi({
           orderCode,
-          operator: userAccount,
+          operator: Local.get('_userInfo')?.account,
           ...formValues
         });
         if (result) {

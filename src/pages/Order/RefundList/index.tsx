@@ -1,13 +1,14 @@
 import BaseTitle from "@components/common/BaseTitle";
 import { refundOrderAudit, refundOrderListApi } from "@service/order";
 import { searchFormLayout } from "@utils/config";
-import { getViewPortHeight, userAccount } from "@utils/index";
+import { getViewPortHeight } from "@utils/index";
 import { Button, Col, Empty, Form, Input, Row, Select, Space, Table, Modal, message } from "antd";
 import { ColumnType } from "antd/es/table";
 import classNames from "classnames";
 import React, { useEffect, useState } from "react";
 import { ExclamationCircleOutlined } from "@ant-design/icons";
 import dayjs from "dayjs";
+import { Local } from "@service/storage";
 
 const statusOptions = [
   { label: '待退费', value: 30 },
@@ -111,7 +112,7 @@ const RefundList: React.FC = () => {
         const { result } = await refundOrderAudit({
           orderCode: record.orderCode,
           result: type,
-          operator: userAccount,
+          operator: Local.get('_userInfo')?.account,
         });
         if (result) {
           message.success('操作成功');

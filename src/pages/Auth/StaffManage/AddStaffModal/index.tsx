@@ -4,7 +4,7 @@ import { userStatusOptions } from "@utils/config";
 import { PlusOutlined, LoadingOutlined } from "@ant-design/icons";
 import { addUserApi, updateUserApi } from "@service/auth";
 import { uploadFileApi } from "@service/wordMangement";
-import { userAccount } from "@utils/index";
+import { Local } from "@service/storage";
 const formLayout = {
     labelCol: { span: 4 },
     wrapperCol: { span: 20 }
@@ -53,7 +53,7 @@ const AddStaffModal: React.FC<Iprops> = ({ visible, onCancel, item, type }) => {
     //新增
     const addUser = async () => {
         const formValues = form.getFieldsValue(true);
-        const { result } = await addUserApi({ ...formValues, headImg: imageUrl, creator: userAccount });
+        const { result } = await addUserApi({ ...formValues, headImg: imageUrl, creator: Local.get('_userInfo')?.account });
         if (result) {
             message.success('操作成功');
             onCancel(true);

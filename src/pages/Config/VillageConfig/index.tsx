@@ -3,13 +3,14 @@ import BaseTitle from "@components/common/BaseTitle";
 import { Button, Col, Empty, Form, Input, message, Row, Select, Space, Table } from "antd";
 import { PlusOutlined, ExclamationCircleOutlined, DownloadOutlined } from '@ant-design/icons';
 import { ColumnType } from "antd/es/table";
-import { getViewPortHeight, userAccount } from "@utils/index";
+import { getViewPortHeight } from "@utils/index";
 import { areaListApi, cityListApi, exportResidentialApi, publishResidentialApi, residentialListApi, streetListApi } from "@service/config";
 import AddVillageConfig from "./AddVillageConfig";
 import modal from "antd/es/modal";
 import ImportVillageConfig from "./ImportVillage";
 import dayjs from "dayjs";
 import classNames from "classnames";
+import { Local } from "@service/storage";
 
 const statusOptions = [
   { label: '全部', value: '' },
@@ -141,7 +142,7 @@ const VillageConfig: React.FC = () => {
         const { result } = await publishResidentialApi({
           id: item.id,
           status: item.status === 1 ? 0 : 1,
-          operator: userAccount
+          operator: Local.get('_userInfo')?.account
         });
         if (result) {
           message.success('操作成功');

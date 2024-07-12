@@ -55,7 +55,7 @@ const BaseMenu: React.FC<IProps> = observer((props) => {
   const items: MenuItem[] = menuList.map(item => {
     if (item.childMenus.length > 0) {
       const childMenus = item.childMenus.map(child => {
-        return child.target == 1 ? getItem(<Link to={child.url}>{child.name}</Link>, child.id, '') : getItem(<span onClick={() => openUrlToNewPage(child.url)}>{child.name}</span>, child.id, '')
+        return child.target == 1 ? getItem(<Link onClick={() => { document.title = '大象CRM·' + child.name }} to={child.url}>{child.name}</Link>, child.id, '') : getItem(<span onClick={() => openUrlToNewPage(child)}>{child.name}</span>, child.id, '')
       });
       return getItem(item.name, item.id, <AntdIcon type={item.icon} />, childMenus);
     } else {
@@ -63,10 +63,11 @@ const BaseMenu: React.FC<IProps> = observer((props) => {
     }
   })
 
-  const openUrlToNewPage = (url: string) => {
-    if (url && url.length > 0) {
-      const targetUrl = window.location.origin + url;
+  const openUrlToNewPage = (child: any) => {
+    if (child.url && child.url.length > 0) {
+      const targetUrl = window.location.origin + child.url;
       window.open(targetUrl, '_blank', 'noopener');
+      document.title = '大象CRM·' + child.name;
     }
   }
 

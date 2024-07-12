@@ -2,7 +2,7 @@ import { Button, Modal, Upload, message } from "antd";
 import React, { useState } from "react";
 import { UploadOutlined, LoadingOutlined } from '@ant-design/icons';
 import { importResidentialApi } from "@service/config";
-import { userAccount } from "@utils/index";
+import { Local } from "@service/storage";
 
 interface Iprops {
   visible: boolean,
@@ -12,7 +12,6 @@ interface Iprops {
 const ImportVillageConfig: React.FC<Iprops> = ({ visible, setModalVisible }) => {
   const [fileList, setFileList] = useState<any>([]);
   const [uploading, setUploading] = useState(false);
-  const userName = userAccount;
 
   const handleOk = async () => {
     if (fileList.length == 0) {
@@ -48,7 +47,7 @@ const ImportVillageConfig: React.FC<Iprops> = ({ visible, setModalVisible }) => 
     setFileList([]);
     const formData = new FormData();
     formData.append('file', event.file);
-    formData.append('creator', userName);
+    formData.append('creator', Local.get('_userInfo')?.account);
     setFileList([{
       uid: 1,
       name: event.file.name,

@@ -32,6 +32,7 @@ const SelectStreetPrice: React.FC<Iprops> = ({ visible, selectInfo, setModalVisi
     }
   ]
   const [selectionType, setSelectionType] = useState<'checkbox' | 'radio'>('checkbox');
+  const [townName, setTownName] = useState('');
   const [dataList, setDataList] = useState([]);
   const [loading, setLoading] = useState(false);
   const [pageInfo, setPageInfo] = useState({ current: 1, total: 1, pageSize: 20 });
@@ -53,7 +54,7 @@ const SelectStreetPrice: React.FC<Iprops> = ({ visible, selectInfo, setModalVisi
     const { result, data } = await streetPriceListApi({ 
       page: pages.current, 
       size: pages.pageSize,
-
+      townName
     });
     if (result) {
       setLoading(false);
@@ -65,11 +66,12 @@ const SelectStreetPrice: React.FC<Iprops> = ({ visible, selectInfo, setModalVisi
   }
 
   const onSearch = () => {
-
+    getList(pageInfo);
   }
 
   const onReset = () => {
-
+    setTownName('');
+    getList(pageInfo);
   }
 
   const onSubmit = () => {
@@ -77,7 +79,7 @@ const SelectStreetPrice: React.FC<Iprops> = ({ visible, selectInfo, setModalVisi
       message.warning('请选择数据');
       return;
     }
-    setModalVisible(true, state.selectedRows);
+    setModalVisible(true, [{...state.selectedRows[0], isSelected: true}]);
   }
 
   const handleCancel = () => {
@@ -115,11 +117,15 @@ const SelectStreetPrice: React.FC<Iprops> = ({ visible, selectInfo, setModalVisi
     preserveSelectedRowKeys: true
   };
 
+  const townNameChange = (event) => {
+    setTownName(event.target.value);
+  }
+
   return (
     <Modal wrapClassName='edit-staff-modal' open={visible} title={`街道价格配置`} width={900} onOk={onSubmit} onCancel={handleCancel}>
       <div className="flex items-center mb-4">
         <div className="flex-shrink-0 mr-1">街道名称：</div>
-        <Input placeholder="请输入" className="w-[200px] mr-10" />
+        <Input placeholder="请输入" className="w-[200px] mr-10" value={townName} onChange={townNameChange} />
         <Button type='primary' onClick={onSearch}>查询</Button>
         <Button type='default' className='ml-2' onClick={onReset}>重置</Button>
       </div>

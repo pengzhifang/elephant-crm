@@ -2,7 +2,7 @@ import { addResidentialApi, propertyListApi, updateResidentialApi } from "@servi
 import { Button, Col, Form, Input, InputNumber, message, Modal, Row, Select } from "antd";
 import React, { useEffect, useState } from "react";
 import SelectStreetPrice from "./SelectStreetPrice";
-import { userAccount } from "@utils/index";
+import { Local } from "@service/storage";
 
 interface Iprops {
   visible: boolean,
@@ -28,7 +28,7 @@ const AddVillageConfig: React.FC<Iprops> = ({ visible, onCancel, item, type }) =
   }, [item]);
 
   const initForm = () => {
-    const { name, cityCode, areaCode, townCode, propertyManagementId, address, contactPersonName, contactPersonPhone } = item;
+    const { name, cityCode, cityName,  areaCode, areaName,  townCode, townName, propertyManagementId, address, contactPersonName, contactPersonPhone } = item;
     if(!name) return;
     form.setFieldsValue({
       name, 
@@ -40,6 +40,7 @@ const AddVillageConfig: React.FC<Iprops> = ({ visible, onCancel, item, type }) =
       contactPersonName, 
       contactPersonPhone
     })
+    setSelectInfo({ ...selectInfo, selectedData: [item]})
   }
 
   /** 物业公司列表 */
@@ -81,7 +82,7 @@ const AddVillageConfig: React.FC<Iprops> = ({ visible, onCancel, item, type }) =
       townName,
       townManagementId: id,
       propertyManagementName: propertyList.find(x => x.id == propertyManagementId).name,
-      creator: userAccount
+      creator: Local.get('_userInfo')?.account
     });
     if (result) {
       message.success('新建成功');
@@ -92,7 +93,7 @@ const AddVillageConfig: React.FC<Iprops> = ({ visible, onCancel, item, type }) =
   const updateStreetPrice = async () => {
     const formValues = form.getFieldsValue(true);
     const { propertyManagementId } = formValues;
-    const { id, cityCode, cityName, areaCode, areaName, townName } = selectInfo.selectedData[0];
+    const { id, cityCode, cityName, areaCode, areaName } = selectInfo.selectedData[0];
     const { result } = await updateResidentialApi({
       ...formValues,
       id: item.id,
@@ -100,9 +101,9 @@ const AddVillageConfig: React.FC<Iprops> = ({ visible, onCancel, item, type }) =
       cityName,
       areaCode,
       areaName,
-      townManagementId: id,
+      townManagementId: selectInfo.selectedData[0].isSelected? id : selectInfo.selectedData[0].townManagementId,
       propertyManagementName: propertyList.find(x => x.id == propertyManagementId).name,
-      operator: userAccount
+      operator: Local.get('_userInfo')?.account
     });
     if (result) {
       message.success('编辑成功');

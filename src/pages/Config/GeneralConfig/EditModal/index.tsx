@@ -1,5 +1,5 @@
 import { updateGeneralApi } from "@service/config";
-import { userAccount } from "@utils/index";
+import { Local } from "@service/storage";
 import { Form, Input, Modal, message } from "antd";
 import React, { useEffect } from "react";
 
@@ -42,7 +42,7 @@ const EditModal: React.FC<Iprops> = ({ visible, onCancel, data }) => {
     const formValues = form.getFieldsValue(true);
     const { result } = await updateGeneralApi({
       id: data.id,
-      modifier: userAccount, // 操作人
+      modifier: Local.get('_userInfo')?.account, // 操作人
       ...formValues
     });
     if (result) {
