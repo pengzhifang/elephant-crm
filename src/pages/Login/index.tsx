@@ -52,7 +52,7 @@ const Login: React.FC = observer(() => {
       goto: gotoUrl,
       width: "250",
       height: "250",
-      style: "width:250px; height:250px;"//可选的，二维码html标签的style属性
+      style: "width:250px; height:260px;"//可选的，二维码html标签的style属性
     });
     const handleMessage = (event) => {
       // 使用 matchOrigin 和 matchData 方法来判断 message 和来自的页面 url 是否合法
@@ -85,60 +85,6 @@ const Login: React.FC = observer(() => {
               <div className='mt-3 font-PF-SE font-semibold text-base text-333 text-center'>扫码进入</div>
             </div>
           </div>
-          {/* <div className='w-[340px] h-[325px] bg-white px-5 py-[38px]'>
-            <div className='text-lg font-PF-SE font-semibold text-333 text-center'>账号绑定</div>
-            <div className='text-sm font-PF-SE text-999 text-center mb-[17px]'>新账号需要先绑定后才可以使用</div>
-            <Form
-              form={form}
-              onFinish={onFinish}
-              autoComplete="off"
-              onValuesChange={() => setState({ ...state, errorTips: '' })}
-            >
-              <Form.Item
-                noStyle
-                name={['mobile']}
-                rules={[
-                  { required: true, message: '请输入手机号!', whitespace: true },
-                  { pattern: /^1[3|4|5|6|7|8|9][0-9]{9}$/, message: '手机号格式错误!' }
-                ]}
-              >
-                <Input
-                  size="large"
-                  name="mobile"
-                  placeholder="请输入手机号"
-                  style={{ flex: 1 }}
-                  onChange={handleMobileChange}
-                />
-              </Form.Item>
-              <div className="flex mt-4">
-                <Form.Item
-                  name="verifyCode"
-                  hasFeedback
-                  style={{ flex: 1 }}
-                  validateTrigger="onBlur"
-                  rules={[
-                    { required: true, message: '请输入验证码!', whitespace: true },
-                    { pattern: /^\d{4}$/, message: '验证码格式错误!' }
-                  ]}
-                >
-                  <Input
-                    size="large"
-                    placeholder="请输入验证码"
-                  />
-                </Form.Item>
-                <CaptchaGt isCanSendCode={isCanSendCode} onSuccess={sendSmsCode} count={count}></CaptchaGt>
-              </div>
-              <Button
-                block
-                size="large"
-                type="primary"
-                htmlType="submit"
-                loading={isLoading}
-              >
-                立即进驻
-              </Button>
-            </Form>
-          </div> */}
         </div>
       </div>
     </div>
